@@ -7,6 +7,7 @@ import {
   setRoutes,
   startRouter,
 } from "@collapse-theory/extinguish";
+import { signal } from "npm:@preact/signals-core";
 import { defineAllLvComponents, type LvNavLink } from "../../index.ts";
 
 type Book = {
@@ -161,6 +162,9 @@ const newReleaseBooks: Book[] = [
     rating: 4.3,
   },
 ];
+
+const hideAvailable = signal(false);
+const cardSize = signal<"compact" | "default" | "large">("default");
 
 const dashboardData = resource<DashboardData>(async () => {
   await new Promise((resolve) => setTimeout(resolve, 120));
@@ -337,7 +341,27 @@ function bookCard(book: Book) {
   `;
 }
 
+function cycleCardSize(): void {
+  cardSize.value = cardSize.value === "compact"
+    ? "default"
+    : cardSize.value === "default"
+    ? "large"
+    : "compact";
+}
+
+function cardSizeLabel(): string {
+  return cardSize.value === "compact"
+    ? "Small"
+    : cardSize.value === "large"
+    ? "Large"
+    : "Medium";
+}
+
 function homeSection(title: string, dotClass: string, books: Book[]) {
+  const visibleBooks = hideAvailable.value
+    ? books.filter((book) => book.status !== "available")
+    : books;
+
   return html`
     <section class="home-section">
       <div class="sticky-wrap">
@@ -345,13 +369,25 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
           <span class="section-dot ${dotClass}"></span>
           <h2 class="title-with-icon"><lv-icon name="book" size="18"></lv-icon>${title}</h2>
           <div class="head-actions">
-            <lv-button size="sm" variant="secondary"><lv-icon name="filter" size="14"></lv-icon>Hide Available</lv-button>
-            <lv-button size="sm" variant="secondary"><lv-icon name="settings" size="14"></lv-icon>Card Size</lv-button>
+            <lv-button
+              size="sm"
+              variant="secondary"
+              @click=${() => (hideAvailable.value = !hideAvailable.value)}
+            >
+              <lv-icon name="filter" size="14"></lv-icon>
+              ${hideAvailable.value ? "Showing Requested" : "Hide Available"}
+            </lv-button>
+            <lv-button size="sm" variant="secondary" @click=${cycleCardSize}>
+              <lv-icon name="settings" size="14"></lv-icon>
+              Card Size: ${cardSizeLabel()}
+            </lv-button>
           </div>
         </div>
       </div>
       <div class="section-content">
-        <div class="cards">${books.map((book) => bookCard(book))}</div>
+        <div class="cards cards-${cardSize.value}">
+          ${visibleBooks.map((book) => bookCard(book))}
+        </div>
       </div>
     </section>
   `;
