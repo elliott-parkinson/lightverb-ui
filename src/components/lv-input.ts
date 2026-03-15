@@ -17,6 +17,7 @@ export class LvInput extends LitElement {
   static override styles = css`
     :host {
       display: block;
+      width: 100%;
     }
 
     label {
