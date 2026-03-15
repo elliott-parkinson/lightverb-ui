@@ -153,7 +153,6 @@ p {
 .home-section {
   position: relative;
   margin-bottom: 2rem;
-  animation: lv-fade-up 220ms ease-out both;
 }
 
 .sticky-wrap {
@@ -291,6 +290,9 @@ p {
   color: #fff;
   background: rgba(17, 24, 39, 0.55);
   backdrop-filter: blur(4px);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .status-dot {
@@ -301,6 +303,9 @@ p {
   height: 0.6rem;
   border-radius: 999px;
   box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.12);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .status-available {

@@ -4953,36 +4953,36 @@ function animateHomeGridReflow(applyChange) {
   }
   applyChange();
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const afterEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
-      for (const el of afterEls) {
-        const key = el.dataset.flipId;
-        if (!key) continue;
-        const first = before.get(key);
-        if (!first) continue;
-        const last = el.getBoundingClientRect();
-        const dx = first.left - last.left;
-        const dy = first.top - last.top;
-        const sx = first.width / Math.max(last.width, 1);
-        const sy = first.height / Math.max(last.height, 1);
-        if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(sx - 1) < 0.01 && Math.abs(sy - 1) < 0.01) {
-          continue;
-        }
-        el.animate([
-          {
-            transformOrigin: "top left",
-            transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`
-          },
-          {
-            transformOrigin: "top left",
-            transform: "translate(0, 0) scale(1, 1)"
-          }
-        ], {
-          duration: 260,
-          easing: "cubic-bezier(0.22, 1, 0.36, 1)"
-        });
+    const afterEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
+    const animating = [];
+    for (const el of afterEls) {
+      const key = el.dataset.flipId;
+      if (!key) continue;
+      const first = before.get(key);
+      if (!first) continue;
+      const last = el.getBoundingClientRect();
+      const dx = first.left - last.left;
+      const dy = first.top - last.top;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+        continue;
       }
-    });
+      el.style.transition = "none";
+      el.style.transformOrigin = "top left";
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+      animating.push(el);
+    }
+    void document.body.offsetHeight;
+    for (const el of animating) {
+      el.style.transition = "transform 280ms cubic-bezier(0.22, 1, 0.36, 1)";
+      el.style.transform = "translate(0, 0)";
+      const cleanup = () => {
+        el.style.transition = "";
+        el.style.transform = "";
+        el.style.transformOrigin = "";
+        el.removeEventListener("transitionend", cleanup);
+      };
+      el.addEventListener("transitionend", cleanup);
+    }
   });
 }
 function navLinks() {
