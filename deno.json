@@ -1,0 +1,16 @@
+{
+  "imports": {
+    "lit": "npm:lit@^3.2.0",
+    "@collapse-theory/extinguish": "jsr:@collapse-theory/extinguish@^0.1.4"
+  },
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "lib": ["dom", "dom.iterable", "deno.ns", "esnext"]
+  },
+  "tasks": {
+    "check": "deno check index.ts demo/src/main.ts demo/server.ts",
+    "fmt": "deno fmt",
+    "demo:build": "deno bundle demo/src/main.ts -o demo/public/bundle.js --platform browser",
+    "demo:serve": "deno serve --allow-read --allow-net demo/server.ts"
+  }
+}

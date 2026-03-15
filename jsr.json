@@ -1,0 +1,28 @@
+{
+  "name": "@lightverb/ui",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./index.ts",
+    "./styles": "./index.scss",
+    "./app": "./src/components/lv-app.ts",
+    "./nav": "./src/components/lv-nav.ts",
+    "./button": "./src/components/lv-button.ts",
+    "./input": "./src/components/lv-input.ts",
+    "./surface": "./src/components/lv-surface.ts",
+    "./grid": "./src/components/lv-grid.ts",
+    "./card": "./src/components/lv-card.ts",
+    "./badge": "./src/components/lv-badge.ts",
+    "./table": "./src/components/lv-table.ts",
+    "./toolbar": "./src/components/lv-toolbar.ts",
+    "./stat-card": "./src/components/lv-stat-card.ts"
+  },
+  "publish": {
+    "include": [
+      "index.ts",
+      "index.scss",
+      "src/**/*.ts",
+      "README.md",
+      "LICENSE"
+    ]
+  }
+}
