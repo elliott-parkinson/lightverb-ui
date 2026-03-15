@@ -4948,7 +4948,7 @@ function animateHomeGridReflow(applyChange) {
   const beforeEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
   const before = /* @__PURE__ */ new Map();
   for (const el of beforeEls) {
-    const key = el.dataset.asin;
+    const key = el.dataset.flipId;
     if (key) before.set(key, el.getBoundingClientRect());
   }
   applyChange();
@@ -4956,7 +4956,7 @@ function animateHomeGridReflow(applyChange) {
     requestAnimationFrame(() => {
       const afterEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
       for (const el of afterEls) {
-        const key = el.dataset.asin;
+        const key = el.dataset.flipId;
         if (!key) continue;
         const first = before.get(key);
         if (!first) continue;
@@ -5045,9 +5045,9 @@ function iconForMetric(label) {
   if (label.includes("Completed")) return "check";
   return "warning";
 }
-function bookCard(book) {
+function bookCard(book, flipId) {
   return b2`
-    <article class="book-card" data-asin="${book.asin}">
+    <article class="book-card" data-flip-id="${flipId}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating ? b2`
@@ -5074,6 +5074,7 @@ function cardSizeClass() {
 }
 function homeSection(title, dotClass, books) {
   const visibleBooks = hideAvailable.value ? books.filter((book) => book.status !== "available") : books;
+  const sectionKey = title.toLowerCase().replace(/\s+/g, "-");
   return b2`
     <section class="home-section">
       <div class="sticky-wrap">
@@ -5104,7 +5105,7 @@ function homeSection(title, dotClass, books) {
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book) => bookCard(book))}
+          ${visibleBooks.map((book, index) => bookCard(book, `${sectionKey}:${book.asin}:${index}`))}
         </div>
       </div>
     </section>
@@ -5426,7 +5427,7 @@ function searchView() {
             <lv-skeleton shape="box" height="180px"></lv-skeleton>
           ` : results.length ? b2`
             <div class="cards cards-default">
-              ${results.map((book) => bookCard(book))}
+              ${results.map((book, index) => bookCard(book, `search:${book.asin}:${index}`))}
             </div>
           ` : b2`
             <lv-empty-state
@@ -5466,7 +5467,7 @@ requestsResource.run();
 apiManifestResource.run();
 pageManifestResource.run();
 searchResultsResource.run();
-enhance("lv-app", () => {
+enhance("app-root", () => {
   const routeName = currentRoute.value?.name ?? "home";
   return b2`
     <lv-nav slot="header" title="ReadMeABook" .links="${navLinks()}">

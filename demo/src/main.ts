@@ -36,7 +36,7 @@ function animateHomeGridReflow(applyChange: () => void): void {
   );
   const before = new Map<string, DOMRect>();
   for (const el of beforeEls) {
-    const key = el.dataset.asin;
+    const key = el.dataset.flipId;
     if (key) before.set(key, el.getBoundingClientRect());
   }
 
@@ -49,7 +49,7 @@ function animateHomeGridReflow(applyChange: () => void): void {
       );
 
       for (const el of afterEls) {
-        const key = el.dataset.asin;
+        const key = el.dataset.flipId;
         if (!key) continue;
         const first = before.get(key);
         if (!first) continue;
@@ -113,9 +113,9 @@ function iconForMetric(label: string): string {
   return "warning";
 }
 
-function bookCard(book: Book) {
+function bookCard(book: Book, flipId: string) {
   return html`
-    <article class="book-card" data-asin="${book.asin}">
+    <article class="book-card" data-flip-id="${flipId}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating
@@ -154,6 +154,7 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
   const visibleBooks = hideAvailable.value
     ? books.filter((book) => book.status !== "available")
     : books;
+  const sectionKey = title.toLowerCase().replace(/\s+/g, "-");
 
   return html`
     <section class="home-section">
@@ -185,7 +186,9 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book) => bookCard(book))}
+          ${visibleBooks.map((book, index) =>
+            bookCard(book, `${sectionKey}:${book.asin}:${index}`)
+          )}
         </div>
       </div>
     </section>
@@ -531,7 +534,9 @@ function searchView() {
           : results.length
           ? html`
             <div class="cards cards-default">
-              ${results.map((book) => bookCard(book))}
+              ${results.map((book, index) =>
+                bookCard(book, `search:${book.asin}:${index}`)
+              )}
             </div>
           `
           : html`
@@ -575,7 +580,7 @@ apiManifestResource.run();
 pageManifestResource.run();
 searchResultsResource.run();
 
-enhance("lv-app", () => {
+enhance("app-root", () => {
   const routeName = currentRoute.value?.name ?? "home";
 
   return html`
