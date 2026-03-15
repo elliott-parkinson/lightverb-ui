@@ -3309,12 +3309,13 @@ function recentRequestsTable(requests) {
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="recent-requests-controls">
             <div class="recent-requests-search">
-              <lv-input placeholder="Search requests"></lv-input>
+              <input class="control-input" type="text" placeholder="Search requests" />
             </div>
             <div class="recent-requests-export">
-              <lv-button size="sm" variant="secondary" class="toolbar-export">
-                <lv-icon name="download" size="14"></lv-icon>Export
-              </lv-button>
+              <button class="control-btn" type="button">
+                <lv-icon name="download" size="14"></lv-icon>
+                <span>Export</span>
+              </button>
             </div>
           </div>
         </div>
@@ -3490,13 +3491,14 @@ function searchView() {
         <div class="table-card">
           <div class="table-toolbar search-toolbar">
             <div class="search-field">
-              <lv-input
-                label="Search Audible"
-                placeholder="Book title, author, narrator"
-              ></lv-input>
+              <label class="control-label">Search Audible</label>
+              <input class="control-input" type="text" placeholder="Book title, author, narrator" />
             </div>
             <div class="search-submit-wrap">
-              <lv-button class="search-submit"><lv-icon name="search" size="15"></lv-icon>Search</lv-button>
+              <button class="control-btn search-submit" type="button">
+                <lv-icon name="search" size="15"></lv-icon>
+                <span>Search</span>
+              </button>
             </div>
           </div>
         </div>
