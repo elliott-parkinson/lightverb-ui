@@ -25,10 +25,15 @@ import {
 const hideAvailable = signal(false);
 const squareCovers = signal(false);
 const cardSize = signal<number>(5);
+const gridMotionTick = signal(0);
 const searchQuery = signal("");
 const searchResultsResource = resource(async () =>
   rmabService.searchAudiobooks(searchQuery.value)
 );
+
+function bumpGridMotion(): void {
+  gridMotionTick.value = (gridMotionTick.value + 1) % 3;
+}
 
 function navLinks(): LvNavLink[] {
   const active = currentRoute.value?.name ?? "home";
@@ -62,9 +67,9 @@ function iconForMetric(label: string): string {
   return "warning";
 }
 
-function bookCard(book: Book) {
+function bookCard(book: Book, motionTick = 0) {
   return html`
-    <article class="book-card">
+    <article class="book-card motion-${motionTick}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating
@@ -116,19 +121,22 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
             .cardSize=${cardSize.value}
             @lv-toggle-hide-available=${(event: CustomEvent<{ value: boolean }>) => {
               hideAvailable.value = event.detail.value;
+              bumpGridMotion();
             }}
             @lv-toggle-square-covers=${(event: CustomEvent<{ value: boolean }>) => {
               squareCovers.value = event.detail.value;
+              bumpGridMotion();
             }}
             @lv-change-card-size=${(event: CustomEvent<{ value: number }>) => {
               cardSize.value = event.detail.value;
+              bumpGridMotion();
             }}
           ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book) => bookCard(book))}
+          ${visibleBooks.map((book) => bookCard(book, gridMotionTick.value))}
         </div>
       </div>
     </section>

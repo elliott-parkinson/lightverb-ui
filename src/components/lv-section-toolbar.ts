@@ -32,6 +32,28 @@ export class LvSectionToolbar extends LitElement {
       position: relative;
     }
 
+    @keyframes menu-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes item-in {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .desktop {
       display: none;
       align-items: center;
@@ -67,12 +89,13 @@ export class LvSectionToolbar extends LitElement {
       height: 2rem;
       border-radius: 0.38rem;
       cursor: pointer;
-      transition: background-color 150ms ease, color 150ms ease;
+      transition: background-color 180ms ease, color 180ms ease, transform 120ms ease;
     }
 
     .toggle:hover {
       background: rgba(255, 255, 255, 0.6);
       color: #111827;
+      transform: translateY(-1px);
     }
 
     .toggle:disabled {
@@ -114,6 +137,8 @@ export class LvSectionToolbar extends LitElement {
       overflow: hidden;
       display: grid;
       gap: 0;
+      animation: menu-in 150ms ease-out both;
+      transform-origin: top right;
     }
 
     .menu-item {
@@ -128,6 +153,7 @@ export class LvSectionToolbar extends LitElement {
       padding: 0.55rem 0.75rem;
       font-size: 0.875rem;
       cursor: pointer;
+      transition: background-color 150ms ease;
     }
 
     .menu-item:hover {
@@ -151,6 +177,21 @@ export class LvSectionToolbar extends LitElement {
       gap: 0.5rem;
       padding: 0.55rem 0.75rem;
       border-top: 1px solid #e5e7eb;
+    }
+
+    .mobile-menu .menu-item:nth-child(1) {
+      animation: item-in 180ms ease-out both;
+      animation-delay: 20ms;
+    }
+
+    .mobile-menu .menu-item:nth-child(2) {
+      animation: item-in 180ms ease-out both;
+      animation-delay: 40ms;
+    }
+
+    .mobile-menu .menu-zoom {
+      animation: item-in 180ms ease-out both;
+      animation-delay: 60ms;
     }
 
     .menu-zoom .label {

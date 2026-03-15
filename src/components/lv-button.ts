@@ -28,7 +28,8 @@ export class LvButton extends LitElement {
       border-radius: 0.5rem;
       font-weight: 500;
       cursor: pointer;
-      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease,
+        box-shadow 140ms ease, transform 120ms ease;
       font-family: inherit;
       display: inline-flex;
       align-items: center;
@@ -120,6 +121,14 @@ export class LvButton extends LitElement {
 
     button:focus-visible {
       box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(59, 130, 246, 0.55);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     button:disabled {

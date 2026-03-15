@@ -29,6 +29,17 @@ export class LvNav extends LitElement {
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
+    @keyframes nav-mobile-in {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .container {
       width: min(100%, 80rem);
       margin-inline: auto;
@@ -73,7 +84,7 @@ export class LvNav extends LitElement {
       color: #4b5563;
       font-size: 0.95rem;
       font-weight: 500;
-      transition: color 150ms ease;
+      transition: color 160ms ease;
     }
 
     a:hover {
@@ -104,11 +115,13 @@ export class LvNav extends LitElement {
       color: #4b5563;
       cursor: pointer;
       padding: 0;
+      transition: background-color 160ms ease, color 160ms ease, transform 120ms ease;
     }
 
     .toggle:hover {
       background: #f3f4f6;
       color: #111827;
+      transform: translateY(-1px);
     }
 
     .toggle svg {
@@ -126,6 +139,7 @@ export class LvNav extends LitElement {
       gap: 0.35rem;
       border-top: 1px solid #e5e7eb;
       padding-top: 0.7rem;
+      animation: nav-mobile-in 150ms ease-out both;
     }
 
     .mobile a {

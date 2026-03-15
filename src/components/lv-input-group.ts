@@ -34,6 +34,7 @@ export class LvInputGroup extends LitElement {
       border-radius: 0.5rem;
       background: #fff;
       overflow: clip;
+      transition: border-color 140ms ease, box-shadow 140ms ease;
     }
 
     :host([compact]) .group {
@@ -89,6 +90,7 @@ export class LvInputGroup extends LitElement {
       justify-content: center;
       margin: 0 0.1875rem 0 0;
       box-sizing: border-box;
+      transition: transform 120ms ease, box-shadow 140ms ease;
     }
 
     :host([compact]) ::slotted(*[slot="suffix"]) {
@@ -99,6 +101,10 @@ export class LvInputGroup extends LitElement {
     .group:focus-within {
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+
+    ::slotted(*[slot="suffix"]:hover) {
+      transform: translateY(-1px);
     }
   `;
 

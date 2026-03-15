@@ -71,6 +71,50 @@ body {
   padding: 1.5rem 1rem 2rem;
 }
 
+@keyframes lv-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lv-grid-in-a {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lv-grid-in-b {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lv-grid-in-c {
+  from {
+    opacity: 0;
+    transform: translateY(9px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 h1,
 h2,
 h3,
@@ -142,6 +186,7 @@ p {
 .home-section {
   position: relative;
   margin-bottom: 2rem;
+  animation: lv-fade-up 220ms ease-out both;
 }
 
 .sticky-wrap {
@@ -161,6 +206,7 @@ p {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 }
 
 .sticky-head h2 {
@@ -200,12 +246,14 @@ p {
   border-radius: 1rem;
   padding: 1rem;
   backdrop-filter: blur(4px);
+  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  transition: gap 220ms ease;
 }
 
 @media (min-width: 900px) {
@@ -231,6 +279,7 @@ p {
 .book-card {
   display: grid;
   gap: 0.6rem;
+  will-change: transform, opacity;
 }
 
 .book-cover-wrap {
@@ -238,7 +287,8 @@ p {
   overflow: hidden;
   border-radius: 1rem;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
-  transition: transform 170ms ease, box-shadow 170ms ease;
+  transition: transform 240ms ease-out, box-shadow 240ms ease-out;
+  will-change: transform, box-shadow;
 }
 
 .book-cover-wrap:hover {
@@ -251,10 +301,51 @@ p {
   aspect-ratio: 2 / 3;
   object-fit: cover;
   display: block;
+  transition: transform 240ms ease-out;
 }
 
 .covers-square .book-card img {
   aspect-ratio: 1 / 1;
+}
+
+.covers-square .book-cover-wrap {
+  animation: lv-grid-in-b 240ms ease-out both;
+}
+
+.cards-compact .book-card {
+  animation: lv-grid-in-a 240ms ease-out both;
+}
+
+.cards-default .book-card {
+  animation: lv-grid-in-b 240ms ease-out both;
+}
+
+.cards-large .book-card {
+  animation: lv-grid-in-c 240ms ease-out both;
+}
+
+.book-card.motion-0:nth-child(5n + 1),
+.book-card.motion-1:nth-child(5n + 1),
+.book-card.motion-2:nth-child(5n + 1) {
+  animation-delay: 20ms;
+}
+
+.book-card.motion-0:nth-child(5n + 2),
+.book-card.motion-1:nth-child(5n + 2),
+.book-card.motion-2:nth-child(5n + 2) {
+  animation-delay: 50ms;
+}
+
+.book-card.motion-0:nth-child(5n + 3),
+.book-card.motion-1:nth-child(5n + 3),
+.book-card.motion-2:nth-child(5n + 3) {
+  animation-delay: 85ms;
+}
+
+.book-card.motion-0:nth-child(5n + 4),
+.book-card.motion-1:nth-child(5n + 4),
+.book-card.motion-2:nth-child(5n + 4) {
+  animation-delay: 110ms;
 }
 
 .rating-pill {
@@ -317,6 +408,7 @@ p {
   border: 1px solid rgba(191, 219, 254, 0.7);
   border-radius: 1rem;
   padding: 1.5rem;
+  animation: lv-fade-up 260ms ease-out both;
 }
 
 .hero h3 {
@@ -371,6 +463,11 @@ p {
   border-radius: 0.9rem;
   overflow: hidden;
   background: #fff;
+  transition: box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.table-card:hover {
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
 .table-head {
@@ -444,6 +541,7 @@ p {
 
 .recent-requests-export {
   flex: 0 0 auto;
+  transition: transform 140ms ease;
 }
 
 .search-toolbar {
@@ -466,6 +564,7 @@ p {
 .search-submit {
   flex: 0 0 auto;
   align-self: flex-end;
+  transition: transform 140ms ease;
 }
 
 @media (max-width: 860px) {
@@ -530,6 +629,7 @@ p {
   font-size: 0.875rem;
   color: #111827;
   vertical-align: middle;
+  transition: background-color 150ms ease;
 }
 
 .admin-table tbody tr:hover {
@@ -567,6 +667,7 @@ p {
   height: 100%;
   border-radius: inherit;
   background: #2563eb;
+  transition: width 320ms ease-out;
 }
 
 .ebook-pill {
@@ -623,6 +724,12 @@ p {
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   padding: 0.8rem;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.issue-card:hover {
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
 }
 
 .issue-top {
@@ -691,10 +798,20 @@ p {
   padding: 1.5rem 1rem;
   margin-top: 4rem;
   font-size: 0.875rem;
+  animation: lv-fade-up 300ms ease-out both;
 }
 
 .footer-meta {
   margin-left: 0.35rem;
   color: #9ca3af;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

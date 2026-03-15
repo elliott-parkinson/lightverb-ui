@@ -1355,6 +1355,17 @@ var LvNav = class extends i4 {
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
+    @keyframes nav-mobile-in {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .container {
       width: min(100%, 80rem);
       margin-inline: auto;
@@ -1399,7 +1410,7 @@ var LvNav = class extends i4 {
       color: #4b5563;
       font-size: 0.95rem;
       font-weight: 500;
-      transition: color 150ms ease;
+      transition: color 160ms ease;
     }
 
     a:hover {
@@ -1430,11 +1441,13 @@ var LvNav = class extends i4 {
       color: #4b5563;
       cursor: pointer;
       padding: 0;
+      transition: background-color 160ms ease, color 160ms ease, transform 120ms ease;
     }
 
     .toggle:hover {
       background: #f3f4f6;
       color: #111827;
+      transform: translateY(-1px);
     }
 
     .toggle svg {
@@ -1452,6 +1465,7 @@ var LvNav = class extends i4 {
       gap: 0.35rem;
       border-top: 1px solid #e5e7eb;
       padding-top: 0.7rem;
+      animation: nav-mobile-in 150ms ease-out both;
     }
 
     .mobile a {
@@ -1573,7 +1587,8 @@ var LvButton = class extends i4 {
       border-radius: 0.5rem;
       font-weight: 500;
       cursor: pointer;
-      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease,
+        box-shadow 140ms ease, transform 120ms ease;
       font-family: inherit;
       display: inline-flex;
       align-items: center;
@@ -1665,6 +1680,14 @@ var LvButton = class extends i4 {
 
     button:focus-visible {
       box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(59, 130, 246, 0.55);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     button:disabled {
@@ -1868,6 +1891,7 @@ var LvInputGroup = class extends i4 {
       border-radius: 0.5rem;
       background: #fff;
       overflow: clip;
+      transition: border-color 140ms ease, box-shadow 140ms ease;
     }
 
     :host([compact]) .group {
@@ -1923,6 +1947,7 @@ var LvInputGroup = class extends i4 {
       justify-content: center;
       margin: 0 0.1875rem 0 0;
       box-sizing: border-box;
+      transition: transform 120ms ease, box-shadow 140ms ease;
     }
 
     :host([compact]) ::slotted(*[slot="suffix"]) {
@@ -1933,6 +1958,10 @@ var LvInputGroup = class extends i4 {
     .group:focus-within {
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+
+    ::slotted(*[slot="suffix"]:hover) {
+      transform: translateY(-1px);
     }
   `;
   render() {
@@ -2392,6 +2421,28 @@ var LvSectionToolbar = class extends i4 {
       position: relative;
     }
 
+    @keyframes menu-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes item-in {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .desktop {
       display: none;
       align-items: center;
@@ -2427,12 +2478,13 @@ var LvSectionToolbar = class extends i4 {
       height: 2rem;
       border-radius: 0.38rem;
       cursor: pointer;
-      transition: background-color 150ms ease, color 150ms ease;
+      transition: background-color 180ms ease, color 180ms ease, transform 120ms ease;
     }
 
     .toggle:hover {
       background: rgba(255, 255, 255, 0.6);
       color: #111827;
+      transform: translateY(-1px);
     }
 
     .toggle:disabled {
@@ -2474,6 +2526,8 @@ var LvSectionToolbar = class extends i4 {
       overflow: hidden;
       display: grid;
       gap: 0;
+      animation: menu-in 150ms ease-out both;
+      transform-origin: top right;
     }
 
     .menu-item {
@@ -2488,6 +2542,7 @@ var LvSectionToolbar = class extends i4 {
       padding: 0.55rem 0.75rem;
       font-size: 0.875rem;
       cursor: pointer;
+      transition: background-color 150ms ease;
     }
 
     .menu-item:hover {
@@ -2511,6 +2566,21 @@ var LvSectionToolbar = class extends i4 {
       gap: 0.5rem;
       padding: 0.55rem 0.75rem;
       border-top: 1px solid #e5e7eb;
+    }
+
+    .mobile-menu .menu-item:nth-child(1) {
+      animation: item-in 180ms ease-out both;
+      animation-delay: 20ms;
+    }
+
+    .mobile-menu .menu-item:nth-child(2) {
+      animation: item-in 180ms ease-out both;
+      animation-delay: 40ms;
+    }
+
+    .mobile-menu .menu-zoom {
+      animation: item-in 180ms ease-out both;
+      animation-delay: 60ms;
     }
 
     .menu-zoom .label {
@@ -4872,8 +4942,12 @@ var pageManifestResource = resource(async () => rmabService.getPageManifest());
 var hideAvailable = c4(false);
 var squareCovers = c4(false);
 var cardSize = c4(5);
+var gridMotionTick = c4(0);
 var searchQuery = c4("");
 var searchResultsResource = resource(async () => rmabService.searchAudiobooks(searchQuery.value));
+function bumpGridMotion() {
+  gridMotionTick.value = (gridMotionTick.value + 1) % 3;
+}
 function navLinks() {
   const active = currentRoute.value?.name ?? "home";
   return [
@@ -4934,9 +5008,9 @@ function iconForMetric(label) {
   if (label.includes("Completed")) return "check";
   return "warning";
 }
-function bookCard(book) {
+function bookCard(book, motionTick = 0) {
   return b2`
-    <article class="book-card">
+    <article class="book-card motion-${motionTick}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating ? b2`
@@ -4975,19 +5049,22 @@ function homeSection(title, dotClass, books) {
             .cardSize=${cardSize.value}
             @lv-toggle-hide-available=${(event) => {
     hideAvailable.value = event.detail.value;
+    bumpGridMotion();
   }}
             @lv-toggle-square-covers=${(event) => {
     squareCovers.value = event.detail.value;
+    bumpGridMotion();
   }}
             @lv-change-card-size=${(event) => {
     cardSize.value = event.detail.value;
+    bumpGridMotion();
   }}
           ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book) => bookCard(book))}
+          ${visibleBooks.map((book) => bookCard(book, gridMotionTick.value))}
         </div>
       </div>
     </section>
