@@ -3283,9 +3283,9 @@ function recentRequestsTable(requests) {
   return b2`
     <section class="admin-section">
       <div class="table-card">
-        <div class="table-toolbar">
+        <div class="table-toolbar recent-toolbar">
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
-          <div class="toolbar-actions">
+          <div class="toolbar-actions recent-actions">
             <lv-input placeholder="Search requests"></lv-input>
             <lv-button size="sm" variant="secondary" class="toolbar-export">
               <lv-icon name="download" size="14"></lv-icon>Export
