@@ -532,7 +532,10 @@ enhance("app-root", () => {
           alt=""
         />
         <span slot="actions" class="version-pill">v0.9.4</span>
-        <lv-button slot="actions" size="sm" variant="secondary"><lv-icon name="user" size="14"></lv-icon>Profile</lv-button>
+        <span slot="actions" class="profile-chip">
+          <span class="profile-avatar">M</span>
+          <span class="profile-name">majora</span>
+        </span>
       </lv-nav>
 
       ${routeName === "home"
@@ -546,7 +549,7 @@ enhance("app-root", () => {
         : notFoundView()}
 
       <footer slot="footer" class="demo-footer">
-        ReadMeABook parity demo using Lightverb UI components and Extinguish state.
+        ReadMeABook - Audiobook Library Management System
         ${apiManifestResource.data.value
           ? html`
             <span class="footer-meta">
