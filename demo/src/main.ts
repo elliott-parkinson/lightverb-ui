@@ -109,7 +109,7 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
       <div class="sticky-wrap">
         <div class="sticky-head">
           <span class="section-dot ${dotClass}"></span>
-          <h2 class="title-with-icon"><lv-icon name="book" size="18"></lv-icon>${title}</h2>
+          <h2 class="section-title">${title}</h2>
           <lv-section-toolbar
             .hideAvailable=${hideAvailable.value}
             .squareCovers=${squareCovers.value}
