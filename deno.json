@@ -8,9 +8,10 @@
     "lib": ["dom", "dom.iterable", "deno.ns", "esnext"]
   },
   "tasks": {
-    "check": "deno check index.ts demo/src/main.ts demo/server.ts",
+    "check": "deno check index.ts demo/src/main.ts demo/server.ts scripts/build_demo_css.ts",
     "fmt": "deno fmt",
-    "demo:build": "deno bundle demo/src/main.ts -o demo/public/bundle.js --platform browser",
+    "demo:css": "deno run --allow-read --allow-write scripts/build_demo_css.ts",
+    "demo:build": "deno task demo:css && deno bundle demo/src/main.ts -o demo/public/bundle.js --platform browser",
     "demo:serve": "deno serve --allow-read --allow-net demo/server.ts"
   }
 }
