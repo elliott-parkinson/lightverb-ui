@@ -15,6 +15,16 @@ p {
   color: #6b7280;
 }
 
+.title-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.title-with-icon lv-icon {
+  color: #6b7280;
+}
+
 .version-pill {
   display: none;
   font-size: 0.75rem;

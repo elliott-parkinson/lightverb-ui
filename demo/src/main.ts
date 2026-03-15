@@ -299,68 +299,11 @@ function statusTone(
   return "info";
 }
 
-function iconForMetric(label: string) {
-  if (label.includes("Total")) {
-    return html`
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="M17 20h5V4H2v16h5" />
-        <path d="M9 20h6" />
-        <path d="M12 4v16" />
-      </svg>
-    `;
-  }
-  if (label.includes("Active")) {
-    return html`
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="M22 12H2" />
-        <path d="m15 5 7 7-7 7" />
-      </svg>
-    `;
-  }
-  if (label.includes("Completed")) {
-    return html`
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="m20 6-11 11-5-5" />
-      </svg>
-    `;
-  }
-  return html`
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-    >
-      <path d="M12 9v4" />
-      <path d="M12 17h.01" />
-      <path
-        d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
-      />
-    </svg>
-  `;
+function iconForMetric(label: string): string {
+  if (label.includes("Total")) return "chart";
+  if (label.includes("Active")) return "activity";
+  if (label.includes("Completed")) return "check";
+  return "warning";
 }
 
 function bookCard(book: Book) {
@@ -400,10 +343,10 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
       <div class="sticky-wrap">
         <div class="sticky-head">
           <span class="section-dot ${dotClass}"></span>
-          <h2>${title}</h2>
+          <h2 class="title-with-icon"><lv-icon name="book" size="18"></lv-icon>${title}</h2>
           <div class="head-actions">
-            <lv-button size="sm" variant="secondary">Hide Available</lv-button>
-            <lv-button size="sm" variant="secondary">Card Size</lv-button>
+            <lv-button size="sm" variant="secondary"><lv-icon name="filter" size="14"></lv-icon>Hide Available</lv-button>
+            <lv-button size="sm" variant="secondary"><lv-icon name="settings" size="14"></lv-icon>Card Size</lv-button>
           </div>
         </div>
       </div>
@@ -426,7 +369,7 @@ function homeView() {
       <section class="hero">
         <h3>Can't find what you're looking for?</h3>
         <p>Use our search to find any audiobook from Audible.</p>
-        <div class="hero-cta"><lv-button>Search Audiobooks</lv-button></div>
+        <div class="hero-cta"><lv-button><lv-icon name="search" size="15"></lv-icon>Search Audiobooks</lv-button></div>
       </section>
     </main>
   `;
@@ -436,7 +379,7 @@ function activeDownloadsTable(downloads: ActiveDownload[]) {
   return html`
     <section class="admin-section">
       <div class="table-card">
-        <div class="table-head">Active Downloads</div>
+        <div class="table-head"><span class="title-with-icon"><lv-icon name="download" size="16"></lv-icon>Active Downloads</span></div>
         <div class="table-wrap">
           <table class="admin-table">
             <thead>
@@ -491,10 +434,10 @@ function recentRequestsTable(requests: RecentRequest[]) {
     <section class="admin-section">
       <div class="table-card">
         <div class="table-toolbar">
-          <h3>Recent Requests</h3>
+          <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="toolbar-actions">
             <lv-input placeholder="Search requests"></lv-input>
-            <lv-button size="sm">Export</lv-button>
+            <lv-button size="sm"><lv-icon name="download" size="14"></lv-icon>Export</lv-button>
           </div>
         </div>
         <div class="table-wrap">
@@ -539,7 +482,7 @@ function reportedIssuesGrid(issues: ReportedIssue[]) {
   return html`
     <section class="admin-section">
       <div class="section-title-row">
-        <h3>Reported Issues</h3>
+        <h3 class="title-with-icon"><lv-icon name="flag" size="18"></lv-icon>Reported Issues</h3>
         <span class="count-pill">${issues.length}</span>
       </div>
       <div class="issues-grid">
@@ -557,8 +500,8 @@ function reportedIssuesGrid(issues: ReportedIssue[]) {
               </div>
               <p class="issue-reason">${issue.reason}</p>
               <div class="issue-actions">
-                <lv-button size="sm" variant="secondary">Dismiss</lv-button>
-                <lv-button size="sm">Replace</lv-button>
+                <lv-button size="sm" variant="secondary"><lv-icon name="close" size="14"></lv-icon>Dismiss</lv-button>
+                <lv-button size="sm"><lv-icon name="search" size="14"></lv-icon>Replace</lv-button>
               </div>
             </article>
           `
@@ -573,7 +516,7 @@ function adminView() {
     return html`
       <main class="page-main">
         <div class="admin-title">
-          <h1>Admin Dashboard</h1>
+          <h1 class="title-with-icon"><lv-icon name="chart" size="20"></lv-icon>Admin Dashboard</h1>
           <p>Loading metrics and request activity...</p>
         </div>
         <section class="admin-grid">
@@ -597,7 +540,7 @@ function adminView() {
   return html`
     <main class="page-main">
       <div class="admin-title">
-        <h1>Admin Dashboard</h1>
+        <h1 class="title-with-icon"><lv-icon name="chart" size="20"></lv-icon>Admin Dashboard</h1>
         <p>Live overview of request pipeline and issue resolution.</p>
       </div>
 
@@ -610,7 +553,7 @@ function adminView() {
               subtitle="${metric.subtitle ?? ""}"
               tone="${metric.tone}"
             >
-              <span slot="icon">${iconForMetric(metric.label)}</span>
+              <span slot="icon"><lv-icon .name=${iconForMetric(metric.label)} size="20"></lv-icon></span>
             </lv-stat-card>
           `
         )}
@@ -627,7 +570,7 @@ function requestsView() {
   return html`
     <main class="page-main">
       <div class="admin-title">
-        <h1>My Requests</h1>
+        <h1 class="title-with-icon"><lv-icon name="activity" size="20"></lv-icon>My Requests</h1>
         <p>Track all requests and current download status.</p>
       </div>
       <section class="admin-section">
@@ -668,7 +611,7 @@ function searchView() {
   return html`
     <main class="page-main">
       <div class="admin-title">
-        <h1>Search</h1>
+        <h1 class="title-with-icon"><lv-icon name="search" size="20"></lv-icon>Search</h1>
         <p>Find and request audiobooks from Audible metadata.</p>
       </div>
       <section class="admin-section">
@@ -680,7 +623,7 @@ function searchView() {
                 placeholder="Book title, author, narrator"
               ></lv-input>
             </div>
-            <lv-button>Search</lv-button>
+            <lv-button><lv-icon name="search" size="15"></lv-icon>Search</lv-button>
           </div>
         </div>
       </section>
@@ -733,7 +676,7 @@ enhance("app-root", () => {
           alt=""
         />
         <span slot="actions" class="version-pill">v0.9.4</span>
-        <lv-button slot="actions" size="sm" variant="secondary">Profile</lv-button>
+        <lv-button slot="actions" size="sm" variant="secondary"><lv-icon name="user" size="14"></lv-icon>Profile</lv-button>
       </lv-nav>
 
       ${routeName === "home"

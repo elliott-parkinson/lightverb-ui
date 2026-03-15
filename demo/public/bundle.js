@@ -1429,11 +1429,22 @@ var LvNav = class extends i4 {
       background: transparent;
       color: #4b5563;
       cursor: pointer;
+      padding: 0;
     }
 
     .toggle:hover {
       background: #f3f4f6;
       color: #111827;
+    }
+
+    .toggle svg {
+      width: 1.2rem;
+      height: 1.2rem;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .mobile {
@@ -1484,6 +1495,20 @@ var LvNav = class extends i4 {
       <a href="${link.href}" data-active="${String(Boolean(link.active))}">${link.label}</a>
     `;
   }
+  renderMenuIcon() {
+    if (this.mobileOpen) {
+      return b2`
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      `;
+    }
+    return b2`
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    `;
+  }
   render() {
     return b2`
       <div class="container">
@@ -1498,7 +1523,7 @@ var LvNav = class extends i4 {
           <div class="actions"><slot name="actions"></slot></div>
 
           <button class="toggle" @click="${this.toggleMobile}" aria-label="Toggle navigation">
-            ${this.mobileOpen ? "\u2715" : "\u2630"}
+            ${this.renderMenuIcon()}
           </button>
         </div>
 
@@ -2730,6 +2755,129 @@ function defineLvSpinner() {
   defineCustomElement("lv-spinner", LvSpinner);
 }
 
+// src/components/lv-icon.ts
+function _ts_decorate15(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var ICONS = {
+  menu: w`
+    <path d="M4 6h16M4 12h16M4 18h16" />
+  `,
+  close: w`
+    <path d="M6 18L18 6M6 6l12 12" />
+  `,
+  search: w`
+    <path d="m21 21-4.35-4.35" /><circle cx="11" cy="11" r="7" />
+  `,
+  settings: w`
+    <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z" /><path
+      d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3h.1a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 1 1.5h.1a1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8v.1a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.4 1Z"
+    />
+  `,
+  user: w`
+    <circle cx="12" cy="8" r="4" /><path d="M4 20a8 8 0 0 1 16 0" />
+  `,
+  warning: w`
+    <path
+      d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"
+    /><path d="M12 9v4" /><path d="M12 17h.01" />
+  `,
+  check: w`
+    <path d="m20 6-11 11-5-5" />
+  `,
+  download: w`
+    <path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" />
+  `,
+  activity: w`
+    <path d="M22 12H2" /><path d="m15 5 7 7-7 7" />
+  `,
+  chart: w`
+    <path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" />
+  `,
+  clock: w`
+    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
+  `,
+  filter: w`
+    <path d="M4 6h16" /><path d="M7 12h10" /><path d="M10 18h4" />
+  `,
+  dots: w`
+    <circle cx="12" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle
+      cx="12"
+      cy="19"
+      r="1"
+    />
+  `,
+  flag: w`
+    <path d="M4 21V5" /><path d="m4 5 4-2 4 2 4-2 4 2v8l-4-2-4 2-4-2-4 2" />
+  `,
+  book: w`
+    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22Z" /><path
+      d="M4 5.5V22"
+    /><path d="M9 7h7" />
+  `
+};
+var LvIcon = class extends i4 {
+  name = "dots";
+  size = "16";
+  stroke = "2";
+  static styles = i`
+    :host {
+      display: inline-flex;
+      width: 1em;
+      height: 1em;
+      line-height: 1;
+      color: currentColor;
+      flex-shrink: 0;
+    }
+
+    svg {
+      width: var(--lv-icon-size, 1em);
+      height: var(--lv-icon-size, 1em);
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  `;
+  render() {
+    const size = Number(this.size) || 16;
+    const stroke = Number(this.stroke) || 2;
+    this.style.setProperty("--lv-icon-size", `${size}px`);
+    const path = ICONS[this.name] ?? ICONS.dots;
+    return b2`
+      <svg
+        viewBox="0 0 24 24"
+        stroke-width="${stroke}"
+        aria-hidden="true"
+        focusable="false"
+      >
+        ${path}
+      </svg>
+    `;
+  }
+};
+_ts_decorate15([
+  n5({
+    reflect: true
+  })
+], LvIcon.prototype, "name", void 0);
+_ts_decorate15([
+  n5({
+    reflect: true
+  })
+], LvIcon.prototype, "size", void 0);
+_ts_decorate15([
+  n5({
+    reflect: true
+  })
+], LvIcon.prototype, "stroke", void 0);
+function defineLvIcon() {
+  defineCustomElement("lv-icon", LvIcon);
+}
+
 // index.ts
 function defineAllLvComponents() {
   defineLvApp();
@@ -2749,6 +2897,7 @@ function defineAllLvComponents() {
   defineLvEmptyState();
   defineLvSkeleton();
   defineLvSpinner();
+  defineLvIcon();
 }
 
 // demo/src/main.ts
@@ -3021,67 +3170,10 @@ function statusTone(status) {
   return "info";
 }
 function iconForMetric(label) {
-  if (label.includes("Total")) {
-    return b2`
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="M17 20h5V4H2v16h5" />
-        <path d="M9 20h6" />
-        <path d="M12 4v16" />
-      </svg>
-    `;
-  }
-  if (label.includes("Active")) {
-    return b2`
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="M22 12H2" />
-        <path d="m15 5 7 7-7 7" />
-      </svg>
-    `;
-  }
-  if (label.includes("Completed")) {
-    return b2`
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="m20 6-11 11-5-5" />
-      </svg>
-    `;
-  }
-  return b2`
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-    >
-      <path d="M12 9v4" />
-      <path d="M12 17h.01" />
-      <path
-        d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
-      />
-    </svg>
-  `;
+  if (label.includes("Total")) return "chart";
+  if (label.includes("Active")) return "activity";
+  if (label.includes("Completed")) return "check";
+  return "warning";
 }
 function bookCard(book) {
   return b2`
@@ -3111,10 +3203,10 @@ function homeSection(title, dotClass, books) {
       <div class="sticky-wrap">
         <div class="sticky-head">
           <span class="section-dot ${dotClass}"></span>
-          <h2>${title}</h2>
+          <h2 class="title-with-icon"><lv-icon name="book" size="18"></lv-icon>${title}</h2>
           <div class="head-actions">
-            <lv-button size="sm" variant="secondary">Hide Available</lv-button>
-            <lv-button size="sm" variant="secondary">Card Size</lv-button>
+            <lv-button size="sm" variant="secondary"><lv-icon name="filter" size="14"></lv-icon>Hide Available</lv-button>
+            <lv-button size="sm" variant="secondary"><lv-icon name="settings" size="14"></lv-icon>Card Size</lv-button>
           </div>
         </div>
       </div>
@@ -3132,7 +3224,7 @@ function homeView() {
       <section class="hero">
         <h3>Can't find what you're looking for?</h3>
         <p>Use our search to find any audiobook from Audible.</p>
-        <div class="hero-cta"><lv-button>Search Audiobooks</lv-button></div>
+        <div class="hero-cta"><lv-button><lv-icon name="search" size="15"></lv-icon>Search Audiobooks</lv-button></div>
       </section>
     </main>
   `;
@@ -3141,7 +3233,7 @@ function activeDownloadsTable(downloads) {
   return b2`
     <section class="admin-section">
       <div class="table-card">
-        <div class="table-head">Active Downloads</div>
+        <div class="table-head"><span class="title-with-icon"><lv-icon name="download" size="16"></lv-icon>Active Downloads</span></div>
         <div class="table-wrap">
           <table class="admin-table">
             <thead>
@@ -3191,10 +3283,10 @@ function recentRequestsTable(requests) {
     <section class="admin-section">
       <div class="table-card">
         <div class="table-toolbar">
-          <h3>Recent Requests</h3>
+          <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="toolbar-actions">
             <lv-input placeholder="Search requests"></lv-input>
-            <lv-button size="sm">Export</lv-button>
+            <lv-button size="sm"><lv-icon name="download" size="14"></lv-icon>Export</lv-button>
           </div>
         </div>
         <div class="table-wrap">
@@ -3233,7 +3325,7 @@ function reportedIssuesGrid(issues) {
   return b2`
     <section class="admin-section">
       <div class="section-title-row">
-        <h3>Reported Issues</h3>
+        <h3 class="title-with-icon"><lv-icon name="flag" size="18"></lv-icon>Reported Issues</h3>
         <span class="count-pill">${issues.length}</span>
       </div>
       <div class="issues-grid">
@@ -3249,8 +3341,8 @@ function reportedIssuesGrid(issues) {
               </div>
               <p class="issue-reason">${issue.reason}</p>
               <div class="issue-actions">
-                <lv-button size="sm" variant="secondary">Dismiss</lv-button>
-                <lv-button size="sm">Replace</lv-button>
+                <lv-button size="sm" variant="secondary"><lv-icon name="close" size="14"></lv-icon>Dismiss</lv-button>
+                <lv-button size="sm"><lv-icon name="search" size="14"></lv-icon>Replace</lv-button>
               </div>
             </article>
           `)}
@@ -3263,7 +3355,7 @@ function adminView() {
     return b2`
       <main class="page-main">
         <div class="admin-title">
-          <h1>Admin Dashboard</h1>
+          <h1 class="title-with-icon"><lv-icon name="chart" size="20"></lv-icon>Admin Dashboard</h1>
           <p>Loading metrics and request activity...</p>
         </div>
         <section class="admin-grid">
@@ -3285,7 +3377,7 @@ function adminView() {
   return b2`
     <main class="page-main">
       <div class="admin-title">
-        <h1>Admin Dashboard</h1>
+        <h1 class="title-with-icon"><lv-icon name="chart" size="20"></lv-icon>Admin Dashboard</h1>
         <p>Live overview of request pipeline and issue resolution.</p>
       </div>
 
@@ -3297,7 +3389,7 @@ function adminView() {
               subtitle="${metric.subtitle ?? ""}"
               tone="${metric.tone}"
             >
-              <span slot="icon">${iconForMetric(metric.label)}</span>
+              <span slot="icon"><lv-icon .name=${iconForMetric(metric.label)} size="20"></lv-icon></span>
             </lv-stat-card>
           `)}
       </section>
@@ -3310,7 +3402,7 @@ function requestsView() {
   return b2`
     <main class="page-main">
       <div class="admin-title">
-        <h1>My Requests</h1>
+        <h1 class="title-with-icon"><lv-icon name="activity" size="20"></lv-icon>My Requests</h1>
         <p>Track all requests and current download status.</p>
       </div>
       <section class="admin-section">
@@ -3362,7 +3454,7 @@ function searchView() {
   return b2`
     <main class="page-main">
       <div class="admin-title">
-        <h1>Search</h1>
+        <h1 class="title-with-icon"><lv-icon name="search" size="20"></lv-icon>Search</h1>
         <p>Find and request audiobooks from Audible metadata.</p>
       </div>
       <section class="admin-section">
@@ -3374,7 +3466,7 @@ function searchView() {
                 placeholder="Book title, author, narrator"
               ></lv-input>
             </div>
-            <lv-button>Search</lv-button>
+            <lv-button><lv-icon name="search" size="15"></lv-icon>Search</lv-button>
           </div>
         </div>
       </section>
@@ -3423,7 +3515,7 @@ enhance("app-root", () => {
           alt=""
         />
         <span slot="actions" class="version-pill">v0.9.4</span>
-        <lv-button slot="actions" size="sm" variant="secondary">Profile</lv-button>
+        <lv-button slot="actions" size="sm" variant="secondary"><lv-icon name="user" size="14"></lv-icon>Profile</lv-button>
       </lv-nav>
 
       ${routeName === "home" ? homeView() : routeName === "admin" ? adminView() : routeName === "requests" ? requestsView() : routeName === "search" ? searchView() : notFoundView()}

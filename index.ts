@@ -15,6 +15,7 @@ export * from "./src/components/lv-pagination.ts";
 export * from "./src/components/lv-empty-state.ts";
 export * from "./src/components/lv-skeleton.ts";
 export * from "./src/components/lv-spinner.ts";
+export * from "./src/components/lv-icon.ts";
 
 import { defineLvApp } from "./src/components/lv-app.ts";
 import { defineLvNav } from "./src/components/lv-nav.ts";
@@ -33,6 +34,7 @@ import { defineLvPagination } from "./src/components/lv-pagination.ts";
 import { defineLvEmptyState } from "./src/components/lv-empty-state.ts";
 import { defineLvSkeleton } from "./src/components/lv-skeleton.ts";
 import { defineLvSpinner } from "./src/components/lv-spinner.ts";
+import { defineLvIcon } from "./src/components/lv-icon.ts";
 
 export function defineAllLvComponents(): void {
   defineLvApp();
@@ -52,4 +54,5 @@ export function defineAllLvComponents(): void {
   defineLvEmptyState();
   defineLvSkeleton();
   defineLvSpinner();
+  defineLvIcon();
 }

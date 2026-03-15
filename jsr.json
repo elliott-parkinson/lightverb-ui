@@ -20,7 +20,8 @@
     "./pagination": "./src/components/lv-pagination.ts",
     "./empty-state": "./src/components/lv-empty-state.ts",
     "./skeleton": "./src/components/lv-skeleton.ts",
-    "./spinner": "./src/components/lv-spinner.ts"
+    "./spinner": "./src/components/lv-spinner.ts",
+    "./icon": "./src/components/lv-icon.ts"
   },
   "publish": {
     "include": [

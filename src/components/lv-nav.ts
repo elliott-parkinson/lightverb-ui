@@ -103,11 +103,22 @@ export class LvNav extends LitElement {
       background: transparent;
       color: #4b5563;
       cursor: pointer;
+      padding: 0;
     }
 
     .toggle:hover {
       background: #f3f4f6;
       color: #111827;
+    }
+
+    .toggle svg {
+      width: 1.2rem;
+      height: 1.2rem;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .mobile {
@@ -163,6 +174,22 @@ export class LvNav extends LitElement {
     `;
   }
 
+  private renderMenuIcon() {
+    if (this.mobileOpen) {
+      return html`
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      `;
+    }
+
+    return html`
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    `;
+  }
+
   override render() {
     return html`
       <div class="container">
@@ -178,7 +205,7 @@ export class LvNav extends LitElement {
 
           <button class="toggle" @click="${this
             .toggleMobile}" aria-label="Toggle navigation">
-            ${this.mobileOpen ? "✕" : "☰"}
+            ${this.renderMenuIcon()}
           </button>
         </div>
 
