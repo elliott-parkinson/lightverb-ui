@@ -2684,7 +2684,7 @@ var LvSectionToolbar = class extends i4 {
         <button
           class="toggle"
           data-active="${String(this.hideAvailable)}"
-          @click=${this.emitToggleHideAvailable}
+          @click=${() => this.emitToggleHideAvailable()}
           aria-label="Hide available"
           title="Hide available"
         >
@@ -2693,23 +2693,23 @@ var LvSectionToolbar = class extends i4 {
         <button
           class="toggle"
           data-active="${String(this.squareCovers)}"
-          @click=${this.emitToggleSquareCovers}
+          @click=${() => this.emitToggleSquareCovers()}
           aria-label="Square covers"
           title="Square covers"
         >
           <lv-icon name="crop" size="18"></lv-icon>
         </button>
         <div class="zoom-wrap">
-          <button class="toggle" ?disabled=${!canZoomOut} @click=${this.zoomOut} aria-label="Zoom out">
+          <button class="toggle" ?disabled=${!canZoomOut} @click=${() => this.zoomOut()} aria-label="Zoom out">
             <lv-icon name="zoom-out" size="18"></lv-icon>
           </button>
-          <button class="toggle" ?disabled=${!canZoomIn} @click=${this.zoomIn} aria-label="Zoom in">
+          <button class="toggle" ?disabled=${!canZoomIn} @click=${() => this.zoomIn()} aria-label="Zoom in">
             <lv-icon name="zoom-in" size="18"></lv-icon>
           </button>
         </div>
       </div>
 
-      <button class="mobile-trigger" @click=${this.toggleMobile} aria-label="View options" aria-expanded="${String(this.mobileOpen)}">
+      <button class="mobile-trigger" @click=${() => this.toggleMobile()} aria-label="View options" aria-expanded="${String(this.mobileOpen)}">
         <lv-icon name="ellipsis" size="18"></lv-icon>
       </button>
 

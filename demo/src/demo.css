@@ -164,6 +164,21 @@ p {
   align-items: flex-start;
 }
 
+.home-section .cards-compact {
+  --lv-cards-cols: 3;
+  --lv-card-cover-h: 11.5rem;
+}
+
+.home-section .cards-default {
+  --lv-cards-cols: 2;
+  --lv-card-cover-h: 14.5rem;
+}
+
+.home-section .cards-large {
+  --lv-cards-cols: 1;
+  --lv-card-cover-h: 20rem;
+}
+
 .home-section .cards > .book-card {
   width: calc((100% - (var(--lv-cards-cols) - 1) * 1rem) / var(--lv-cards-cols));
   transition: width 280ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -216,6 +231,23 @@ p {
   .home-section .cards-large {
     --lv-cards-cols: 3;
     --lv-card-cover-h: 19rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 899px) {
+  .home-section .cards-compact {
+    --lv-cards-cols: 4;
+    --lv-card-cover-h: 10.5rem;
+  }
+
+  .home-section .cards-default {
+    --lv-cards-cols: 3;
+    --lv-card-cover-h: 13rem;
+  }
+
+  .home-section .cards-large {
+    --lv-cards-cols: 2;
+    --lv-card-cover-h: 17rem;
   }
 }
 
