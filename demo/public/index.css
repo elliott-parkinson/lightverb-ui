@@ -335,7 +335,7 @@ p {
 
 .table-card {
   border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
+  border-radius: 0.9rem;
   overflow: hidden;
   background: #fff;
 }
@@ -343,7 +343,7 @@ p {
 .table-head {
   font-weight: 700;
   color: #111827;
-  padding: 0.85rem 1rem;
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid #e5e7eb;
   background: #fff;
 }
@@ -352,7 +352,7 @@ p {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 1rem;
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid #e5e7eb;
   background: #f9fafb;
 }
@@ -657,5 +657,10 @@ p {
   text-align: center;
   padding: 1rem;
   margin-top: 1rem;
+}
+
+.footer-meta {
+  margin-left: 0.35rem;
+  color: #9ca3af;
 }
 

@@ -9,274 +9,25 @@ import {
 } from "@collapse-theory/extinguish";
 import { signal } from "npm:@preact/signals-core";
 import { defineAllLvComponents, type LvNavLink } from "../../index.ts";
-
-type Book = {
-  title: string;
-  author: string;
-  cover: string;
-  rating?: number;
-  status?: "available" | "requested" | "processing";
-};
-
-type ActiveDownload = {
-  title: string;
-  author: string;
-  user: string;
-  progress: number;
-  speed: string;
-  eta: string;
-  started: string;
-  type?: "ebook" | "audiobook";
-};
-
-type RecentRequest = {
-  title: string;
-  user: string;
-  status: string;
-  createdAt: string;
-  type?: "ebook" | "audiobook";
-};
-
-type ReportedIssue = {
-  title: string;
-  author: string;
-  reporter: string;
-  reason: string;
-  createdAt: string;
-};
-
-type DashboardData = {
-  metrics: Array<{
-    label: string;
-    value: string;
-    subtitle?: string;
-    tone: "default" | "success" | "warning" | "error" | "info";
-  }>;
-  activeDownloads: ActiveDownload[];
-  recentRequests: RecentRequest[];
-  reportedIssues: ReportedIssue[];
-};
-
-const popularBooks: Book[] = [
-  {
-    title: "Project Hail Mary",
-    author: "Andy Weir",
-    cover: "/placeholder_cover.svg",
-    rating: 4.8,
-    status: "available",
-  },
-  {
-    title: "The Way of Kings",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.7,
-  },
-  {
-    title: "Dune",
-    author: "Frank Herbert",
-    cover: "/placeholder_cover.svg",
-    rating: 4.6,
-    status: "requested",
-  },
-  {
-    title: "The Name of the Wind",
-    author: "Patrick Rothfuss",
-    cover: "/placeholder_cover.svg",
-    rating: 4.8,
-    status: "processing",
-  },
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: "/placeholder_cover.svg",
-    rating: 4.7,
-  },
-  {
-    title: "Red Rising",
-    author: "Pierce Brown",
-    cover: "/placeholder_cover.svg",
-    rating: 4.6,
-  },
-  {
-    title: "The Expanse",
-    author: "James S. A. Corey",
-    cover: "/placeholder_cover.svg",
-    rating: 4.5,
-  },
-  {
-    title: "Mistborn",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.8,
-  },
-];
-
-const newReleaseBooks: Book[] = [
-  {
-    title: "Wind and Truth",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.6,
-  },
-  {
-    title: "The Will of the Many",
-    author: "James Islington",
-    cover: "/placeholder_cover.svg",
-    rating: 4.5,
-  },
-  {
-    title: "Dungeon Crawler Carl",
-    author: "Matt Dinniman",
-    cover: "/placeholder_cover.svg",
-    rating: 4.9,
-  },
-  {
-    title: "The Sunlit Man",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.4,
-    status: "available",
-  },
-  {
-    title: "The Mercy of Gods",
-    author: "James S. A. Corey",
-    cover: "/placeholder_cover.svg",
-    rating: 4.2,
-  },
-  {
-    title: "Empire of the Damned",
-    author: "Jay Kristoff",
-    cover: "/placeholder_cover.svg",
-    rating: 4.1,
-  },
-  {
-    title: "Service Model",
-    author: "Adrian Tchaikovsky",
-    cover: "/placeholder_cover.svg",
-    rating: 4.0,
-  },
-  {
-    title: "House of Open Wounds",
-    author: "Adrian Tchaikovsky",
-    cover: "/placeholder_cover.svg",
-    rating: 4.3,
-  },
-];
+import {
+  adminDashboardResource,
+  apiManifestResource,
+  homeDataResource,
+  pageManifestResource,
+  requestsResource,
+  rmabService,
+  type ActiveDownload,
+  type Book,
+  type RecentRequest,
+  type ReportedIssue,
+} from "./services/index.ts";
 
 const hideAvailable = signal(false);
 const cardSize = signal<"compact" | "default" | "large">("default");
-
-const dashboardData = resource<DashboardData>(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 120));
-  return {
-    metrics: [
-      {
-        label: "Total Requests",
-        value: "128",
-        subtitle: "Across all users",
-        tone: "info",
-      },
-      {
-        label: "Active Downloads",
-        value: "7",
-        subtitle: "qBittorrent + SABnzbd",
-        tone: "warning",
-      },
-      {
-        label: "Completed Today",
-        value: "23",
-        subtitle: "Last 24 hours",
-        tone: "success",
-      },
-      {
-        label: "Failed",
-        value: "2",
-        subtitle: "Needs review",
-        tone: "error",
-      },
-    ],
-    activeDownloads: [
-      {
-        title: "Project Hail Mary",
-        author: "Andy Weir",
-        user: "majora",
-        progress: 62,
-        speed: "7.4 MB/s",
-        eta: "18m",
-        started: "11m ago",
-      },
-      {
-        title: "The Expanse Collection",
-        author: "James S. A. Corey",
-        user: "rachel",
-        progress: 31,
-        speed: "4.1 MB/s",
-        eta: "43m",
-        started: "22m ago",
-      },
-      {
-        title: "Dungeon Crawler Carl 7",
-        author: "Matt Dinniman",
-        user: "sam",
-        progress: 84,
-        speed: "10.6 MB/s",
-        eta: "6m",
-        started: "6m ago",
-        type: "ebook",
-      },
-    ],
-    recentRequests: [
-      {
-        title: "Project Hail Mary",
-        user: "majora",
-        status: "downloading",
-        createdAt: "2m ago",
-      },
-      {
-        title: "The Way of Kings",
-        user: "rachel",
-        status: "awaiting_approval",
-        createdAt: "8m ago",
-      },
-      {
-        title: "The Name of the Wind",
-        user: "sam",
-        status: "processing",
-        createdAt: "24m ago",
-      },
-      {
-        title: "The Sunlit Man",
-        user: "leo",
-        status: "completed",
-        createdAt: "56m ago",
-      },
-    ],
-    reportedIssues: [
-      {
-        title: "The Expanse: Cibola Burn",
-        author: "James S. A. Corey",
-        reporter: "rachel",
-        reason:
-          "Wrong narrator edition downloaded. Looking for Jefferson Mays version.",
-        createdAt: "2h ago",
-      },
-      {
-        title: "The Final Empire",
-        author: "Brandon Sanderson",
-        reporter: "sam",
-        reason: "Corrupted chapters near 01:14:23 and 01:18:51.",
-        createdAt: "4h ago",
-      },
-      {
-        title: "Dune Messiah",
-        author: "Frank Herbert",
-        reporter: "majora",
-        reason: "Metadata mismatch on release year and language tags.",
-        createdAt: "7h ago",
-      },
-    ],
-  };
-});
+const searchQuery = signal("");
+const searchResultsResource = resource(async () =>
+  rmabService.searchAudiobooks(searchQuery.value)
+);
 
 function navLinks(): LvNavLink[] {
   const active = currentRoute.value?.name ?? "home";
@@ -394,13 +145,34 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
 }
 
 function homeView() {
+  if (homeDataResource.pending.value) {
+    return html`
+      <main class="page-main">
+        <section class="cards cards-default">
+          ${Array.from({ length: 8 }).map(() =>
+            html`
+              <lv-skeleton shape="box" height="240px"></lv-skeleton>
+            `
+          )}
+        </section>
+      </main>
+    `;
+  }
+
+  const homeData = homeDataResource.data.value;
+  if (!homeData) {
+    return html`
+      <main class="page-main"></main>
+    `;
+  }
+
   return html`
     <main class="page-main">
       ${homeSection(
         "Popular Audiobooks",
         "dot-blue",
-        popularBooks,
-      )} ${homeSection("New Releases", "dot-green", newReleaseBooks)}
+        homeData.popular,
+      )} ${homeSection("New Releases", "dot-green", homeData.newReleases)}
 
       <section class="hero">
         <h3>Can't find what you're looking for?</h3>
@@ -472,7 +244,7 @@ function recentRequestsTable(requests: RecentRequest[]) {
         <div class="table-toolbar recent-requests-toolbar">
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="recent-requests-controls">
-            <lv-input-group compact class="recent-requests-search">
+            <lv-input-group class="recent-requests-search">
               <input type="text" placeholder="Search requests" />
             </lv-input-group>
             <lv-button class="recent-requests-export" size="md" variant="neutral">
@@ -553,7 +325,7 @@ function reportedIssuesGrid(issues: ReportedIssue[]) {
 }
 
 function adminView() {
-  if (dashboardData.pending.value) {
+  if (adminDashboardResource.pending.value) {
     return html`
       <main class="page-main">
         <div class="admin-title">
@@ -571,7 +343,7 @@ function adminView() {
     `;
   }
 
-  const data = dashboardData.data.value;
+  const data = adminDashboardResource.data.value;
   if (!data) {
     return html`
 
@@ -608,6 +380,26 @@ function adminView() {
 }
 
 function requestsView() {
+  if (requestsResource.pending.value) {
+    return html`
+      <main class="page-main">
+        <div class="admin-title">
+          <h1 class="title-with-icon"><lv-icon name="activity" size="20"></lv-icon>My Requests</h1>
+          <p>Track all requests and current download status.</p>
+        </div>
+        <section class="cards compact-cards">
+          ${Array.from({ length: 4 }).map(() =>
+            html`
+              <lv-skeleton shape="box" height="98px"></lv-skeleton>
+            `
+          )}
+        </section>
+      </main>
+    `;
+  }
+
+  const requests = requestsResource.data.value ?? [];
+
   return html`
     <main class="page-main">
       <div class="admin-title">
@@ -630,13 +422,12 @@ function requestsView() {
             <lv-pagination page="1" total="8"></lv-pagination>
           </div>
           <div class="cards compact-cards">
-            ${popularBooks.slice(0, 4).map((book) =>
+            ${requests.map((request) =>
               html`
-                <lv-card title="${book.title}" subtitle="${book
-                  .author}" compact>
+                <lv-card title="${request.title}" subtitle="Requested by ${request.user}" compact>
                   <div class="request-card-foot">
-                    <lv-badge tone="warning">downloading</lv-badge>
-                    <span class="muted">updated 5m ago</span>
+                    <lv-badge tone="${statusTone(request.status)}">${request.status.replaceAll("_", " ")}</lv-badge>
+                    <span class="muted">${request.createdAt}</span>
                   </div>
                 </lv-card>
               `
@@ -649,6 +440,9 @@ function requestsView() {
 }
 
 function searchView() {
+  const searchData = searchResultsResource.data.value;
+  const results = searchData?.results ?? [];
+
   return html`
     <main class="page-main">
       <div class="admin-title">
@@ -659,9 +453,22 @@ function searchView() {
         <div class="table-card">
           <div class="table-toolbar search-toolbar">
             <lv-input-group class="search-field" label="Search Audible">
-              <input type="text" placeholder="Book title, author, narrator" />
+              <input
+                type="text"
+                .value=${searchQuery.value}
+                @input=${(event: InputEvent) => {
+                  searchQuery.value = (event.target as HTMLInputElement).value;
+                }}
+                placeholder="Book title, author, narrator"
+              />
             </lv-input-group>
-            <lv-button class="search-submit" variant="secondary">
+            <lv-button
+              class="search-submit"
+              variant="secondary"
+              @click=${async () => {
+                searchResultsResource.run();
+              }}
+            >
               <lv-icon name="search" size="16"></lv-icon>
               Search
             </lv-button>
@@ -669,10 +476,22 @@ function searchView() {
         </div>
       </section>
       <section class="admin-section">
-        <lv-empty-state
-          heading="No results yet"
-          description="Start a search to populate the result grid in this frontend-only demo."
-        ></lv-empty-state>
+        ${searchResultsResource.pending.value
+          ? html`
+            <lv-skeleton shape="box" height="180px"></lv-skeleton>
+          `
+          : results.length
+          ? html`
+            <div class="cards cards-default">
+              ${results.map((book) => bookCard(book))}
+            </div>
+          `
+          : html`
+            <lv-empty-state
+              heading="No results yet"
+              description="Start a search to populate the result grid in this frontend-only demo."
+            ></lv-empty-state>
+          `}
       </section>
     </main>
   `;
@@ -701,7 +520,12 @@ setRoutes([
 ]);
 
 startRouter({ linkSelector: "a" });
-dashboardData.run();
+homeDataResource.run();
+adminDashboardResource.run();
+requestsResource.run();
+apiManifestResource.run();
+pageManifestResource.run();
+searchResultsResource.run();
 
 enhance("app-root", () => {
   const routeName = currentRoute.value?.name ?? "home";
@@ -732,6 +556,20 @@ enhance("app-root", () => {
 
       <footer slot="footer" class="demo-footer">
         ReadMeABook parity demo using Lightverb UI components and Extinguish state.
+        ${apiManifestResource.data.value
+          ? html`
+            <span class="footer-meta">
+              • API endpoints mirrored: ${apiManifestResource.data.value.length}
+            </span>
+          `
+          : null}
+        ${pageManifestResource.data.value
+          ? html`
+            <span class="footer-meta">
+              • page routes mirrored: ${pageManifestResource.data.value.length}
+            </span>
+          `
+          : null}
       </footer>
     </lv-app>
   `;

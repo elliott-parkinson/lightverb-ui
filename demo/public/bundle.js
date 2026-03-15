@@ -3050,223 +3050,1426 @@ function defineAllLvComponents() {
   defineLvIcon();
 }
 
+// demo/src/services/stub-data.ts
+var HOME_STUB = {
+  popular: [
+    {
+      asin: "B08G9PRS1K",
+      title: "Project Hail Mary",
+      author: "Andy Weir",
+      cover: "/placeholder_cover.svg",
+      rating: 4.8,
+      status: "available"
+    },
+    {
+      asin: "B003ZWFO7E",
+      title: "The Way of Kings",
+      author: "Brandon Sanderson",
+      cover: "/placeholder_cover.svg",
+      rating: 4.7
+    },
+    {
+      asin: "B002V1OF70",
+      title: "Dune",
+      author: "Frank Herbert",
+      cover: "/placeholder_cover.svg",
+      rating: 4.6,
+      status: "requested"
+    },
+    {
+      asin: "B004A90BXS",
+      title: "The Name of the Wind",
+      author: "Patrick Rothfuss",
+      cover: "/placeholder_cover.svg",
+      rating: 4.8,
+      status: "processing"
+    },
+    {
+      asin: "B0099RKI5W",
+      title: "The Hobbit",
+      author: "J.R.R. Tolkien",
+      cover: "/placeholder_cover.svg",
+      rating: 4.7
+    },
+    {
+      asin: "B00I2VWW5U",
+      title: "Red Rising",
+      author: "Pierce Brown",
+      cover: "/placeholder_cover.svg",
+      rating: 4.6
+    },
+    {
+      asin: "B073H9PF2D",
+      title: "Leviathan Wakes",
+      author: "James S. A. Corey",
+      cover: "/placeholder_cover.svg",
+      rating: 4.5
+    },
+    {
+      asin: "B002UZHIEA",
+      title: "Mistborn",
+      author: "Brandon Sanderson",
+      cover: "/placeholder_cover.svg",
+      rating: 4.8
+    }
+  ],
+  newReleases: [
+    {
+      asin: "B0CRJ3QBHM",
+      title: "Wind and Truth",
+      author: "Brandon Sanderson",
+      cover: "/placeholder_cover.svg",
+      rating: 4.6
+    },
+    {
+      asin: "B0BHTY5N6Y",
+      title: "The Will of the Many",
+      author: "James Islington",
+      cover: "/placeholder_cover.svg",
+      rating: 4.5
+    },
+    {
+      asin: "B0CZ95Y4G9",
+      title: "Dungeon Crawler Carl",
+      author: "Matt Dinniman",
+      cover: "/placeholder_cover.svg",
+      rating: 4.9
+    },
+    {
+      asin: "B0CP46D99V",
+      title: "The Sunlit Man",
+      author: "Brandon Sanderson",
+      cover: "/placeholder_cover.svg",
+      rating: 4.4,
+      status: "available"
+    },
+    {
+      asin: "B0D7M9NNPV",
+      title: "The Mercy of Gods",
+      author: "James S. A. Corey",
+      cover: "/placeholder_cover.svg",
+      rating: 4.2
+    },
+    {
+      asin: "B0BX79Y5X5",
+      title: "Empire of the Damned",
+      author: "Jay Kristoff",
+      cover: "/placeholder_cover.svg",
+      rating: 4.1
+    },
+    {
+      asin: "B0D2TR7WS2",
+      title: "Service Model",
+      author: "Adrian Tchaikovsky",
+      cover: "/placeholder_cover.svg",
+      rating: 4
+    },
+    {
+      asin: "B0C8W3JGHK",
+      title: "House of Open Wounds",
+      author: "Adrian Tchaikovsky",
+      cover: "/placeholder_cover.svg",
+      rating: 4.3
+    }
+  ]
+};
+var DASHBOARD_STUB = {
+  metrics: [
+    {
+      label: "Total Requests",
+      value: "128",
+      subtitle: "Across all users",
+      tone: "info"
+    },
+    {
+      label: "Active Downloads",
+      value: "7",
+      subtitle: "qBittorrent + SABnzbd",
+      tone: "warning"
+    },
+    {
+      label: "Completed Today",
+      value: "23",
+      subtitle: "Last 24 hours",
+      tone: "success"
+    },
+    {
+      label: "Failed",
+      value: "2",
+      subtitle: "Needs review",
+      tone: "error"
+    }
+  ],
+  activeDownloads: [
+    {
+      requestId: "r-301",
+      title: "Project Hail Mary",
+      author: "Andy Weir",
+      user: "majora",
+      progress: 62,
+      speed: "7.4 MB/s",
+      eta: "18m",
+      started: "11m ago"
+    },
+    {
+      requestId: "r-302",
+      title: "The Expanse Collection",
+      author: "James S. A. Corey",
+      user: "rachel",
+      progress: 31,
+      speed: "4.1 MB/s",
+      eta: "43m",
+      started: "22m ago"
+    },
+    {
+      requestId: "r-303",
+      title: "Dungeon Crawler Carl 7",
+      author: "Matt Dinniman",
+      user: "sam",
+      progress: 84,
+      speed: "10.6 MB/s",
+      eta: "6m",
+      started: "6m ago",
+      type: "ebook"
+    }
+  ],
+  recentRequests: [
+    {
+      requestId: "r-401",
+      title: "Project Hail Mary",
+      user: "majora",
+      status: "downloading",
+      createdAt: "2m ago"
+    },
+    {
+      requestId: "r-402",
+      title: "The Way of Kings",
+      user: "rachel",
+      status: "awaiting_approval",
+      createdAt: "8m ago"
+    },
+    {
+      requestId: "r-403",
+      title: "The Name of the Wind",
+      user: "sam",
+      status: "processing",
+      createdAt: "24m ago"
+    },
+    {
+      requestId: "r-404",
+      title: "The Sunlit Man",
+      user: "leo",
+      status: "completed",
+      createdAt: "56m ago"
+    }
+  ],
+  reportedIssues: [
+    {
+      issueId: "i-101",
+      title: "The Expanse: Cibola Burn",
+      author: "James S. A. Corey",
+      reporter: "rachel",
+      reason: "Wrong narrator edition downloaded. Looking for Jefferson Mays version.",
+      createdAt: "2h ago"
+    },
+    {
+      issueId: "i-102",
+      title: "The Final Empire",
+      author: "Brandon Sanderson",
+      reporter: "sam",
+      reason: "Corrupted chapters near 01:14:23 and 01:18:51.",
+      createdAt: "4h ago"
+    },
+    {
+      issueId: "i-103",
+      title: "Dune Messiah",
+      author: "Frank Herbert",
+      reporter: "majora",
+      reason: "Metadata mismatch on release year and language tags.",
+      createdAt: "7h ago"
+    }
+  ]
+};
+var REQUESTS_STUB = [
+  ...DASHBOARD_STUB.recentRequests
+];
+var VERSION_STUB = {
+  version: "0.9.4",
+  name: "ReadMeABook"
+};
+var HOME_SECTIONS_STUB = {
+  sections: [
+    {
+      sectionType: "popular",
+      categoryId: null,
+      categoryName: null
+    },
+    {
+      sectionType: "new_releases",
+      categoryId: null,
+      categoryName: null
+    }
+  ],
+  nextRefresh: new Date(Date.now() + 1e3 * 60 * 45).toISOString()
+};
+
+// demo/src/services/rmab-api-manifest.ts
+var RMAB_API_ENDPOINTS = [
+  {
+    path: "/api/admin/api-tokens/:id",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/admin/api-tokens",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/backend-mode",
+    methods: [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/bookdate/toggle",
+    methods: [
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/admin/bulk-import/execute",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/bulk-import/scan",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/downloads/active",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/filesystem/browse",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/jobs/:id",
+    methods: [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/jobs/:id/trigger",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/jobs",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/job-status/:id",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/logs",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/manual-import",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/metrics",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/notifications/:id",
+    methods: [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/notifications/providers",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/notifications",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/notifications/test",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/plex/scan",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/reported-issues/:id/replace",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/reported-issues/:id/resolve",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/reported-issues",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/requests/:id/approve",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/requests/:id/retry-download",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/requests/:id",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/admin/requests/:id/search-terms",
+    methods: [
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/admin/requests/pending-approval",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/requests/recent",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/requests",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/settings/audible",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/audiobookshelf/libraries",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/settings/audiobookshelf",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/auto-approve",
+    methods: [
+      "GET",
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/admin/settings/download-access",
+    methods: [
+      "GET",
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/admin/settings/download-client",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/download-clients/categories",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/settings/download-clients/:id",
+    methods: [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/download-clients",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/settings/download-clients/test",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/settings/ebook",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/ebook/test-flaresolverr",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/settings/interactive-search",
+    methods: [
+      "GET",
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/admin/settings/oidc",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/paths",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/plex/libraries",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/settings/plex",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/prowlarr/indexers",
+    methods: [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/prowlarr",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings/registration",
+    methods: [
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/settings",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/settings/test-download-client",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/settings/test-plex",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/settings/test-prowlarr",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/users/:id/approve",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/users/:id/login-token",
+    methods: [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/admin/users/:id",
+    methods: [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/admin/users/pending",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/admin/users",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audible/categories",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin/download-status",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin/ebook-status",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin/fetch-ebook",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin/interactive-search-ebook",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin/report-issue",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/:asin/select-ebook",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/audiobooks/category/:categoryId",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/covers",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/new-releases",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/popular",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/request-with-torrent",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/audiobooks/search",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/audiobooks/search-torrents",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/admin/login",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/change-password",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/is-local-admin",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/local/login",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/logout",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/me",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/oidc/callback",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/oidc/login",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/authors/:asin/books",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/authors/:asin",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/authors/search",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/plex/callback",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/plex/home-users",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/plex/login",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/plex/switch-profile",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/providers",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/auth/refresh",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/register",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/auth/token/login",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/bookdate/config",
+    methods: [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/bookdate/generate",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/bookdate/library",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/bookdate/preferences",
+    methods: [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/bookdate/recommendations",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/bookdate/swipe",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/bookdate/swipes",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/bookdate/test-connection",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/bookdate/undo",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/cache/library/:filename",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/cache/thumbnails/:filename",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/health",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/init",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/requests/:id/download",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/requests/:id/download-token",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests/:id/fetch-ebook",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests/:id/interactive-search-ebook",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests/:id/interactive-search",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests/:id/manual-search",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests/:id",
+    methods: [
+      "DELETE",
+      "GET",
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/requests/:id/select-ebook",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests/:id/select-torrent",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/requests",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/series/:asin",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/series/search",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/setup/complete",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/download-client-categories",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/status",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/setup/test-abs",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/test-download-client",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/test-oidc",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/test-paths",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/test-plex",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/setup/test-prowlarr",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/api-tokens/:id",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/user/api-tokens",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/goodreads-shelves/:id",
+    methods: [
+      "DELETE",
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/user/goodreads-shelves",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/hardcover-shelves/:id",
+    methods: [
+      "DELETE",
+      "PATCH"
+    ]
+  },
+  {
+    path: "/api/user/hardcover-shelves",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/home-sections",
+    methods: [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    path: "/api/user/ignored-audiobooks/check/:asin",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/user/ignored-audiobooks/:id",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/user/ignored-audiobooks",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/shelves",
+    methods: [
+      "GET"
+    ]
+  },
+  {
+    path: "/api/user/shelves/sync",
+    methods: [
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/watched-authors/:id",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/user/watched-authors",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/user/watched-series/:id",
+    methods: [
+      "DELETE"
+    ]
+  },
+  {
+    path: "/api/user/watched-series",
+    methods: [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    path: "/api/version",
+    methods: [
+      "GET"
+    ]
+  }
+];
+
+// demo/src/services/rmab-page-manifest.ts
+var RMAB_PAGE_ROUTES = [
+  {
+    route: "/",
+    source: "src/app/page.tsx"
+  },
+  {
+    route: "/admin",
+    source: "src/app/admin/page.tsx"
+  },
+  {
+    route: "/admin/jobs",
+    source: "src/app/admin/jobs/page.tsx"
+  },
+  {
+    route: "/admin/logs",
+    source: "src/app/admin/logs/page.tsx"
+  },
+  {
+    route: "/admin/settings",
+    source: "src/app/admin/settings/page.tsx"
+  },
+  {
+    route: "/admin/users",
+    source: "src/app/admin/users/page.tsx"
+  },
+  {
+    route: "/api-docs",
+    source: "src/app/api-docs/page.tsx"
+  },
+  {
+    route: "/authors",
+    source: "src/app/authors/page.tsx"
+  },
+  {
+    route: "/authors/:asin",
+    source: "src/app/authors/[asin]/page.tsx"
+  },
+  {
+    route: "/auth/select-profile",
+    source: "src/app/auth/select-profile/page.tsx"
+  },
+  {
+    route: "/auth/token/login",
+    source: "src/app/auth/token/login/page.tsx"
+  },
+  {
+    route: "/bookdate",
+    source: "src/app/bookdate/page.tsx"
+  },
+  {
+    route: "/login",
+    source: "src/app/login/page.tsx"
+  },
+  {
+    route: "/profile",
+    source: "src/app/profile/page.tsx"
+  },
+  {
+    route: "/requests",
+    source: "src/app/requests/page.tsx"
+  },
+  {
+    route: "/search",
+    source: "src/app/search/page.tsx"
+  },
+  {
+    route: "/series",
+    source: "src/app/series/page.tsx"
+  },
+  {
+    route: "/series/:asin",
+    source: "src/app/series/[asin]/page.tsx"
+  },
+  {
+    route: "/setup",
+    source: "src/app/setup/page.tsx"
+  },
+  {
+    route: "/setup/initializing",
+    source: "src/app/setup/initializing/page.tsx"
+  }
+];
+
+// demo/src/services/rmab-service.ts
+function deepClone(value) {
+  return structuredClone(value);
+}
+function normalizePath(path) {
+  return path.split("?")[0].replace(/\/+$/, "") || "/";
+}
+function toEndpointPattern(endpoint) {
+  const source = endpoint.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/:([A-Za-z0-9_]+)\*/g, "(?<$1>.+)").replace(/:([A-Za-z0-9_]+)/g, "(?<$1>[^/]+)");
+  return {
+    ...endpoint,
+    regexp: new RegExp(`^${source}$`)
+  };
+}
+var RmabStubService = class {
+  latencyMs;
+  patterns;
+  constructor(latencyMs = 90) {
+    this.latencyMs = latencyMs;
+    this.patterns = RMAB_API_ENDPOINTS.map(toEndpointPattern);
+  }
+  async simulateLatency() {
+    await new Promise((resolve) => setTimeout(resolve, this.latencyMs));
+  }
+  async getHomeData() {
+    await this.simulateLatency();
+    return deepClone(HOME_STUB);
+  }
+  async getAdminDashboardData() {
+    await this.simulateLatency();
+    return deepClone(DASHBOARD_STUB);
+  }
+  async getRecentRequests() {
+    await this.simulateLatency();
+    return deepClone(REQUESTS_STUB);
+  }
+  async searchAudiobooks(query) {
+    await this.simulateLatency();
+    const q = query.trim().toLowerCase();
+    const all = [
+      ...HOME_STUB.popular,
+      ...HOME_STUB.newReleases
+    ];
+    const unique = Array.from(new Map(all.map((book) => [
+      book.asin,
+      book
+    ])).values());
+    const filtered = q ? unique.filter((book) => `${book.title} ${book.author}`.toLowerCase().includes(q)) : [];
+    return {
+      query,
+      total: filtered.length,
+      results: deepClone(filtered)
+    };
+  }
+  async getApiManifest() {
+    await this.simulateLatency();
+    return deepClone(RMAB_API_ENDPOINTS);
+  }
+  async getPageManifest() {
+    await this.simulateLatency();
+    return deepClone(RMAB_PAGE_ROUTES);
+  }
+  async request(path, method, query = {}) {
+    await this.simulateLatency();
+    const cleanPath = normalizePath(path);
+    const endpoint = this.patterns.find((candidate) => candidate.regexp.test(cleanPath));
+    if (!endpoint) {
+      return {
+        ok: false,
+        status: 404,
+        path: cleanPath,
+        method,
+        data: {
+          message: "Stub endpoint not found"
+        }
+      };
+    }
+    if (!endpoint.methods.includes(method)) {
+      return {
+        ok: false,
+        status: 405,
+        path: cleanPath,
+        method,
+        data: {
+          message: "Method not allowed",
+          allowed: endpoint.methods
+        }
+      };
+    }
+    const data = this.resolveData(cleanPath, method, query);
+    return {
+      ok: true,
+      status: 200,
+      path: cleanPath,
+      method,
+      data
+    };
+  }
+  resolveData(path, method, query) {
+    if (path === "/api/admin/metrics" && method === "GET") {
+      return {
+        metrics: deepClone(DASHBOARD_STUB.metrics)
+      };
+    }
+    if (path === "/api/admin/downloads/active" && method === "GET") {
+      return {
+        downloads: deepClone(DASHBOARD_STUB.activeDownloads)
+      };
+    }
+    if (path === "/api/admin/requests/recent" && method === "GET") {
+      return {
+        requests: deepClone(DASHBOARD_STUB.recentRequests),
+        total: DASHBOARD_STUB.recentRequests.length
+      };
+    }
+    if (path === "/api/admin/reported-issues" && method === "GET") {
+      return {
+        issues: deepClone(DASHBOARD_STUB.reportedIssues),
+        total: DASHBOARD_STUB.reportedIssues.length
+      };
+    }
+    if (path === "/api/audiobooks/popular" && method === "GET") {
+      return {
+        books: deepClone(HOME_STUB.popular),
+        total: HOME_STUB.popular.length
+      };
+    }
+    if (path === "/api/audiobooks/new-releases" && method === "GET") {
+      return {
+        books: deepClone(HOME_STUB.newReleases),
+        total: HOME_STUB.newReleases.length
+      };
+    }
+    if (path === "/api/audiobooks/search" && method === "GET") {
+      const q = query.q ?? query.query ?? "";
+      const all = [
+        ...HOME_STUB.popular,
+        ...HOME_STUB.newReleases
+      ];
+      const results = q ? all.filter((book) => `${book.title} ${book.author}`.toLowerCase().includes(q.toLowerCase())) : [];
+      return {
+        results: deepClone(results),
+        totalResults: results.length
+      };
+    }
+    if (path === "/api/user/home-sections" && method === "GET") {
+      return deepClone(HOME_SECTIONS_STUB);
+    }
+    if (path === "/api/version" && method === "GET") {
+      return deepClone(VERSION_STUB);
+    }
+    return {
+      stub: true,
+      parity: "route-signature",
+      message: "Endpoint is represented in local parity mode with generic stub data.",
+      path,
+      method,
+      query
+    };
+  }
+};
+var rmabService = new RmabStubService();
+
+// demo/src/services/resources.ts
+var homeDataResource = resource(async () => rmabService.getHomeData());
+var adminDashboardResource = resource(async () => rmabService.getAdminDashboardData());
+var requestsResource = resource(async () => rmabService.getRecentRequests());
+var apiManifestResource = resource(async () => rmabService.getApiManifest());
+var pageManifestResource = resource(async () => rmabService.getPageManifest());
+
 // demo/src/main.ts
-var popularBooks = [
-  {
-    title: "Project Hail Mary",
-    author: "Andy Weir",
-    cover: "/placeholder_cover.svg",
-    rating: 4.8,
-    status: "available"
-  },
-  {
-    title: "The Way of Kings",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.7
-  },
-  {
-    title: "Dune",
-    author: "Frank Herbert",
-    cover: "/placeholder_cover.svg",
-    rating: 4.6,
-    status: "requested"
-  },
-  {
-    title: "The Name of the Wind",
-    author: "Patrick Rothfuss",
-    cover: "/placeholder_cover.svg",
-    rating: 4.8,
-    status: "processing"
-  },
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: "/placeholder_cover.svg",
-    rating: 4.7
-  },
-  {
-    title: "Red Rising",
-    author: "Pierce Brown",
-    cover: "/placeholder_cover.svg",
-    rating: 4.6
-  },
-  {
-    title: "The Expanse",
-    author: "James S. A. Corey",
-    cover: "/placeholder_cover.svg",
-    rating: 4.5
-  },
-  {
-    title: "Mistborn",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.8
-  }
-];
-var newReleaseBooks = [
-  {
-    title: "Wind and Truth",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.6
-  },
-  {
-    title: "The Will of the Many",
-    author: "James Islington",
-    cover: "/placeholder_cover.svg",
-    rating: 4.5
-  },
-  {
-    title: "Dungeon Crawler Carl",
-    author: "Matt Dinniman",
-    cover: "/placeholder_cover.svg",
-    rating: 4.9
-  },
-  {
-    title: "The Sunlit Man",
-    author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg",
-    rating: 4.4,
-    status: "available"
-  },
-  {
-    title: "The Mercy of Gods",
-    author: "James S. A. Corey",
-    cover: "/placeholder_cover.svg",
-    rating: 4.2
-  },
-  {
-    title: "Empire of the Damned",
-    author: "Jay Kristoff",
-    cover: "/placeholder_cover.svg",
-    rating: 4.1
-  },
-  {
-    title: "Service Model",
-    author: "Adrian Tchaikovsky",
-    cover: "/placeholder_cover.svg",
-    rating: 4
-  },
-  {
-    title: "House of Open Wounds",
-    author: "Adrian Tchaikovsky",
-    cover: "/placeholder_cover.svg",
-    rating: 4.3
-  }
-];
 var hideAvailable = c4(false);
 var cardSize = c4("default");
-var dashboardData = resource(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 120));
-  return {
-    metrics: [
-      {
-        label: "Total Requests",
-        value: "128",
-        subtitle: "Across all users",
-        tone: "info"
-      },
-      {
-        label: "Active Downloads",
-        value: "7",
-        subtitle: "qBittorrent + SABnzbd",
-        tone: "warning"
-      },
-      {
-        label: "Completed Today",
-        value: "23",
-        subtitle: "Last 24 hours",
-        tone: "success"
-      },
-      {
-        label: "Failed",
-        value: "2",
-        subtitle: "Needs review",
-        tone: "error"
-      }
-    ],
-    activeDownloads: [
-      {
-        title: "Project Hail Mary",
-        author: "Andy Weir",
-        user: "majora",
-        progress: 62,
-        speed: "7.4 MB/s",
-        eta: "18m",
-        started: "11m ago"
-      },
-      {
-        title: "The Expanse Collection",
-        author: "James S. A. Corey",
-        user: "rachel",
-        progress: 31,
-        speed: "4.1 MB/s",
-        eta: "43m",
-        started: "22m ago"
-      },
-      {
-        title: "Dungeon Crawler Carl 7",
-        author: "Matt Dinniman",
-        user: "sam",
-        progress: 84,
-        speed: "10.6 MB/s",
-        eta: "6m",
-        started: "6m ago",
-        type: "ebook"
-      }
-    ],
-    recentRequests: [
-      {
-        title: "Project Hail Mary",
-        user: "majora",
-        status: "downloading",
-        createdAt: "2m ago"
-      },
-      {
-        title: "The Way of Kings",
-        user: "rachel",
-        status: "awaiting_approval",
-        createdAt: "8m ago"
-      },
-      {
-        title: "The Name of the Wind",
-        user: "sam",
-        status: "processing",
-        createdAt: "24m ago"
-      },
-      {
-        title: "The Sunlit Man",
-        user: "leo",
-        status: "completed",
-        createdAt: "56m ago"
-      }
-    ],
-    reportedIssues: [
-      {
-        title: "The Expanse: Cibola Burn",
-        author: "James S. A. Corey",
-        reporter: "rachel",
-        reason: "Wrong narrator edition downloaded. Looking for Jefferson Mays version.",
-        createdAt: "2h ago"
-      },
-      {
-        title: "The Final Empire",
-        author: "Brandon Sanderson",
-        reporter: "sam",
-        reason: "Corrupted chapters near 01:14:23 and 01:18:51.",
-        createdAt: "4h ago"
-      },
-      {
-        title: "Dune Messiah",
-        author: "Frank Herbert",
-        reporter: "majora",
-        reason: "Metadata mismatch on release year and language tags.",
-        createdAt: "7h ago"
-      }
-    ]
-  };
-});
+var searchQuery = c4("");
+var searchResultsResource = resource(async () => rmabService.searchAudiobooks(searchQuery.value));
 function navLinks() {
   const active = currentRoute.value?.name ?? "home";
   return [
@@ -3388,9 +4591,28 @@ function homeSection(title, dotClass, books) {
   `;
 }
 function homeView() {
+  if (homeDataResource.pending.value) {
+    return b2`
+      <main class="page-main">
+        <section class="cards cards-default">
+          ${Array.from({
+      length: 8
+    }).map(() => b2`
+              <lv-skeleton shape="box" height="240px"></lv-skeleton>
+            `)}
+        </section>
+      </main>
+    `;
+  }
+  const homeData = homeDataResource.data.value;
+  if (!homeData) {
+    return b2`
+      <main class="page-main"></main>
+    `;
+  }
   return b2`
     <main class="page-main">
-      ${homeSection("Popular Audiobooks", "dot-blue", popularBooks)} ${homeSection("New Releases", "dot-green", newReleaseBooks)}
+      ${homeSection("Popular Audiobooks", "dot-blue", homeData.popular)} ${homeSection("New Releases", "dot-green", homeData.newReleases)}
 
       <section class="hero">
         <h3>Can't find what you're looking for?</h3>
@@ -3456,7 +4678,7 @@ function recentRequestsTable(requests) {
         <div class="table-toolbar recent-requests-toolbar">
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="recent-requests-controls">
-            <lv-input-group compact class="recent-requests-search">
+            <lv-input-group class="recent-requests-search">
               <input type="text" placeholder="Search requests" />
             </lv-input-group>
             <lv-button class="recent-requests-export" size="md" variant="neutral">
@@ -3527,7 +4749,7 @@ function reportedIssuesGrid(issues) {
   `;
 }
 function adminView() {
-  if (dashboardData.pending.value) {
+  if (adminDashboardResource.pending.value) {
     return b2`
       <main class="page-main">
         <div class="admin-title">
@@ -3544,7 +4766,7 @@ function adminView() {
       </main>
     `;
   }
-  const data = dashboardData.data.value;
+  const data = adminDashboardResource.data.value;
   if (!data) {
     return b2`
 
@@ -3575,6 +4797,24 @@ function adminView() {
   `;
 }
 function requestsView() {
+  if (requestsResource.pending.value) {
+    return b2`
+      <main class="page-main">
+        <div class="admin-title">
+          <h1 class="title-with-icon"><lv-icon name="activity" size="20"></lv-icon>My Requests</h1>
+          <p>Track all requests and current download status.</p>
+        </div>
+        <section class="cards compact-cards">
+          ${Array.from({
+      length: 4
+    }).map(() => b2`
+              <lv-skeleton shape="box" height="98px"></lv-skeleton>
+            `)}
+        </section>
+      </main>
+    `;
+  }
+  const requests = requestsResource.data.value ?? [];
   return b2`
     <main class="page-main">
       <div class="admin-title">
@@ -3612,11 +4852,11 @@ function requestsView() {
             <lv-pagination page="1" total="8"></lv-pagination>
           </div>
           <div class="cards compact-cards">
-            ${popularBooks.slice(0, 4).map((book) => b2`
-                <lv-card title="${book.title}" subtitle="${book.author}" compact>
+            ${requests.map((request) => b2`
+                <lv-card title="${request.title}" subtitle="Requested by ${request.user}" compact>
                   <div class="request-card-foot">
-                    <lv-badge tone="warning">downloading</lv-badge>
-                    <span class="muted">updated 5m ago</span>
+                    <lv-badge tone="${statusTone(request.status)}">${request.status.replaceAll("_", " ")}</lv-badge>
+                    <span class="muted">${request.createdAt}</span>
                   </div>
                 </lv-card>
               `)}
@@ -3627,6 +4867,8 @@ function requestsView() {
   `;
 }
 function searchView() {
+  const searchData = searchResultsResource.data.value;
+  const results = searchData?.results ?? [];
   return b2`
     <main class="page-main">
       <div class="admin-title">
@@ -3637,9 +4879,22 @@ function searchView() {
         <div class="table-card">
           <div class="table-toolbar search-toolbar">
             <lv-input-group class="search-field" label="Search Audible">
-              <input type="text" placeholder="Book title, author, narrator" />
+              <input
+                type="text"
+                .value=${searchQuery.value}
+                @input=${(event) => {
+    searchQuery.value = event.target.value;
+  }}
+                placeholder="Book title, author, narrator"
+              />
             </lv-input-group>
-            <lv-button class="search-submit" variant="secondary">
+            <lv-button
+              class="search-submit"
+              variant="secondary"
+              @click=${async () => {
+    searchResultsResource.run();
+  }}
+            >
               <lv-icon name="search" size="16"></lv-icon>
               Search
             </lv-button>
@@ -3647,10 +4902,18 @@ function searchView() {
         </div>
       </section>
       <section class="admin-section">
-        <lv-empty-state
-          heading="No results yet"
-          description="Start a search to populate the result grid in this frontend-only demo."
-        ></lv-empty-state>
+        ${searchResultsResource.pending.value ? b2`
+            <lv-skeleton shape="box" height="180px"></lv-skeleton>
+          ` : results.length ? b2`
+            <div class="cards cards-default">
+              ${results.map((book) => bookCard(book))}
+            </div>
+          ` : b2`
+            <lv-empty-state
+              heading="No results yet"
+              description="Start a search to populate the result grid in this frontend-only demo."
+            ></lv-empty-state>
+          `}
       </section>
     </main>
   `;
@@ -3677,7 +4940,12 @@ setRoutes([
 startRouter({
   linkSelector: "a"
 });
-dashboardData.run();
+homeDataResource.run();
+adminDashboardResource.run();
+requestsResource.run();
+apiManifestResource.run();
+pageManifestResource.run();
+searchResultsResource.run();
 enhance("app-root", () => {
   const routeName = currentRoute.value?.name ?? "home";
   return b2`
@@ -3698,6 +4966,16 @@ enhance("app-root", () => {
 
       <footer slot="footer" class="demo-footer">
         ReadMeABook parity demo using Lightverb UI components and Extinguish state.
+        ${apiManifestResource.data.value ? b2`
+            <span class="footer-meta">
+              • API endpoints mirrored: ${apiManifestResource.data.value.length}
+            </span>
+          ` : null}
+        ${pageManifestResource.data.value ? b2`
+            <span class="footer-meta">
+              • page routes mirrored: ${pageManifestResource.data.value.length}
+            </span>
+          ` : null}
       </footer>
     </lv-app>
   `;
