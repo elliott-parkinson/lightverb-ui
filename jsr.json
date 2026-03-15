@@ -8,6 +8,7 @@
     "./nav": "./src/components/lv-nav.ts",
     "./button": "./src/components/lv-button.ts",
     "./input": "./src/components/lv-input.ts",
+    "./input-group": "./src/components/lv-input-group.ts",
     "./surface": "./src/components/lv-surface.ts",
     "./grid": "./src/components/lv-grid.ts",
     "./card": "./src/components/lv-card.ts",

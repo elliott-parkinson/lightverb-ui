@@ -1801,8 +1801,152 @@ function defineLvInput() {
   defineCustomElement("lv-input", LvInput);
 }
 
-// src/components/lv-surface.ts
+// src/components/lv-input-group.ts
 function _ts_decorate4(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvInputGroup = class extends i4 {
+  label = "";
+  compact = false;
+  static styles = i`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
+    .label {
+      display: block;
+      margin: 0 0 0.35rem;
+      color: #111827;
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .group {
+      width: 100%;
+      min-height: 2.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid #d1d5db;
+      border-radius: 0.75rem;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    :host([compact]) .group {
+      min-height: 2.45rem;
+      border-radius: 0.7rem;
+    }
+
+    .prefix,
+    .suffix {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      flex: 0 0 auto;
+    }
+
+    .prefix {
+      padding: 0 0.6rem 0 0.75rem;
+    }
+
+    .field {
+      min-width: 0;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    ::slotted(input) {
+      width: 100%;
+      height: 2.7rem;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #111827;
+      font-size: 0.875rem;
+      line-height: 1.2;
+      padding: 0 0.95rem;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    :host([compact]) ::slotted(input) {
+      height: 2.45rem;
+      font-size: 0.84rem;
+      padding: 0 0.8rem;
+    }
+
+    ::slotted(button[slot="suffix"]) {
+      height: 2.45rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0 1.05rem;
+      border: 0;
+      border-left: 1px solid #e5e7eb;
+      border-radius: 0;
+      background: #f8fafc;
+      color: #111827;
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1;
+      cursor: pointer;
+      white-space: nowrap;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    :host([compact]) ::slotted(button[slot="suffix"]) {
+      height: 2.2rem;
+      font-size: 0.82rem;
+      padding: 0 0.9rem;
+    }
+
+    ::slotted(button[slot="suffix"]:hover) {
+      background: #f1f5f9;
+    }
+
+    .group:focus-within {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+  `;
+  render() {
+    return b2`
+      ${this.label ? b2`<label class="label">${this.label}</label>` : null}
+      <div class="group">
+        <span class="prefix"><slot name="prefix"></slot></span>
+        <div class="field"><slot></slot></div>
+        <span class="suffix"><slot name="suffix"></slot></span>
+      </div>
+    `;
+  }
+};
+_ts_decorate4([
+  n5({
+    reflect: true
+  })
+], LvInputGroup.prototype, "label", void 0);
+_ts_decorate4([
+  n5({
+    reflect: true
+  })
+], LvInputGroup.prototype, "compact", void 0);
+function defineLvInputGroup() {
+  defineCustomElement("lv-input-group", LvInputGroup);
+  defineCustomElement("input-group", LvInputGroup);
+}
+
+// src/components/lv-surface.ts
+function _ts_decorate5(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -1845,12 +1989,12 @@ var LvSurface = class extends i4 {
     `;
   }
 };
-_ts_decorate4([
+_ts_decorate5([
   n5({
     reflect: true
   })
 ], LvSurface.prototype, "elevation", void 0);
-_ts_decorate4([
+_ts_decorate5([
   n5({
     reflect: true
   })
@@ -1860,7 +2004,7 @@ function defineLvSurface() {
 }
 
 // src/components/lv-grid.ts
-function _ts_decorate5(decorators, target, key, desc) {
+function _ts_decorate6(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -1899,13 +2043,13 @@ var LvGrid = class extends i4 {
     `;
   }
 };
-_ts_decorate5([
+_ts_decorate6([
   n5({
     type: Number,
     reflect: true
   })
 ], LvGrid.prototype, "cols", void 0);
-_ts_decorate5([
+_ts_decorate6([
   n5({
     type: Number,
     reflect: true
@@ -1916,7 +2060,7 @@ function defineLvGrid() {
 }
 
 // src/components/lv-card.ts
-function _ts_decorate6(decorators, target, key, desc) {
+function _ts_decorate7(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -1987,17 +2131,17 @@ var LvCard = class extends i4 {
     `;
   }
 };
-_ts_decorate6([
+_ts_decorate7([
   n5({
     reflect: true
   })
 ], LvCard.prototype, "title", void 0);
-_ts_decorate6([
+_ts_decorate7([
   n5({
     reflect: true
   })
 ], LvCard.prototype, "subtitle", void 0);
-_ts_decorate6([
+_ts_decorate7([
   n5({
     type: Boolean,
     reflect: true
@@ -2008,7 +2152,7 @@ function defineLvCard() {
 }
 
 // src/components/lv-badge.ts
-function _ts_decorate7(decorators, target, key, desc) {
+function _ts_decorate8(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2064,7 +2208,7 @@ var LvBadge = class extends i4 {
     `;
   }
 };
-_ts_decorate7([
+_ts_decorate8([
   n5({
     reflect: true
   })
@@ -2173,7 +2317,7 @@ function defineLvToolbar() {
 }
 
 // src/components/lv-stat-card.ts
-function _ts_decorate8(decorators, target, key, desc) {
+function _ts_decorate9(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2293,22 +2437,22 @@ var LvStatCard = class extends i4 {
     `;
   }
 };
-_ts_decorate8([
+_ts_decorate9([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "label", void 0);
-_ts_decorate8([
+_ts_decorate9([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "value", void 0);
-_ts_decorate8([
+_ts_decorate9([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "subtitle", void 0);
-_ts_decorate8([
+_ts_decorate9([
   n5({
     reflect: true
   })
@@ -2318,7 +2462,7 @@ function defineLvStatCard() {
 }
 
 // src/components/lv-modal.ts
-function _ts_decorate9(decorators, target, key, desc) {
+function _ts_decorate10(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2421,13 +2565,13 @@ var LvModal = class extends i4 {
     `;
   }
 };
-_ts_decorate9([
+_ts_decorate10([
   n5({
     type: Boolean,
     reflect: true
   })
 ], LvModal.prototype, "open", void 0);
-_ts_decorate9([
+_ts_decorate10([
   n5({
     reflect: true
   })
@@ -2437,7 +2581,7 @@ function defineLvModal() {
 }
 
 // src/components/lv-tabs.ts
-function _ts_decorate10(decorators, target, key, desc) {
+function _ts_decorate11(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2495,12 +2639,12 @@ var LvTabs = class extends i4 {
     `;
   }
 };
-_ts_decorate10([
+_ts_decorate11([
   n5({
     attribute: false
   })
 ], LvTabs.prototype, "tabs", void 0);
-_ts_decorate10([
+_ts_decorate11([
   n5({
     reflect: true
   })
@@ -2510,7 +2654,7 @@ function defineLvTabs() {
 }
 
 // src/components/lv-pagination.ts
-function _ts_decorate11(decorators, target, key, desc) {
+function _ts_decorate12(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2579,13 +2723,13 @@ var LvPagination = class extends i4 {
     `;
   }
 };
-_ts_decorate11([
+_ts_decorate12([
   n5({
     type: Number,
     reflect: true
   })
 ], LvPagination.prototype, "page", void 0);
-_ts_decorate11([
+_ts_decorate12([
   n5({
     type: Number,
     reflect: true
@@ -2596,7 +2740,7 @@ function defineLvPagination() {
 }
 
 // src/components/lv-empty-state.ts
-function _ts_decorate12(decorators, target, key, desc) {
+function _ts_decorate13(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2637,12 +2781,12 @@ var LvEmptyState = class extends i4 {
     `;
   }
 };
-_ts_decorate12([
+_ts_decorate13([
   n5({
     reflect: true
   })
 ], LvEmptyState.prototype, "heading", void 0);
-_ts_decorate12([
+_ts_decorate13([
   n5({
     reflect: true
   })
@@ -2652,7 +2796,7 @@ function defineLvEmptyState() {
 }
 
 // src/components/lv-skeleton.ts
-function _ts_decorate13(decorators, target, key, desc) {
+function _ts_decorate14(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2696,17 +2840,17 @@ var LvSkeleton = class extends i4 {
     `;
   }
 };
-_ts_decorate13([
+_ts_decorate14([
   n5({
     reflect: true
   })
 ], LvSkeleton.prototype, "shape", void 0);
-_ts_decorate13([
+_ts_decorate14([
   n5({
     reflect: true
   })
 ], LvSkeleton.prototype, "width", void 0);
-_ts_decorate13([
+_ts_decorate14([
   n5({
     reflect: true
   })
@@ -2716,7 +2860,7 @@ function defineLvSkeleton() {
 }
 
 // src/components/lv-spinner.ts
-function _ts_decorate14(decorators, target, key, desc) {
+function _ts_decorate15(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2748,7 +2892,7 @@ var LvSpinner = class extends i4 {
     `;
   }
 };
-_ts_decorate14([
+_ts_decorate15([
   n5({
     reflect: true
   })
@@ -2758,7 +2902,7 @@ function defineLvSpinner() {
 }
 
 // src/components/lv-icon.ts
-function _ts_decorate15(decorators, target, key, desc) {
+function _ts_decorate16(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2861,17 +3005,17 @@ var LvIcon = class extends i4 {
     `;
   }
 };
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
 ], LvIcon.prototype, "name", void 0);
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
 ], LvIcon.prototype, "size", void 0);
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
@@ -2886,6 +3030,7 @@ function defineAllLvComponents() {
   defineLvNav();
   defineLvButton();
   defineLvInput();
+  defineLvInputGroup();
   defineLvSurface();
   defineLvGrid();
   defineLvCard();
@@ -3309,13 +3454,13 @@ function recentRequestsTable(requests) {
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="recent-requests-controls">
             <div class="recent-requests-search">
-              <input class="control-input" type="text" placeholder="Search requests" />
-            </div>
-            <div class="recent-requests-export">
-              <button class="control-btn" type="button">
-                <lv-icon name="download" size="14"></lv-icon>
-                <span>Export</span>
-              </button>
+              <input-group compact>
+                <input type="text" placeholder="Search requests" />
+                <button slot="suffix" type="button">
+                  <lv-icon name="download" size="14"></lv-icon>
+                  <span>Export</span>
+                </button>
+              </input-group>
             </div>
           </div>
         </div>
@@ -3491,14 +3636,13 @@ function searchView() {
         <div class="table-card">
           <div class="table-toolbar search-toolbar">
             <div class="search-field">
-              <label class="control-label">Search Audible</label>
-              <input class="control-input" type="text" placeholder="Book title, author, narrator" />
-            </div>
-            <div class="search-submit-wrap">
-              <button class="control-btn search-submit" type="button">
-                <lv-icon name="search" size="15"></lv-icon>
-                <span>Search</span>
-              </button>
+              <input-group label="Search Audible">
+                <input type="text" placeholder="Book title, author, narrator" />
+                <button slot="suffix" type="button">
+                  <lv-icon name="search" size="15"></lv-icon>
+                  <span>Search</span>
+                </button>
+              </input-group>
             </div>
           </div>
         </div>
