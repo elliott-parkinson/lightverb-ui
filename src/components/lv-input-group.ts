@@ -130,8 +130,9 @@ export class LvInputGroup extends LitElement {
   }
 }
 
+class InputGroup extends LvInputGroup {}
+
 export function defineLvInputGroup(): void {
   defineCustomElement("lv-input-group", LvInputGroup);
-  defineCustomElement("input-group", LvInputGroup);
+  defineCustomElement("input-group", InputGroup);
 }
-

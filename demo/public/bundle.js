@@ -1940,9 +1940,11 @@ _ts_decorate4([
     reflect: true
   })
 ], LvInputGroup.prototype, "compact", void 0);
+var InputGroup = class extends LvInputGroup {
+};
 function defineLvInputGroup() {
   defineCustomElement("lv-input-group", LvInputGroup);
-  defineCustomElement("input-group", LvInputGroup);
+  defineCustomElement("input-group", InputGroup);
 }
 
 // src/components/lv-surface.ts
