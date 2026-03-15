@@ -176,7 +176,8 @@ p {
 .home-section .cards-size-9 { --lv-cards-cols: 1; --lv-card-cover-h: 22rem; }
 
 .home-section .cards > .book-card {
-  width: calc((100% - (var(--lv-cards-cols) - 1) * 1rem) / var(--lv-cards-cols));
+  --lv-card-w: calc((100% - (var(--lv-cards-cols) - 1) * 1rem) / var(--lv-cards-cols));
+  width: var(--lv-card-w);
   transition: width 280ms cubic-bezier(0.22, 1, 0.36, 1),
     height 320ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -193,6 +194,10 @@ p {
 .home-section .book-card img {
   height: 100%;
   aspect-ratio: auto;
+}
+
+.home-section .covers-square .book-cover-wrap {
+  height: var(--lv-card-w);
 }
 
 @media (min-width: 900px) {
@@ -275,10 +280,6 @@ p {
   object-fit: cover;
   display: block;
   transition: transform 240ms ease-out;
-}
-
-.covers-square .book-card img {
-  aspect-ratio: 1 / 1;
 }
 
 .covers-square .book-cover-wrap {
