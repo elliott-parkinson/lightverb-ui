@@ -30,64 +30,6 @@ const searchResultsResource = resource(async () =>
   rmabService.searchAudiobooks(searchQuery.value)
 );
 
-function animateHomeGridReflow(applyChange: () => void): void {
-  const beforeEls = Array.from(
-    document.querySelectorAll<HTMLElement>(".home-section .cards .book-card"),
-  );
-  const before = new Map<string, DOMRect>();
-  for (const el of beforeEls) {
-    const key = el.dataset.flipId;
-    if (key) before.set(key, el.getBoundingClientRect());
-  }
-
-  applyChange();
-
-  requestAnimationFrame(() => {
-    const afterEls = Array.from(
-      document.querySelectorAll<HTMLElement>(".home-section .cards .book-card"),
-    );
-
-    const animating: HTMLElement[] = [];
-
-    for (const el of afterEls) {
-      const key = el.dataset.flipId;
-      if (!key) continue;
-      const first = before.get(key);
-      if (!first) continue;
-      const last = el.getBoundingClientRect();
-      const dx = first.left - last.left;
-      const dy = first.top - last.top;
-
-      if (
-        Math.abs(dx) < 0.5 &&
-        Math.abs(dy) < 0.5
-      ) {
-        continue;
-      }
-
-      el.style.transition = "none";
-      el.style.transformOrigin = "top left";
-      el.style.transform = `translate(${dx}px, ${dy}px)`;
-      animating.push(el);
-    }
-
-    // Force style flush before playing transforms.
-    void document.body.offsetHeight;
-
-    for (const el of animating) {
-      el.style.transition = "transform 280ms cubic-bezier(0.22, 1, 0.36, 1)";
-      el.style.transform = "translate(0, 0)";
-      const cleanup = () => {
-        el.style.transition = "";
-        el.style.transform = "";
-        el.style.transformOrigin = "";
-        el.removeEventListener("transitionend", cleanup);
-      };
-      el.addEventListener("transitionend", cleanup);
-    }
-  });
-}
-
 function navLinks(): LvNavLink[] {
   const active = currentRoute.value?.name ?? "home";
   return [
@@ -120,9 +62,9 @@ function iconForMetric(label: string): string {
   return "warning";
 }
 
-function bookCard(book: Book, flipId: string) {
+function bookCard(book: Book) {
   return html`
-    <article class="book-card" data-flip-id="${flipId}">
+    <article class="book-card">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating
@@ -161,7 +103,6 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
   const visibleBooks = hideAvailable.value
     ? books.filter((book) => book.status !== "available")
     : books;
-  const sectionKey = title.toLowerCase().replace(/\s+/g, "-");
 
   return html`
     <section class="home-section">
@@ -174,28 +115,20 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
             .squareCovers=${squareCovers.value}
             .cardSize=${cardSize.value}
             @lv-toggle-hide-available=${(event: CustomEvent<{ value: boolean }>) => {
-              animateHomeGridReflow(() => {
-                hideAvailable.value = event.detail.value;
-              });
+              hideAvailable.value = event.detail.value;
             }}
             @lv-toggle-square-covers=${(event: CustomEvent<{ value: boolean }>) => {
-              animateHomeGridReflow(() => {
-                squareCovers.value = event.detail.value;
-              });
+              squareCovers.value = event.detail.value;
             }}
             @lv-change-card-size=${(event: CustomEvent<{ value: number }>) => {
-              animateHomeGridReflow(() => {
-                cardSize.value = event.detail.value;
-              });
+              cardSize.value = event.detail.value;
             }}
           ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book, index) =>
-            bookCard(book, `${sectionKey}:${book.asin}:${index}`)
-          )}
+          ${visibleBooks.map((book) => bookCard(book))}
         </div>
       </div>
     </section>
@@ -541,9 +474,7 @@ function searchView() {
           : results.length
           ? html`
             <div class="cards cards-default">
-              ${results.map((book, index) =>
-                bookCard(book, `search:${book.asin}:${index}`)
-              )}
+              ${results.map((book) => bookCard(book))}
             </div>
           `
           : html`

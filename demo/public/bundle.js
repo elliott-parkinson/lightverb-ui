@@ -4944,47 +4944,6 @@ var squareCovers = c4(false);
 var cardSize = c4(5);
 var searchQuery = c4("");
 var searchResultsResource = resource(async () => rmabService.searchAudiobooks(searchQuery.value));
-function animateHomeGridReflow(applyChange) {
-  const beforeEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
-  const before = /* @__PURE__ */ new Map();
-  for (const el of beforeEls) {
-    const key = el.dataset.flipId;
-    if (key) before.set(key, el.getBoundingClientRect());
-  }
-  applyChange();
-  requestAnimationFrame(() => {
-    const afterEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
-    const animating = [];
-    for (const el of afterEls) {
-      const key = el.dataset.flipId;
-      if (!key) continue;
-      const first = before.get(key);
-      if (!first) continue;
-      const last = el.getBoundingClientRect();
-      const dx = first.left - last.left;
-      const dy = first.top - last.top;
-      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
-        continue;
-      }
-      el.style.transition = "none";
-      el.style.transformOrigin = "top left";
-      el.style.transform = `translate(${dx}px, ${dy}px)`;
-      animating.push(el);
-    }
-    void document.body.offsetHeight;
-    for (const el of animating) {
-      el.style.transition = "transform 280ms cubic-bezier(0.22, 1, 0.36, 1)";
-      el.style.transform = "translate(0, 0)";
-      const cleanup = () => {
-        el.style.transition = "";
-        el.style.transform = "";
-        el.style.transformOrigin = "";
-        el.removeEventListener("transitionend", cleanup);
-      };
-      el.addEventListener("transitionend", cleanup);
-    }
-  });
-}
 function navLinks() {
   const active = currentRoute.value?.name ?? "home";
   return [
@@ -5045,9 +5004,9 @@ function iconForMetric(label) {
   if (label.includes("Completed")) return "check";
   return "warning";
 }
-function bookCard(book, flipId) {
+function bookCard(book) {
   return b2`
-    <article class="book-card" data-flip-id="${flipId}">
+    <article class="book-card">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating ? b2`
@@ -5074,7 +5033,6 @@ function cardSizeClass() {
 }
 function homeSection(title, dotClass, books) {
   const visibleBooks = hideAvailable.value ? books.filter((book) => book.status !== "available") : books;
-  const sectionKey = title.toLowerCase().replace(/\s+/g, "-");
   return b2`
     <section class="home-section">
       <div class="sticky-wrap">
@@ -5086,26 +5044,20 @@ function homeSection(title, dotClass, books) {
             .squareCovers=${squareCovers.value}
             .cardSize=${cardSize.value}
             @lv-toggle-hide-available=${(event) => {
-    animateHomeGridReflow(() => {
-      hideAvailable.value = event.detail.value;
-    });
+    hideAvailable.value = event.detail.value;
   }}
             @lv-toggle-square-covers=${(event) => {
-    animateHomeGridReflow(() => {
-      squareCovers.value = event.detail.value;
-    });
+    squareCovers.value = event.detail.value;
   }}
             @lv-change-card-size=${(event) => {
-    animateHomeGridReflow(() => {
-      cardSize.value = event.detail.value;
-    });
+    cardSize.value = event.detail.value;
   }}
           ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book, index) => bookCard(book, `${sectionKey}:${book.asin}:${index}`))}
+          ${visibleBooks.map((book) => bookCard(book))}
         </div>
       </div>
     </section>
@@ -5427,7 +5379,7 @@ function searchView() {
             <lv-skeleton shape="box" height="180px"></lv-skeleton>
           ` : results.length ? b2`
             <div class="cards cards-default">
-              ${results.map((book, index) => bookCard(book, `search:${book.asin}:${index}`))}
+              ${results.map((book) => bookCard(book))}
             </div>
           ` : b2`
             <lv-empty-state
