@@ -31,14 +31,14 @@ export class LvInputGroup extends LitElement {
       align-items: center;
       gap: 0;
       border: 1px solid #d1d5db;
-      border-radius: 0.75rem;
+      border-radius: 0.5rem;
       background: #fff;
       overflow: hidden;
     }
 
     :host([compact]) .group {
       min-height: 2.45rem;
-      border-radius: 0.7rem;
+      border-radius: 0.5rem;
     }
 
     .prefix,
@@ -91,10 +91,10 @@ export class LvInputGroup extends LitElement {
       border: 0;
       border-left: 1px solid #e5e7eb;
       border-radius: 0;
-      background: #f8fafc;
+      background: #e5e7eb;
       color: #111827;
       font-size: 0.875rem;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 1;
       cursor: pointer;
       white-space: nowrap;
@@ -103,13 +103,13 @@ export class LvInputGroup extends LitElement {
     }
 
     :host([compact]) ::slotted(button[slot="suffix"]) {
-      height: 2.2rem;
+      height: 2.45rem;
       font-size: 0.82rem;
       padding: 0 0.9rem;
     }
 
     ::slotted(button[slot="suffix"]:hover) {
-      background: #f1f5f9;
+      background: #d1d5db;
     }
 
     .group:focus-within {

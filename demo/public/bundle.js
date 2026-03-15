@@ -1570,10 +1570,10 @@ var LvButton = class extends i4 {
 
     button {
       border: 1px solid transparent;
-      border-radius: var(--lv-radius-md, 0.5rem);
-      font-weight: 600;
+      border-radius: 0.5rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 160ms ease;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
       font-family: inherit;
       display: inline-flex;
       align-items: center;
@@ -1581,63 +1581,80 @@ var LvButton = class extends i4 {
       gap: 0.5rem;
       width: auto;
       white-space: nowrap;
+      outline: none;
+      line-height: 1.2;
     }
 
     :host([size="sm"]) button {
-      font-size: 0.8125rem;
+      font-size: 0.875rem;
       padding: 0.45rem 0.75rem;
     }
 
     :host([size="md"]) button {
-      font-size: 0.875rem;
+      font-size: 1rem;
       padding: 0.6rem 0.95rem;
     }
 
     :host([size="lg"]) button {
-      font-size: 0.95rem;
+      font-size: 1.125rem;
       padding: 0.75rem 1.125rem;
     }
 
     :host([variant="primary"]) button {
-      background: var(--lv-color-primary, #2563eb);
+      background: #2563eb;
       color: #fff;
     }
 
     :host([variant="primary"]) button:hover {
-      background: var(--lv-color-primary-hover, #1d4ed8);
+      background: #1d4ed8;
     }
 
     :host([variant="secondary"]) button {
-      background: var(--lv-color-surface, #fff);
-      color: var(--lv-color-text, #111827);
-      border-color: var(--lv-color-border, #e5e7eb);
+      background: #e5e7eb;
+      color: #111827;
+      border-color: transparent;
     }
 
     :host([variant="secondary"]) button:hover {
-      background: #f3f4f6;
+      background: #d1d5db;
+    }
+
+    :host([variant="outline"]) button {
+      border-width: 2px;
+      border-color: #2563eb;
+      color: #2563eb;
+      background: #fff;
+    }
+
+    :host([variant="outline"]) button:hover {
+      background: #eff6ff;
     }
 
     :host([variant="ghost"]) button {
       background: transparent;
-      color: var(--lv-color-text, #111827);
+      color: #374151;
     }
 
     :host([variant="ghost"]) button:hover {
-      background: rgba(148, 163, 184, 0.15);
+      background: #f3f4f6;
     }
 
     :host([variant="danger"]) button {
-      background: var(--lv-color-danger, #dc2626);
+      background: #dc2626;
       color: #fff;
     }
 
     :host([variant="danger"]) button:hover {
-      filter: brightness(0.95);
+      background: #b91c1c;
+    }
+
+    button:focus-visible {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(59, 130, 246, 0.55);
     }
 
     button:disabled {
       opacity: 0.6;
-      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .spinner {
@@ -1833,14 +1850,14 @@ var LvInputGroup = class extends i4 {
       align-items: center;
       gap: 0;
       border: 1px solid #d1d5db;
-      border-radius: 0.75rem;
+      border-radius: 0.5rem;
       background: #fff;
       overflow: hidden;
     }
 
     :host([compact]) .group {
       min-height: 2.45rem;
-      border-radius: 0.7rem;
+      border-radius: 0.5rem;
     }
 
     .prefix,
@@ -1893,10 +1910,10 @@ var LvInputGroup = class extends i4 {
       border: 0;
       border-left: 1px solid #e5e7eb;
       border-radius: 0;
-      background: #f8fafc;
+      background: #e5e7eb;
       color: #111827;
       font-size: 0.875rem;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 1;
       cursor: pointer;
       white-space: nowrap;
@@ -1905,13 +1922,13 @@ var LvInputGroup = class extends i4 {
     }
 
     :host([compact]) ::slotted(button[slot="suffix"]) {
-      height: 2.2rem;
+      height: 2.45rem;
       font-size: 0.82rem;
       padding: 0 0.9rem;
     }
 
     ::slotted(button[slot="suffix"]:hover) {
-      background: #f1f5f9;
+      background: #d1d5db;
     }
 
     .group:focus-within {
@@ -2072,20 +2089,20 @@ var LvCard = class extends i4 {
   static styles = i`
     :host {
       display: block;
-      border: 1px solid var(--lv-color-border, #e5e7eb);
-      background: var(--lv-color-surface, #fff);
-      border-radius: var(--lv-radius-lg, 0.75rem);
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      border-radius: 0.5rem;
       overflow: hidden;
-      transition: transform 180ms ease, box-shadow 180ms ease;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+      transition: box-shadow 180ms ease;
     }
 
     :host(:hover) {
-      transform: translateY(-2px);
-      box-shadow: var(--lv-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.07));
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
     }
 
     .header {
-      padding: 1rem 1rem 0.65rem;
+      padding: 1rem 1rem 0.45rem;
       display: grid;
       gap: 0.25rem;
     }
@@ -2096,15 +2113,15 @@ var LvCard = class extends i4 {
 
     .title {
       margin: 0;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--lv-color-text, #111827);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #111827;
     }
 
     .subtitle {
       margin: 0;
-      font-size: 0.8rem;
-      color: var(--lv-color-muted, #6b7280);
+      font-size: 0.875rem;
+      color: #4b5563;
     }
 
     .body {

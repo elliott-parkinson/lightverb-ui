@@ -13,20 +13,20 @@ export class LvCard extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: 1px solid var(--lv-color-border, #e5e7eb);
-      background: var(--lv-color-surface, #fff);
-      border-radius: var(--lv-radius-lg, 0.75rem);
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      border-radius: 0.5rem;
       overflow: hidden;
-      transition: transform 180ms ease, box-shadow 180ms ease;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+      transition: box-shadow 180ms ease;
     }
 
     :host(:hover) {
-      transform: translateY(-2px);
-      box-shadow: var(--lv-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.07));
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
     }
 
     .header {
-      padding: 1rem 1rem 0.65rem;
+      padding: 1rem 1rem 0.45rem;
       display: grid;
       gap: 0.25rem;
     }
@@ -37,15 +37,15 @@ export class LvCard extends LitElement {
 
     .title {
       margin: 0;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--lv-color-text, #111827);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #111827;
     }
 
     .subtitle {
       margin: 0;
-      font-size: 0.8rem;
-      color: var(--lv-color-muted, #6b7280);
+      font-size: 0.875rem;
+      color: #4b5563;
     }
 
     .body {
