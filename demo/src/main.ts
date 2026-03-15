@@ -13,21 +13,47 @@ type Book = {
   title: string;
   author: string;
   cover: string;
-  status?: "available" | "requested";
+  rating?: number;
+  status?: "available" | "requested" | "processing";
+};
+
+type ActiveDownload = {
+  title: string;
+  author: string;
+  user: string;
+  progress: number;
+  speed: string;
+  eta: string;
+  started: string;
+  type?: "ebook" | "audiobook";
+};
+
+type RecentRequest = {
+  title: string;
+  user: string;
+  status: string;
+  createdAt: string;
+  type?: "ebook" | "audiobook";
+};
+
+type ReportedIssue = {
+  title: string;
+  author: string;
+  reporter: string;
+  reason: string;
+  createdAt: string;
 };
 
 type DashboardData = {
   metrics: Array<{
     label: string;
     value: string;
-    tone: "default" | "success" | "warning" | "danger" | "info";
+    subtitle?: string;
+    tone: "default" | "success" | "warning" | "error" | "info";
   }>;
-  requests: Array<{
-    title: string;
-    user: string;
-    status: string;
-    progress: string;
-  }>;
+  activeDownloads: ActiveDownload[];
+  recentRequests: RecentRequest[];
+  reportedIssues: ReportedIssue[];
 };
 
 const popularBooks: Book[] = [
@@ -35,23 +61,52 @@ const popularBooks: Book[] = [
     title: "Project Hail Mary",
     author: "Andy Weir",
     cover: "/placeholder_cover.svg",
+    rating: 4.8,
     status: "available",
   },
   {
     title: "The Way of Kings",
     author: "Brandon Sanderson",
     cover: "/placeholder_cover.svg",
+    rating: 4.7,
   },
   {
     title: "Dune",
     author: "Frank Herbert",
     cover: "/placeholder_cover.svg",
+    rating: 4.6,
     status: "requested",
   },
   {
     title: "The Name of the Wind",
     author: "Patrick Rothfuss",
     cover: "/placeholder_cover.svg",
+    rating: 4.8,
+    status: "processing",
+  },
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    cover: "/placeholder_cover.svg",
+    rating: 4.7,
+  },
+  {
+    title: "Red Rising",
+    author: "Pierce Brown",
+    cover: "/placeholder_cover.svg",
+    rating: 4.6,
+  },
+  {
+    title: "The Expanse",
+    author: "James S. A. Corey",
+    cover: "/placeholder_cover.svg",
+    rating: 4.5,
+  },
+  {
+    title: "Mistborn",
+    author: "Brandon Sanderson",
+    cover: "/placeholder_cover.svg",
+    rating: 4.8,
   },
 ];
 
@@ -60,22 +115,50 @@ const newReleaseBooks: Book[] = [
     title: "Wind and Truth",
     author: "Brandon Sanderson",
     cover: "/placeholder_cover.svg",
-  },
-  {
-    title: "Dungeon Crawler Carl",
-    author: "Matt Dinniman",
-    cover: "/placeholder_cover.svg",
+    rating: 4.6,
   },
   {
     title: "The Will of the Many",
     author: "James Islington",
     cover: "/placeholder_cover.svg",
+    rating: 4.5,
   },
   {
-    title: "Sunlit Man",
+    title: "Dungeon Crawler Carl",
+    author: "Matt Dinniman",
+    cover: "/placeholder_cover.svg",
+    rating: 4.9,
+  },
+  {
+    title: "The Sunlit Man",
     author: "Brandon Sanderson",
     cover: "/placeholder_cover.svg",
+    rating: 4.4,
     status: "available",
+  },
+  {
+    title: "The Mercy of Gods",
+    author: "James S. A. Corey",
+    cover: "/placeholder_cover.svg",
+    rating: 4.2,
+  },
+  {
+    title: "Empire of the Damned",
+    author: "Jay Kristoff",
+    cover: "/placeholder_cover.svg",
+    rating: 4.1,
+  },
+  {
+    title: "Service Model",
+    author: "Adrian Tchaikovsky",
+    cover: "/placeholder_cover.svg",
+    rating: 4.0,
+  },
+  {
+    title: "House of Open Wounds",
+    author: "Adrian Tchaikovsky",
+    cover: "/placeholder_cover.svg",
+    rating: 4.3,
   },
 ];
 
@@ -83,29 +166,109 @@ const dashboardData = resource<DashboardData>(async () => {
   await new Promise((resolve) => setTimeout(resolve, 120));
   return {
     metrics: [
-      { label: "Total Requests", value: "128", tone: "info" },
-      { label: "Active Downloads", value: "7", tone: "warning" },
-      { label: "Completed Today", value: "23", tone: "success" },
-      { label: "Failed", value: "2", tone: "danger" },
+      {
+        label: "Total Requests",
+        value: "128",
+        subtitle: "Across all users",
+        tone: "info",
+      },
+      {
+        label: "Active Downloads",
+        value: "7",
+        subtitle: "qBittorrent + SABnzbd",
+        tone: "warning",
+      },
+      {
+        label: "Completed Today",
+        value: "23",
+        subtitle: "Last 24 hours",
+        tone: "success",
+      },
+      {
+        label: "Failed",
+        value: "2",
+        subtitle: "Needs review",
+        tone: "error",
+      },
     ],
-    requests: [
+    activeDownloads: [
+      {
+        title: "Project Hail Mary",
+        author: "Andy Weir",
+        user: "majora",
+        progress: 62,
+        speed: "7.4 MB/s",
+        eta: "18m",
+        started: "11m ago",
+      },
+      {
+        title: "The Expanse Collection",
+        author: "James S. A. Corey",
+        user: "rachel",
+        progress: 31,
+        speed: "4.1 MB/s",
+        eta: "43m",
+        started: "22m ago",
+      },
+      {
+        title: "Dungeon Crawler Carl 7",
+        author: "Matt Dinniman",
+        user: "sam",
+        progress: 84,
+        speed: "10.6 MB/s",
+        eta: "6m",
+        started: "6m ago",
+        type: "ebook",
+      },
+    ],
+    recentRequests: [
       {
         title: "Project Hail Mary",
         user: "majora",
         status: "downloading",
-        progress: "62%",
+        createdAt: "2m ago",
       },
       {
-        title: "The Expanse",
+        title: "The Way of Kings",
         user: "rachel",
-        status: "awaiting_search",
-        progress: "0%",
+        status: "awaiting_approval",
+        createdAt: "8m ago",
       },
       {
-        title: "Red Rising",
+        title: "The Name of the Wind",
         user: "sam",
         status: "processing",
-        progress: "100%",
+        createdAt: "24m ago",
+      },
+      {
+        title: "The Sunlit Man",
+        user: "leo",
+        status: "completed",
+        createdAt: "56m ago",
+      },
+    ],
+    reportedIssues: [
+      {
+        title: "The Expanse: Cibola Burn",
+        author: "James S. A. Corey",
+        reporter: "rachel",
+        reason:
+          "Wrong narrator edition downloaded. Looking for Jefferson Mays version.",
+        createdAt: "2h ago",
+      },
+      {
+        title: "The Final Empire",
+        author: "Brandon Sanderson",
+        reporter: "sam",
+        reason: "Corrupted chapters near 01:14:23 and 01:18:51.",
+        createdAt: "4h ago",
+      },
+      {
+        title: "Dune Messiah",
+        author: "Frank Herbert",
+        reporter: "majora",
+        reason: "Metadata mismatch on release year and language tags.",
+        createdAt: "7h ago",
       },
     ],
   };
@@ -116,87 +279,307 @@ function navLinks(): LvNavLink[] {
   return [
     { label: "Home", href: "/", active: active === "home" },
     { label: "Search", href: "/search", active: active === "search" },
-    { label: "Requests", href: "/requests", active: active === "requests" },
+    { label: "Authors", href: "/authors" },
+    { label: "Series", href: "/series" },
+    { label: "My Requests", href: "/requests", active: active === "requests" },
     { label: "Admin", href: "/admin", active: active === "admin" },
   ];
 }
 
-function bookCard(book: Book) {
-  const tone = book.status === "available"
-    ? "success"
-    : book.status === "requested"
-    ? "info"
-    : "default";
-  const label = book.status === "available"
-    ? "In Library"
-    : book.status === "requested"
-    ? "Requested"
-    : "Not Requested";
+function statusTone(
+  status: string,
+): "default" | "success" | "warning" | "danger" | "info" {
+  if (["completed", "available", "downloaded"].includes(status)) {
+    return "success";
+  }
+  if (["failed", "denied"].includes(status)) return "danger";
+  if (["downloading", "processing", "awaiting_approval"].includes(status)) {
+    return "warning";
+  }
+  return "info";
+}
 
+function iconForMetric(label: string) {
+  if (label.includes("Total")) {
+    return html`
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M17 20h5V4H2v16h5" />
+        <path d="M9 20h6" />
+        <path d="M12 4v16" />
+      </svg>
+    `;
+  }
+  if (label.includes("Active")) {
+    return html`
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M22 12H2" />
+        <path d="m15 5 7 7-7 7" />
+      </svg>
+    `;
+  }
+  if (label.includes("Completed")) {
+    return html`
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m20 6-11 11-5-5" />
+      </svg>
+    `;
+  }
+  return html`
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
+      <path
+        d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+      />
+    </svg>
+  `;
+}
+
+function bookCard(book: Book) {
   return html`
     <article class="book-card">
-      <img src="${book.cover}" alt="" />
+      <div class="book-cover-wrap">
+        <img src="${book.cover}" alt="" />
+        ${book.rating
+          ? html`
+            <span class="rating-pill">★ ${book.rating.toFixed(1)}</span>
+          `
+          : null} ${book.status === "available"
+          ? html`
+            <span class="status-dot status-available"></span>
+          `
+          : book.status === "requested"
+          ? html`
+            <span class="status-dot status-requested"></span>
+          `
+          : book.status === "processing"
+          ? html`
+            <span class="status-dot status-processing"></span>
+          `
+          : null}
+      </div>
       <div class="book-meta">
         <p class="book-title">${book.title}</p>
         <p class="book-author">${book.author}</p>
       </div>
-      <lv-badge tone="${tone}">${label}</lv-badge>
     </article>
+  `;
+}
+
+function homeSection(title: string, dotClass: string, books: Book[]) {
+  return html`
+    <section class="home-section">
+      <div class="sticky-wrap">
+        <div class="sticky-head">
+          <span class="section-dot ${dotClass}"></span>
+          <h2>${title}</h2>
+          <div class="head-actions">
+            <lv-button size="sm" variant="secondary">Hide Available</lv-button>
+            <lv-button size="sm" variant="secondary">Card Size</lv-button>
+          </div>
+        </div>
+      </div>
+      <div class="section-content">
+        <div class="cards">${books.map((book) => bookCard(book))}</div>
+      </div>
+    </section>
   `;
 }
 
 function homeView() {
   return html`
-    <main>
-      <section class="section">
-        <div class="section-head">
-          <h2>Popular Audiobooks</h2>
-          <lv-button size="sm">Customize</lv-button>
-        </div>
-        <div class="cards">
-          ${popularBooks.map((book) => bookCard(book))}
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <h2>New Releases</h2>
-          <lv-button size="sm" variant="secondary">Refresh</lv-button>
-        </div>
-        <div class="cards">
-          ${newReleaseBooks.map((book) => bookCard(book))}
-        </div>
-      </section>
+    <main class="page-main">
+      ${homeSection(
+        "Popular Audiobooks",
+        "dot-blue",
+        popularBooks,
+      )} ${homeSection("New Releases", "dot-green", newReleaseBooks)}
 
       <section class="hero">
         <h3>Can't find what you're looking for?</h3>
-        <p style="margin-top: 0.5rem; color: var(--lv-color-muted)">
-          Use Search to request any Audible title.
-        </p>
-        <div style="max-width: 320px; margin: 0.9rem auto 0;">
-          <lv-button>Search Audiobooks</lv-button>
-        </div>
+        <p>Use our search to find any audiobook from Audible.</p>
+        <div class="hero-cta"><lv-button>Search Audiobooks</lv-button></div>
       </section>
     </main>
+  `;
+}
+
+function activeDownloadsTable(downloads: ActiveDownload[]) {
+  return html`
+    <section class="admin-section">
+      <div class="table-card">
+        <div class="table-head">Active Downloads</div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Request</th>
+                <th>User</th>
+                <th>Progress</th>
+                <th>Speed</th>
+                <th>ETA</th>
+                <th>Started</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${downloads.map((download) =>
+                html`
+                  <tr>
+                    <td>
+                      <div class="request-main">
+                        ${download.title} ${download.type === "ebook"
+                          ? html`
+                            <span class="ebook-pill">Ebook</span>
+                          `
+                          : null}
+                      </div>
+                      <div class="request-sub">${download.author}</div>
+                    </td>
+                    <td>${download.user}</td>
+                    <td>
+                      <div class="progress-wrap">
+                        <div class="progress-track">
+                          <div class="progress-fill" style="${`width:${download.progress}%`}"></div>
+                        </div>
+                        <span>${download.progress}%</span>
+                      </div>
+                    </td>
+                    <td>${download.speed}</td>
+                    <td>${download.eta}</td>
+                    <td class="muted">${download.started}</td>
+                  </tr>
+                `
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function recentRequestsTable(requests: RecentRequest[]) {
+  return html`
+    <section class="admin-section">
+      <div class="table-card">
+        <div class="table-toolbar">
+          <h3>Recent Requests</h3>
+          <div class="toolbar-actions">
+            <lv-input placeholder="Search requests"></lv-input>
+            <lv-button size="sm">Export</lv-button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${requests.map((request) =>
+                html`
+                  <tr>
+                    <td>
+                      <div class="request-main">
+                        ${request.title} ${request.type === "ebook"
+                          ? html`
+                            <span class="ebook-pill">Ebook</span>
+                          `
+                          : null}
+                      </div>
+                    </td>
+                    <td>${request.user}</td>
+                    <td><lv-badge tone="${statusTone(request.status)}">${request
+                      .status.replaceAll("_", " ")}</lv-badge></td>
+                    <td class="muted">${request.createdAt}</td>
+                  </tr>
+                `
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function reportedIssuesGrid(issues: ReportedIssue[]) {
+  return html`
+    <section class="admin-section">
+      <div class="section-title-row">
+        <h3>Reported Issues</h3>
+        <span class="count-pill">${issues.length}</span>
+      </div>
+      <div class="issues-grid">
+        ${issues.map((issue) =>
+          html`
+            <article class="issue-card">
+              <div class="issue-top">
+                <img src="/placeholder_cover.svg" alt="" class="issue-cover" />
+                <div>
+                  <p class="issue-title">${issue.title}</p>
+                  <p class="issue-author">${issue.author}</p>
+                  <p class="issue-reporter">by ${issue.reporter} • ${issue
+                    .createdAt}</p>
+                </div>
+              </div>
+              <p class="issue-reason">${issue.reason}</p>
+              <div class="issue-actions">
+                <lv-button size="sm" variant="secondary">Dismiss</lv-button>
+                <lv-button size="sm">Replace</lv-button>
+              </div>
+            </article>
+          `
+        )}
+      </div>
+    </section>
   `;
 }
 
 function adminView() {
   if (dashboardData.pending.value) {
     return html`
-      <main>
-        <h2>Admin Dashboard</h2>
-        <p style="margin-top: 0.25rem; color: var(--lv-color-muted)">
-          Frontend-only parity demo of ReadMeABook admin widgets.
-        </p>
-        <section class="section" style="display:flex;align-items:center;gap:0.5rem;">
-          <lv-spinner size="18px"></lv-spinner>
-          <span>Loading dashboard...</span>
-        </section>
-        <section class="admin-grid section">
+      <main class="page-main">
+        <div class="admin-title">
+          <h1>Admin Dashboard</h1>
+          <p>Loading metrics and request activity...</p>
+        </div>
+        <section class="admin-grid">
           ${Array.from({ length: 4 }).map(() =>
             html`
-              <lv-skeleton shape="box" height="90px"></lv-skeleton>
+              <lv-skeleton shape="box" height="120px"></lv-skeleton>
             `
           )}
         </section>
@@ -204,107 +587,78 @@ function adminView() {
     `;
   }
 
-  const metrics = dashboardData.data.value?.metrics ?? [];
-  const requests = dashboardData.data.value?.requests ?? [];
+  const data = dashboardData.data.value;
+  if (!data) {
+    return html`
+
+    `;
+  }
 
   return html`
-    <main>
-      <h2>Admin Dashboard</h2>
-      <p style="margin-top: 0.25rem; color: var(--lv-color-muted)">
-        Frontend-only parity demo of ReadMeABook admin widgets.
-      </p>
+    <main class="page-main">
+      <div class="admin-title">
+        <h1>Admin Dashboard</h1>
+        <p>Live overview of request pipeline and issue resolution.</p>
+      </div>
 
-      <section class="admin-grid section">
-        ${metrics.map((metric) =>
+      <section class="admin-grid">
+        ${data.metrics.map((metric) =>
           html`
             <lv-stat-card
               label="${metric.label}"
               value="${metric.value}"
+              subtitle="${metric.subtitle ?? ""}"
               tone="${metric.tone}"
-            ></lv-stat-card>
+            >
+              <span slot="icon">${iconForMetric(metric.label)}</span>
+            </lv-stat-card>
           `
         )}
       </section>
 
-      <section class="section">
-        <lv-toolbar>
-          <span slot="start" style="font-weight:700">Recent Requests</span>
-          <div slot="end" class="toolbar-actions">
-            <lv-input placeholder="Filter requests"></lv-input>
-            <lv-button size="sm">Export</lv-button>
-          </div>
-        </lv-toolbar>
-      </section>
-
-      <section class="section">
-        <lv-table>
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>User</th>
-                <th>Status</th>
-                <th>Progress</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${requests.map((request) =>
-                html`
-                  <tr>
-                    <td>${request.title}</td>
-                    <td>${request.user}</td>
-                    <td><lv-badge tone="info">${request.status}</lv-badge></td>
-                    <td>${request.progress}</td>
-                  </tr>
-                `
-              )}
-            </tbody>
-          </table>
-        </lv-table>
-      </section>
+      ${activeDownloadsTable(data.activeDownloads)} ${recentRequestsTable(
+        data.recentRequests,
+      )} ${reportedIssuesGrid(data.reportedIssues)}
     </main>
   `;
 }
 
 function requestsView() {
   return html`
-    <main>
-      <h2>My Requests</h2>
-      <section class="section">
-        <lv-toolbar>
-          <div slot="start" class="toolbar-actions">
+    <main class="page-main">
+      <div class="admin-title">
+        <h1>My Requests</h1>
+        <p>Track all requests and current download status.</p>
+      </div>
+      <section class="admin-section">
+        <div class="table-card">
+          <div class="table-toolbar">
             <lv-tabs
               .tabs="${[
                 { id: "all", label: "All" },
                 { id: "active", label: "Active" },
+                { id: "waiting", label: "Waiting" },
                 { id: "completed", label: "Completed" },
                 { id: "failed", label: "Failed" },
               ]}"
               active="all"
             ></lv-tabs>
+            <lv-pagination page="1" total="8"></lv-pagination>
           </div>
-          <div slot="end">
-            <lv-button size="sm">Load More</lv-button>
+          <div class="cards compact-cards">
+            ${popularBooks.slice(0, 4).map((book) =>
+              html`
+                <lv-card title="${book.title}" subtitle="${book
+                  .author}" compact>
+                  <div class="request-card-foot">
+                    <lv-badge tone="warning">downloading</lv-badge>
+                    <span class="muted">updated 5m ago</span>
+                  </div>
+                </lv-card>
+              `
+            )}
           </div>
-        </lv-toolbar>
-      </section>
-      <section class="section cards">
-        ${popularBooks.concat(newReleaseBooks).slice(0, 4).map((book) =>
-          html`
-            <lv-card title="${book.title}" subtitle="${book.author}">
-              <div
-                style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;"
-              >
-                <lv-badge tone="info">Pending</lv-badge>
-                <span style="font-size:0.8rem;color:var(--lv-color-muted);"
-                >updated 5m ago</span>
-              </div>
-            </lv-card>
-          `
-        )}
-      </section>
-      <section class="section" style="display:flex;justify-content:center;">
-        <lv-pagination page="1" total="6"></lv-pagination>
+        </div>
       </section>
     </main>
   `;
@@ -312,25 +666,28 @@ function requestsView() {
 
 function searchView() {
   return html`
-    <main>
-      <h2>Search</h2>
-      <section class="section">
-        <lv-toolbar>
-          <div slot="start" style="width:min(100%, 420px)">
-            <lv-input
-              label="Search Audible"
-              placeholder="Book title, author, narrator"
-            ></lv-input>
-          </div>
-          <div slot="end">
+    <main class="page-main">
+      <div class="admin-title">
+        <h1>Search</h1>
+        <p>Find and request audiobooks from Audible metadata.</p>
+      </div>
+      <section class="admin-section">
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div style="width:min(100%,28rem)">
+              <lv-input
+                label="Search Audible"
+                placeholder="Book title, author, narrator"
+              ></lv-input>
+            </div>
             <lv-button>Search</lv-button>
           </div>
-        </lv-toolbar>
+        </div>
       </section>
-      <section class="section">
+      <section class="admin-section">
         <lv-empty-state
-          heading="No search results yet"
-          description="Run a search to populate this section in the frontend demo."
+          heading="No results yet"
+          description="Start a search to populate the result grid in this frontend-only demo."
         ></lv-empty-state>
       </section>
     </main>
@@ -339,11 +696,11 @@ function searchView() {
 
 function notFoundView() {
   return html`
-    <main>
+    <main class="page-main">
       <lv-surface elevation="raised" padding="lg">
         <h2>Page not found</h2>
-        <p style="margin-top: 0.4rem; color: var(--lv-color-muted)">
-          The route is not defined in the frontend demo.
+        <p class="muted" style="margin-top:0.35rem">
+          This route is not implemented in the parity demo.
         </p>
       </lv-surface>
     </main>
@@ -371,12 +728,12 @@ enhance("app-root", () => {
         <img
           slot="brand-mark"
           src="/RMAB_1024x1024_ICON.png"
-          width="28"
-          height="28"
+          width="32"
+          height="32"
           alt=""
         />
+        <span slot="actions" class="version-pill">v0.9.4</span>
         <lv-button slot="actions" size="sm" variant="secondary">Profile</lv-button>
-        <lv-button slot="actions" size="sm">Login</lv-button>
       </lv-nav>
 
       ${routeName === "home"
@@ -389,11 +746,8 @@ enhance("app-root", () => {
         ? searchView()
         : notFoundView()}
 
-      <footer
-        slot="footer"
-        style="padding: 1rem; text-align: center; color: var(--lv-color-muted); border-top: 1px solid var(--lv-color-border); background: var(--lv-color-surface)"
-      >
-        ReadMeABook parity demo using Lightverb UI
+      <footer slot="footer" class="demo-footer">
+        ReadMeABook parity demo using Lightverb UI components and Extinguish state.
       </footer>
     </lv-app>
   `;

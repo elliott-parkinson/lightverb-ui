@@ -1347,11 +1347,12 @@ var LvNav = class extends i4 {
   static styles = i`
     :host {
       display: block;
-      background: var(--lv-color-surface, #fff);
-      border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
       position: sticky;
       top: 0;
       z-index: 40;
+      background: var(--lv-color-surface, #fff);
+      border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     .container {
@@ -1359,73 +1360,98 @@ var LvNav = class extends i4 {
       margin-inline: auto;
       padding: 0.75rem 1rem;
       display: grid;
-      gap: 0.75rem;
+      gap: 0.7rem;
     }
 
     .top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
+      justify-content: space-between;
+      gap: 0.75rem;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      min-width: 0;
+      color: #111827;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: var(--lv-color-text, #111827);
-      font-size: 1.125rem;
+      text-decoration: none;
+    }
+
+    .brand span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 11.5rem;
     }
 
     nav {
       display: none;
       align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
+      gap: 1.5rem;
     }
 
     a {
-      color: var(--lv-color-muted, #6b7280);
       text-decoration: none;
-      font-size: 0.9rem;
+      color: #4b5563;
+      font-size: 0.95rem;
       font-weight: 500;
+      transition: color 150ms ease;
     }
 
     a:hover {
-      color: var(--lv-color-primary, #2563eb);
+      color: #2563eb;
     }
 
     a[data-active="true"] {
-      color: var(--lv-color-primary, #2563eb);
-      font-weight: 700;
+      color: #2563eb;
+      font-weight: 600;
     }
 
     .actions {
       display: none;
       align-items: center;
       gap: 0.5rem;
+      flex-shrink: 0;
     }
 
     .toggle {
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
       border: 0;
+      border-radius: 0.375rem;
       background: transparent;
-      color: var(--lv-color-text, #111827);
-      padding: 0.4rem;
-      border-radius: 0.5rem;
+      color: #4b5563;
       cursor: pointer;
     }
 
     .toggle:hover {
-      background: rgba(148, 163, 184, 0.2);
+      background: #f3f4f6;
+      color: #111827;
     }
 
     .mobile {
       display: grid;
-      gap: 0.5rem;
-      border-top: 1px solid var(--lv-color-border, #e5e7eb);
-      padding-top: 0.75rem;
+      gap: 0.35rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.7rem;
+    }
+
+    .mobile a {
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.45rem;
+    }
+
+    .mobile a:hover,
+    .mobile a[data-active="true"] {
+      background: #f3f4f6;
+      color: #111827;
     }
 
     @media (min-width: 768px) {
@@ -1433,6 +1459,10 @@ var LvNav = class extends i4 {
         display: flex;
         align-items: center;
         justify-content: space-between;
+      }
+
+      .top {
+        gap: 1rem;
       }
 
       .toggle,
@@ -1458,18 +1488,14 @@ var LvNav = class extends i4 {
     return b2`
       <div class="container">
         <div class="top">
-          <div class="brand">
+          <a class="brand" href="/">
             <slot name="brand-mark"></slot>
             <span>${this.title}</span>
-          </div>
+          </a>
 
-          <nav>
-            ${this.links.map((link) => this.renderLink(link))}
-          </nav>
+          <nav>${this.links.map((link) => this.renderLink(link))}</nav>
 
-          <div class="actions">
-            <slot name="actions"></slot>
-          </div>
+          <div class="actions"><slot name="actions"></slot></div>
 
           <button class="toggle" @click="${this.toggleMobile}" aria-label="Toggle navigation">
             ${this.mobileOpen ? "\u2715" : "\u2630"}
@@ -1477,10 +1503,7 @@ var LvNav = class extends i4 {
         </div>
 
         ${this.mobileOpen ? b2`
-            <div class="mobile">
-              ${this.links.map((link) => this.renderLink(link))}
-              <slot name="mobile-actions"></slot>
-            </div>
+            <div class="mobile">${this.links.map((link) => this.renderLink(link))}<slot name="mobile-actions"></slot></div>
           ` : null}
       </div>
     `;
@@ -2132,27 +2155,39 @@ function _ts_decorate8(decorators, target, key, desc) {
 var LvStatCard = class extends i4 {
   label = "";
   value = "";
+  subtitle = "";
   tone = "default";
   static styles = i`
     :host {
       display: block;
-      border: 1px solid var(--lv-color-border, #e5e7eb);
-      border-radius: var(--lv-radius-lg, 0.75rem);
-      padding: 1rem;
-      background: var(--lv-color-surface, #fff);
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      transition: box-shadow 160ms ease;
+      background: #f9fafb;
+    }
+
+    :host(:hover) {
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    :host([tone="default"]) {
+      background: #f9fafb;
+      border-color: #e5e7eb;
     }
 
     :host([tone="success"]) {
-      background: #ecfdf5;
-      border-color: #a7f3d0;
+      background: #f0fdf4;
+      border-color: #bbf7d0;
     }
 
     :host([tone="warning"]) {
-      background: #fffbeb;
+      background: #fefce8;
       border-color: #fde68a;
     }
 
-    :host([tone="danger"]) {
+    :host([tone="danger"]),
+    :host([tone="error"]) {
       background: #fef2f2;
       border-color: #fecaca;
     }
@@ -2162,28 +2197,72 @@ var LvStatCard = class extends i4 {
       border-color: #bfdbfe;
     }
 
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
     .label {
       margin: 0;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--lv-color-muted, #6b7280);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #6b7280;
     }
 
     .value {
-      margin: 0.35rem 0 0;
-      font-size: 1.85rem;
+      margin: 0.45rem 0 0;
+      font-size: 1.875rem;
       line-height: 1.1;
-      font-weight: 800;
-      color: var(--lv-color-text, #111827);
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin: 0.25rem 0 0;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .icon {
+      display: inline-flex;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      color: #4b5563;
+    }
+
+    :host([tone="success"]) .icon {
+      color: #16a34a;
+    }
+
+    :host([tone="warning"]) .icon {
+      color: #ca8a04;
+    }
+
+    :host([tone="danger"]) .icon,
+    :host([tone="error"]) .icon {
+      color: #dc2626;
+    }
+
+    :host([tone="info"]) .icon {
+      color: #2563eb;
     }
   `;
   render() {
     return b2`
-      ${this.label ? b2`
-          <p class="label">${this.label}</p>
-        ` : null}
-      <p class="value">${this.value}</p>
-      <slot></slot>
+      <div class="top">
+        <div>
+          ${this.label ? b2`
+              <p class="label">${this.label}</p>
+            ` : null}
+          <p class="value">${this.value}</p>
+          ${this.subtitle ? b2`
+              <p class="subtitle">${this.subtitle}</p>
+            ` : null}
+        </div>
+        <div class="icon"><slot name="icon"></slot></div>
+      </div>
     `;
   }
 };
@@ -2197,6 +2276,11 @@ _ts_decorate8([
     reflect: true
   })
 ], LvStatCard.prototype, "value", void 0);
+_ts_decorate8([
+  n5({
+    reflect: true
+  })
+], LvStatCard.prototype, "subtitle", void 0);
 _ts_decorate8([
   n5({
     reflect: true
@@ -2673,46 +2757,103 @@ var popularBooks = [
     title: "Project Hail Mary",
     author: "Andy Weir",
     cover: "/placeholder_cover.svg",
+    rating: 4.8,
     status: "available"
   },
   {
     title: "The Way of Kings",
     author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg"
+    cover: "/placeholder_cover.svg",
+    rating: 4.7
   },
   {
     title: "Dune",
     author: "Frank Herbert",
     cover: "/placeholder_cover.svg",
+    rating: 4.6,
     status: "requested"
   },
   {
     title: "The Name of the Wind",
     author: "Patrick Rothfuss",
-    cover: "/placeholder_cover.svg"
+    cover: "/placeholder_cover.svg",
+    rating: 4.8,
+    status: "processing"
+  },
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    cover: "/placeholder_cover.svg",
+    rating: 4.7
+  },
+  {
+    title: "Red Rising",
+    author: "Pierce Brown",
+    cover: "/placeholder_cover.svg",
+    rating: 4.6
+  },
+  {
+    title: "The Expanse",
+    author: "James S. A. Corey",
+    cover: "/placeholder_cover.svg",
+    rating: 4.5
+  },
+  {
+    title: "Mistborn",
+    author: "Brandon Sanderson",
+    cover: "/placeholder_cover.svg",
+    rating: 4.8
   }
 ];
 var newReleaseBooks = [
   {
     title: "Wind and Truth",
     author: "Brandon Sanderson",
-    cover: "/placeholder_cover.svg"
-  },
-  {
-    title: "Dungeon Crawler Carl",
-    author: "Matt Dinniman",
-    cover: "/placeholder_cover.svg"
+    cover: "/placeholder_cover.svg",
+    rating: 4.6
   },
   {
     title: "The Will of the Many",
     author: "James Islington",
-    cover: "/placeholder_cover.svg"
+    cover: "/placeholder_cover.svg",
+    rating: 4.5
   },
   {
-    title: "Sunlit Man",
+    title: "Dungeon Crawler Carl",
+    author: "Matt Dinniman",
+    cover: "/placeholder_cover.svg",
+    rating: 4.9
+  },
+  {
+    title: "The Sunlit Man",
     author: "Brandon Sanderson",
     cover: "/placeholder_cover.svg",
+    rating: 4.4,
     status: "available"
+  },
+  {
+    title: "The Mercy of Gods",
+    author: "James S. A. Corey",
+    cover: "/placeholder_cover.svg",
+    rating: 4.2
+  },
+  {
+    title: "Empire of the Damned",
+    author: "Jay Kristoff",
+    cover: "/placeholder_cover.svg",
+    rating: 4.1
+  },
+  {
+    title: "Service Model",
+    author: "Adrian Tchaikovsky",
+    cover: "/placeholder_cover.svg",
+    rating: 4
+  },
+  {
+    title: "House of Open Wounds",
+    author: "Adrian Tchaikovsky",
+    cover: "/placeholder_cover.svg",
+    rating: 4.3
   }
 ];
 var dashboardData = resource(async () => {
@@ -2722,42 +2863,105 @@ var dashboardData = resource(async () => {
       {
         label: "Total Requests",
         value: "128",
+        subtitle: "Across all users",
         tone: "info"
       },
       {
         label: "Active Downloads",
         value: "7",
+        subtitle: "qBittorrent + SABnzbd",
         tone: "warning"
       },
       {
         label: "Completed Today",
         value: "23",
+        subtitle: "Last 24 hours",
         tone: "success"
       },
       {
         label: "Failed",
         value: "2",
-        tone: "danger"
+        subtitle: "Needs review",
+        tone: "error"
       }
     ],
-    requests: [
+    activeDownloads: [
+      {
+        title: "Project Hail Mary",
+        author: "Andy Weir",
+        user: "majora",
+        progress: 62,
+        speed: "7.4 MB/s",
+        eta: "18m",
+        started: "11m ago"
+      },
+      {
+        title: "The Expanse Collection",
+        author: "James S. A. Corey",
+        user: "rachel",
+        progress: 31,
+        speed: "4.1 MB/s",
+        eta: "43m",
+        started: "22m ago"
+      },
+      {
+        title: "Dungeon Crawler Carl 7",
+        author: "Matt Dinniman",
+        user: "sam",
+        progress: 84,
+        speed: "10.6 MB/s",
+        eta: "6m",
+        started: "6m ago",
+        type: "ebook"
+      }
+    ],
+    recentRequests: [
       {
         title: "Project Hail Mary",
         user: "majora",
         status: "downloading",
-        progress: "62%"
+        createdAt: "2m ago"
       },
       {
-        title: "The Expanse",
+        title: "The Way of Kings",
         user: "rachel",
-        status: "awaiting_search",
-        progress: "0%"
+        status: "awaiting_approval",
+        createdAt: "8m ago"
       },
       {
-        title: "Red Rising",
+        title: "The Name of the Wind",
         user: "sam",
         status: "processing",
-        progress: "100%"
+        createdAt: "24m ago"
+      },
+      {
+        title: "The Sunlit Man",
+        user: "leo",
+        status: "completed",
+        createdAt: "56m ago"
+      }
+    ],
+    reportedIssues: [
+      {
+        title: "The Expanse: Cibola Burn",
+        author: "James S. A. Corey",
+        reporter: "rachel",
+        reason: "Wrong narrator edition downloaded. Looking for Jefferson Mays version.",
+        createdAt: "2h ago"
+      },
+      {
+        title: "The Final Empire",
+        author: "Brandon Sanderson",
+        reporter: "sam",
+        reason: "Corrupted chapters near 01:14:23 and 01:18:51.",
+        createdAt: "4h ago"
+      },
+      {
+        title: "Dune Messiah",
+        author: "Frank Herbert",
+        reporter: "majora",
+        reason: "Metadata mismatch on release year and language tags.",
+        createdAt: "7h ago"
       }
     ]
   };
@@ -2776,7 +2980,15 @@ function navLinks() {
       active: active === "search"
     },
     {
-      label: "Requests",
+      label: "Authors",
+      href: "/authors"
+    },
+    {
+      label: "Series",
+      href: "/series"
+    },
+    {
+      label: "My Requests",
       href: "/requests",
       active: active === "requests"
     },
@@ -2787,140 +2999,323 @@ function navLinks() {
     }
   ];
 }
+function statusTone(status) {
+  if ([
+    "completed",
+    "available",
+    "downloaded"
+  ].includes(status)) {
+    return "success";
+  }
+  if ([
+    "failed",
+    "denied"
+  ].includes(status)) return "danger";
+  if ([
+    "downloading",
+    "processing",
+    "awaiting_approval"
+  ].includes(status)) {
+    return "warning";
+  }
+  return "info";
+}
+function iconForMetric(label) {
+  if (label.includes("Total")) {
+    return b2`
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M17 20h5V4H2v16h5" />
+        <path d="M9 20h6" />
+        <path d="M12 4v16" />
+      </svg>
+    `;
+  }
+  if (label.includes("Active")) {
+    return b2`
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M22 12H2" />
+        <path d="m15 5 7 7-7 7" />
+      </svg>
+    `;
+  }
+  if (label.includes("Completed")) {
+    return b2`
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m20 6-11 11-5-5" />
+      </svg>
+    `;
+  }
+  return b2`
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
+      <path
+        d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+      />
+    </svg>
+  `;
+}
 function bookCard(book) {
-  const tone = book.status === "available" ? "success" : book.status === "requested" ? "info" : "default";
-  const label = book.status === "available" ? "In Library" : book.status === "requested" ? "Requested" : "Not Requested";
   return b2`
     <article class="book-card">
-      <img src="${book.cover}" alt="" />
+      <div class="book-cover-wrap">
+        <img src="${book.cover}" alt="" />
+        ${book.rating ? b2`
+            <span class="rating-pill">★ ${book.rating.toFixed(1)}</span>
+          ` : null} ${book.status === "available" ? b2`
+            <span class="status-dot status-available"></span>
+          ` : book.status === "requested" ? b2`
+            <span class="status-dot status-requested"></span>
+          ` : book.status === "processing" ? b2`
+            <span class="status-dot status-processing"></span>
+          ` : null}
+      </div>
       <div class="book-meta">
         <p class="book-title">${book.title}</p>
         <p class="book-author">${book.author}</p>
       </div>
-      <lv-badge tone="${tone}">${label}</lv-badge>
     </article>
+  `;
+}
+function homeSection(title, dotClass, books) {
+  return b2`
+    <section class="home-section">
+      <div class="sticky-wrap">
+        <div class="sticky-head">
+          <span class="section-dot ${dotClass}"></span>
+          <h2>${title}</h2>
+          <div class="head-actions">
+            <lv-button size="sm" variant="secondary">Hide Available</lv-button>
+            <lv-button size="sm" variant="secondary">Card Size</lv-button>
+          </div>
+        </div>
+      </div>
+      <div class="section-content">
+        <div class="cards">${books.map((book) => bookCard(book))}</div>
+      </div>
+    </section>
   `;
 }
 function homeView() {
   return b2`
-    <main>
-      <section class="section">
-        <div class="section-head">
-          <h2>Popular Audiobooks</h2>
-          <lv-button size="sm">Customize</lv-button>
-        </div>
-        <div class="cards">
-          ${popularBooks.map((book) => bookCard(book))}
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <h2>New Releases</h2>
-          <lv-button size="sm" variant="secondary">Refresh</lv-button>
-        </div>
-        <div class="cards">
-          ${newReleaseBooks.map((book) => bookCard(book))}
-        </div>
-      </section>
+    <main class="page-main">
+      ${homeSection("Popular Audiobooks", "dot-blue", popularBooks)} ${homeSection("New Releases", "dot-green", newReleaseBooks)}
 
       <section class="hero">
         <h3>Can't find what you're looking for?</h3>
-        <p style="margin-top: 0.5rem; color: var(--lv-color-muted)">
-          Use Search to request any Audible title.
-        </p>
-        <div style="max-width: 320px; margin: 0.9rem auto 0;">
-          <lv-button>Search Audiobooks</lv-button>
-        </div>
+        <p>Use our search to find any audiobook from Audible.</p>
+        <div class="hero-cta"><lv-button>Search Audiobooks</lv-button></div>
       </section>
     </main>
   `;
 }
-function adminView() {
-  if (dashboardData.pending.value) {
-    return b2`
-      <main>
-        <h2>Admin Dashboard</h2>
-        <p style="margin-top: 0.25rem; color: var(--lv-color-muted)">
-          Frontend-only parity demo of ReadMeABook admin widgets.
-        </p>
-        <section class="section" style="display:flex;align-items:center;gap:0.5rem;">
-          <lv-spinner size="18px"></lv-spinner>
-          <span>Loading dashboard...</span>
-        </section>
-        <section class="admin-grid section">
-          ${Array.from({
-      length: 4
-    }).map(() => b2`
-              <lv-skeleton shape="box" height="90px"></lv-skeleton>
-            `)}
-        </section>
-      </main>
-    `;
-  }
-  const metrics = dashboardData.data.value?.metrics ?? [];
-  const requests = dashboardData.data.value?.requests ?? [];
+function activeDownloadsTable(downloads) {
   return b2`
-    <main>
-      <h2>Admin Dashboard</h2>
-      <p style="margin-top: 0.25rem; color: var(--lv-color-muted)">
-        Frontend-only parity demo of ReadMeABook admin widgets.
-      </p>
-
-      <section class="admin-grid section">
-        ${metrics.map((metric) => b2`
-            <lv-stat-card
-              label="${metric.label}"
-              value="${metric.value}"
-              tone="${metric.tone}"
-            ></lv-stat-card>
-          `)}
-      </section>
-
-      <section class="section">
-        <lv-toolbar>
-          <span slot="start" style="font-weight:700">Recent Requests</span>
-          <div slot="end" class="toolbar-actions">
-            <lv-input placeholder="Filter requests"></lv-input>
+    <section class="admin-section">
+      <div class="table-card">
+        <div class="table-head">Active Downloads</div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Request</th>
+                <th>User</th>
+                <th>Progress</th>
+                <th>Speed</th>
+                <th>ETA</th>
+                <th>Started</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${downloads.map((download) => b2`
+                  <tr>
+                    <td>
+                      <div class="request-main">
+                        ${download.title} ${download.type === "ebook" ? b2`
+                            <span class="ebook-pill">Ebook</span>
+                          ` : null}
+                      </div>
+                      <div class="request-sub">${download.author}</div>
+                    </td>
+                    <td>${download.user}</td>
+                    <td>
+                      <div class="progress-wrap">
+                        <div class="progress-track">
+                          <div class="progress-fill" style="${`width:${download.progress}%`}"></div>
+                        </div>
+                        <span>${download.progress}%</span>
+                      </div>
+                    </td>
+                    <td>${download.speed}</td>
+                    <td>${download.eta}</td>
+                    <td class="muted">${download.started}</td>
+                  </tr>
+                `)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  `;
+}
+function recentRequestsTable(requests) {
+  return b2`
+    <section class="admin-section">
+      <div class="table-card">
+        <div class="table-toolbar">
+          <h3>Recent Requests</h3>
+          <div class="toolbar-actions">
+            <lv-input placeholder="Search requests"></lv-input>
             <lv-button size="sm">Export</lv-button>
           </div>
-        </lv-toolbar>
-      </section>
-
-      <section class="section">
-        <lv-table>
-          <table>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
             <thead>
               <tr>
                 <th>Title</th>
                 <th>User</th>
                 <th>Status</th>
-                <th>Progress</th>
+                <th>Created</th>
               </tr>
             </thead>
             <tbody>
               ${requests.map((request) => b2`
                   <tr>
-                    <td>${request.title}</td>
+                    <td>
+                      <div class="request-main">
+                        ${request.title} ${request.type === "ebook" ? b2`
+                            <span class="ebook-pill">Ebook</span>
+                          ` : null}
+                      </div>
+                    </td>
                     <td>${request.user}</td>
-                    <td><lv-badge tone="info">${request.status}</lv-badge></td>
-                    <td>${request.progress}</td>
+                    <td><lv-badge tone="${statusTone(request.status)}">${request.status.replaceAll("_", " ")}</lv-badge></td>
+                    <td class="muted">${request.createdAt}</td>
                   </tr>
                 `)}
             </tbody>
           </table>
-        </lv-table>
+        </div>
+      </div>
+    </section>
+  `;
+}
+function reportedIssuesGrid(issues) {
+  return b2`
+    <section class="admin-section">
+      <div class="section-title-row">
+        <h3>Reported Issues</h3>
+        <span class="count-pill">${issues.length}</span>
+      </div>
+      <div class="issues-grid">
+        ${issues.map((issue) => b2`
+            <article class="issue-card">
+              <div class="issue-top">
+                <img src="/placeholder_cover.svg" alt="" class="issue-cover" />
+                <div>
+                  <p class="issue-title">${issue.title}</p>
+                  <p class="issue-author">${issue.author}</p>
+                  <p class="issue-reporter">by ${issue.reporter} • ${issue.createdAt}</p>
+                </div>
+              </div>
+              <p class="issue-reason">${issue.reason}</p>
+              <div class="issue-actions">
+                <lv-button size="sm" variant="secondary">Dismiss</lv-button>
+                <lv-button size="sm">Replace</lv-button>
+              </div>
+            </article>
+          `)}
+      </div>
+    </section>
+  `;
+}
+function adminView() {
+  if (dashboardData.pending.value) {
+    return b2`
+      <main class="page-main">
+        <div class="admin-title">
+          <h1>Admin Dashboard</h1>
+          <p>Loading metrics and request activity...</p>
+        </div>
+        <section class="admin-grid">
+          ${Array.from({
+      length: 4
+    }).map(() => b2`
+              <lv-skeleton shape="box" height="120px"></lv-skeleton>
+            `)}
+        </section>
+      </main>
+    `;
+  }
+  const data = dashboardData.data.value;
+  if (!data) {
+    return b2`
+
+    `;
+  }
+  return b2`
+    <main class="page-main">
+      <div class="admin-title">
+        <h1>Admin Dashboard</h1>
+        <p>Live overview of request pipeline and issue resolution.</p>
+      </div>
+
+      <section class="admin-grid">
+        ${data.metrics.map((metric) => b2`
+            <lv-stat-card
+              label="${metric.label}"
+              value="${metric.value}"
+              subtitle="${metric.subtitle ?? ""}"
+              tone="${metric.tone}"
+            >
+              <span slot="icon">${iconForMetric(metric.label)}</span>
+            </lv-stat-card>
+          `)}
       </section>
+
+      ${activeDownloadsTable(data.activeDownloads)} ${recentRequestsTable(data.recentRequests)} ${reportedIssuesGrid(data.reportedIssues)}
     </main>
   `;
 }
 function requestsView() {
   return b2`
-    <main>
-      <h2>My Requests</h2>
-      <section class="section">
-        <lv-toolbar>
-          <div slot="start" class="toolbar-actions">
+    <main class="page-main">
+      <div class="admin-title">
+        <h1>My Requests</h1>
+        <p>Track all requests and current download status.</p>
+      </div>
+      <section class="admin-section">
+        <div class="table-card">
+          <div class="table-toolbar">
             <lv-tabs
               .tabs="${[
     {
@@ -2930,6 +3325,10 @@ function requestsView() {
     {
       id: "active",
       label: "Active"
+    },
+    {
+      id: "waiting",
+      label: "Waiting"
     },
     {
       id: "completed",
@@ -2942,52 +3341,47 @@ function requestsView() {
   ]}"
               active="all"
             ></lv-tabs>
+            <lv-pagination page="1" total="8"></lv-pagination>
           </div>
-          <div slot="end">
-            <lv-button size="sm">Load More</lv-button>
+          <div class="cards compact-cards">
+            ${popularBooks.slice(0, 4).map((book) => b2`
+                <lv-card title="${book.title}" subtitle="${book.author}" compact>
+                  <div class="request-card-foot">
+                    <lv-badge tone="warning">downloading</lv-badge>
+                    <span class="muted">updated 5m ago</span>
+                  </div>
+                </lv-card>
+              `)}
           </div>
-        </lv-toolbar>
-      </section>
-      <section class="section cards">
-        ${popularBooks.concat(newReleaseBooks).slice(0, 4).map((book) => b2`
-            <lv-card title="${book.title}" subtitle="${book.author}">
-              <div
-                style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;"
-              >
-                <lv-badge tone="info">Pending</lv-badge>
-                <span style="font-size:0.8rem;color:var(--lv-color-muted);"
-                >updated 5m ago</span>
-              </div>
-            </lv-card>
-          `)}
-      </section>
-      <section class="section" style="display:flex;justify-content:center;">
-        <lv-pagination page="1" total="6"></lv-pagination>
+        </div>
       </section>
     </main>
   `;
 }
 function searchView() {
   return b2`
-    <main>
-      <h2>Search</h2>
-      <section class="section">
-        <lv-toolbar>
-          <div slot="start" style="width:min(100%, 420px)">
-            <lv-input
-              label="Search Audible"
-              placeholder="Book title, author, narrator"
-            ></lv-input>
-          </div>
-          <div slot="end">
+    <main class="page-main">
+      <div class="admin-title">
+        <h1>Search</h1>
+        <p>Find and request audiobooks from Audible metadata.</p>
+      </div>
+      <section class="admin-section">
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div style="width:min(100%,28rem)">
+              <lv-input
+                label="Search Audible"
+                placeholder="Book title, author, narrator"
+              ></lv-input>
+            </div>
             <lv-button>Search</lv-button>
           </div>
-        </lv-toolbar>
+        </div>
       </section>
-      <section class="section">
+      <section class="admin-section">
         <lv-empty-state
-          heading="No search results yet"
-          description="Run a search to populate this section in the frontend demo."
+          heading="No results yet"
+          description="Start a search to populate the result grid in this frontend-only demo."
         ></lv-empty-state>
       </section>
     </main>
@@ -2995,11 +3389,11 @@ function searchView() {
 }
 function notFoundView() {
   return b2`
-    <main>
+    <main class="page-main">
       <lv-surface elevation="raised" padding="lg">
         <h2>Page not found</h2>
-        <p style="margin-top: 0.4rem; color: var(--lv-color-muted)">
-          The route is not defined in the frontend demo.
+        <p class="muted" style="margin-top:0.35rem">
+          This route is not implemented in the parity demo.
         </p>
       </lv-surface>
     </main>
@@ -3024,21 +3418,18 @@ enhance("app-root", () => {
         <img
           slot="brand-mark"
           src="/RMAB_1024x1024_ICON.png"
-          width="28"
-          height="28"
+          width="32"
+          height="32"
           alt=""
         />
+        <span slot="actions" class="version-pill">v0.9.4</span>
         <lv-button slot="actions" size="sm" variant="secondary">Profile</lv-button>
-        <lv-button slot="actions" size="sm">Login</lv-button>
       </lv-nav>
 
       ${routeName === "home" ? homeView() : routeName === "admin" ? adminView() : routeName === "requests" ? requestsView() : routeName === "search" ? searchView() : notFoundView()}
 
-      <footer
-        slot="footer"
-        style="padding: 1rem; text-align: center; color: var(--lv-color-muted); border-top: 1px solid var(--lv-color-border); background: var(--lv-color-surface)"
-      >
-        ReadMeABook parity demo using Lightverb UI
+      <footer slot="footer" class="demo-footer">
+        ReadMeABook parity demo using Lightverb UI components and Extinguish state.
       </footer>
     </lv-app>
   `;

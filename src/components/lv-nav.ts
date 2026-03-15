@@ -11,6 +11,7 @@ export type LvNavLink = {
 export class LvNav extends LitElement {
   @property({ attribute: false })
   links: LvNavLink[] = [];
+
   @property({ reflect: true })
   override title = "";
 
@@ -20,11 +21,12 @@ export class LvNav extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      background: var(--lv-color-surface, #fff);
-      border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
       position: sticky;
       top: 0;
       z-index: 40;
+      background: var(--lv-color-surface, #fff);
+      border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     .container {
@@ -32,73 +34,98 @@ export class LvNav extends LitElement {
       margin-inline: auto;
       padding: 0.75rem 1rem;
       display: grid;
-      gap: 0.75rem;
+      gap: 0.7rem;
     }
 
     .top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
+      justify-content: space-between;
+      gap: 0.75rem;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      min-width: 0;
+      color: #111827;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: var(--lv-color-text, #111827);
-      font-size: 1.125rem;
+      text-decoration: none;
+    }
+
+    .brand span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 11.5rem;
     }
 
     nav {
       display: none;
       align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
+      gap: 1.5rem;
     }
 
     a {
-      color: var(--lv-color-muted, #6b7280);
       text-decoration: none;
-      font-size: 0.9rem;
+      color: #4b5563;
+      font-size: 0.95rem;
       font-weight: 500;
+      transition: color 150ms ease;
     }
 
     a:hover {
-      color: var(--lv-color-primary, #2563eb);
+      color: #2563eb;
     }
 
     a[data-active="true"] {
-      color: var(--lv-color-primary, #2563eb);
-      font-weight: 700;
+      color: #2563eb;
+      font-weight: 600;
     }
 
     .actions {
       display: none;
       align-items: center;
       gap: 0.5rem;
+      flex-shrink: 0;
     }
 
     .toggle {
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
       border: 0;
+      border-radius: 0.375rem;
       background: transparent;
-      color: var(--lv-color-text, #111827);
-      padding: 0.4rem;
-      border-radius: 0.5rem;
+      color: #4b5563;
       cursor: pointer;
     }
 
     .toggle:hover {
-      background: rgba(148, 163, 184, 0.2);
+      background: #f3f4f6;
+      color: #111827;
     }
 
     .mobile {
       display: grid;
-      gap: 0.5rem;
-      border-top: 1px solid var(--lv-color-border, #e5e7eb);
-      padding-top: 0.75rem;
+      gap: 0.35rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.7rem;
+    }
+
+    .mobile a {
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.45rem;
+    }
+
+    .mobile a:hover,
+    .mobile a[data-active="true"] {
+      background: #f3f4f6;
+      color: #111827;
     }
 
     @media (min-width: 768px) {
@@ -106,6 +133,10 @@ export class LvNav extends LitElement {
         display: flex;
         align-items: center;
         justify-content: space-between;
+      }
+
+      .top {
+        gap: 1rem;
       }
 
       .toggle,
@@ -124,7 +155,7 @@ export class LvNav extends LitElement {
     this.mobileOpen = !this.mobileOpen;
   }
 
-  renderLink(link: LvNavLink) {
+  private renderLink(link: LvNavLink) {
     return html`
       <a href="${link.href}" data-active="${String(
         Boolean(link.active),
@@ -136,18 +167,14 @@ export class LvNav extends LitElement {
     return html`
       <div class="container">
         <div class="top">
-          <div class="brand">
+          <a class="brand" href="/">
             <slot name="brand-mark"></slot>
             <span>${this.title}</span>
-          </div>
+          </a>
 
-          <nav>
-            ${this.links.map((link) => this.renderLink(link))}
-          </nav>
+          <nav>${this.links.map((link) => this.renderLink(link))}</nav>
 
-          <div class="actions">
-            <slot name="actions"></slot>
-          </div>
+          <div class="actions"><slot name="actions"></slot></div>
 
           <button class="toggle" @click="${this
             .toggleMobile}" aria-label="Toggle navigation">
@@ -157,10 +184,9 @@ export class LvNav extends LitElement {
 
         ${this.mobileOpen
           ? html`
-            <div class="mobile">
-              ${this.links.map((link) => this.renderLink(link))}
-              <slot name="mobile-actions"></slot>
-            </div>
+            <div class="mobile">${this.links.map((link) =>
+              this.renderLink(link)
+            )}<slot name="mobile-actions"></slot></div>
           `
           : null}
       </div>
