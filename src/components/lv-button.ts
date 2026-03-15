@@ -28,7 +28,8 @@ export class LvButton extends LitElement {
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      width: 100%;
+      width: auto;
+      white-space: nowrap;
     }
 
     :host([size="sm"]) button {

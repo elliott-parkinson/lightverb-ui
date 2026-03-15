@@ -351,7 +351,11 @@ p {
 .toolbar-actions {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+}
+
+.toolbar-actions lv-input {
+  width: min(26rem, 58vw);
 }
 
 .table-wrap {
