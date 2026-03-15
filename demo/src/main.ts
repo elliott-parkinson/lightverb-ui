@@ -31,6 +31,17 @@ const searchResultsResource = resource(async () =>
 );
 
 function animateHomeGridReflow(applyChange: () => void): void {
+  const docWithTransitions = document as Document & {
+    startViewTransition?: (updateCallback: () => void) => unknown;
+  };
+
+  if (docWithTransitions.startViewTransition) {
+    docWithTransitions.startViewTransition(() => {
+      applyChange();
+    });
+    return;
+  }
+
   const beforeEls = Array.from(
     document.querySelectorAll<HTMLElement>(".home-section .cards .book-card"),
   );
@@ -121,8 +132,9 @@ function iconForMetric(label: string): string {
 }
 
 function bookCard(book: Book, flipId: string) {
+  const vtName = `card-${flipId.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
   return html`
-    <article class="book-card" data-flip-id="${flipId}">
+    <article class="book-card" data-flip-id="${flipId}" style="view-transition-name:${vtName}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating

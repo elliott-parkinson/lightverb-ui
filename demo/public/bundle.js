@@ -4945,6 +4945,13 @@ var cardSize = c4(5);
 var searchQuery = c4("");
 var searchResultsResource = resource(async () => rmabService.searchAudiobooks(searchQuery.value));
 function animateHomeGridReflow(applyChange) {
+  const docWithTransitions = document;
+  if (docWithTransitions.startViewTransition) {
+    docWithTransitions.startViewTransition(() => {
+      applyChange();
+    });
+    return;
+  }
   const beforeEls = Array.from(document.querySelectorAll(".home-section .cards .book-card"));
   const before = /* @__PURE__ */ new Map();
   for (const el of beforeEls) {
@@ -5046,8 +5053,9 @@ function iconForMetric(label) {
   return "warning";
 }
 function bookCard(book, flipId) {
+  const vtName = `card-${flipId.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
   return b2`
-    <article class="book-card" data-flip-id="${flipId}">
+    <article class="book-card" data-flip-id="${flipId}" style="view-transition-name:${vtName}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating ? b2`
