@@ -5026,11 +5026,6 @@ function bookCard(book) {
     </article>
   `;
 }
-function cardSizeClass() {
-  if (cardSize.value <= 3) return "compact";
-  if (cardSize.value >= 7) return "large";
-  return "default";
-}
 function homeSection(title, dotClass, books) {
   const visibleBooks = hideAvailable.value ? books.filter((book) => book.status !== "available") : books;
   return b2`
@@ -5056,7 +5051,7 @@ function homeSection(title, dotClass, books) {
         </div>
       </div>
       <div class="section-content">
-        <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
+        <div class="cards cards-size-${cardSize.value} ${squareCovers.value ? "covers-square" : ""}">
           ${visibleBooks.map((book) => bookCard(book))}
         </div>
       </div>

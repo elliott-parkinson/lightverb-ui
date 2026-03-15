@@ -164,20 +164,16 @@ p {
   align-items: flex-start;
 }
 
-.home-section .cards-compact {
-  --lv-cards-cols: 3;
-  --lv-card-cover-h: 11.5rem;
-}
-
-.home-section .cards-default {
-  --lv-cards-cols: 2;
-  --lv-card-cover-h: 14.5rem;
-}
-
-.home-section .cards-large {
-  --lv-cards-cols: 1;
-  --lv-card-cover-h: 20rem;
-}
+/* ReadMeABook parity sizing model: explicit sizes 1..9 across breakpoints. */
+.home-section .cards-size-1 { --lv-cards-cols: 4; --lv-card-cover-h: 8.75rem; }
+.home-section .cards-size-2 { --lv-cards-cols: 3; --lv-card-cover-h: 10.75rem; }
+.home-section .cards-size-3 { --lv-cards-cols: 3; --lv-card-cover-h: 10.75rem; }
+.home-section .cards-size-4 { --lv-cards-cols: 2; --lv-card-cover-h: 14.5rem; }
+.home-section .cards-size-5 { --lv-cards-cols: 2; --lv-card-cover-h: 14.5rem; }
+.home-section .cards-size-6 { --lv-cards-cols: 2; --lv-card-cover-h: 14.5rem; }
+.home-section .cards-size-7 { --lv-cards-cols: 2; --lv-card-cover-h: 14.5rem; }
+.home-section .cards-size-8 { --lv-cards-cols: 2; --lv-card-cover-h: 14.5rem; }
+.home-section .cards-size-9 { --lv-cards-cols: 1; --lv-card-cover-h: 22rem; }
 
 .home-section .cards > .book-card {
   width: calc((100% - (var(--lv-cards-cols) - 1) * 1rem) / var(--lv-cards-cols));
@@ -218,37 +214,39 @@ p {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .home-section .cards-compact {
-    --lv-cards-cols: 5;
-    --lv-card-cover-h: 12rem;
-  }
-
-  .home-section .cards-default {
-    --lv-cards-cols: 4;
-    --lv-card-cover-h: 14.5rem;
-  }
-
-  .home-section .cards-large {
-    --lv-cards-cols: 3;
-    --lv-card-cover-h: 19rem;
-  }
+  .home-section .cards-size-1 { --lv-cards-cols: 6; --lv-card-cover-h: 7.5rem; }
+  .home-section .cards-size-2 { --lv-cards-cols: 5; --lv-card-cover-h: 8.75rem; }
+  .home-section .cards-size-3 { --lv-cards-cols: 4; --lv-card-cover-h: 10.75rem; }
+  .home-section .cards-size-4 { --lv-cards-cols: 4; --lv-card-cover-h: 10.75rem; }
+  .home-section .cards-size-5 { --lv-cards-cols: 3; --lv-card-cover-h: 14rem; }
+  .home-section .cards-size-6 { --lv-cards-cols: 3; --lv-card-cover-h: 14rem; }
+  .home-section .cards-size-7 { --lv-cards-cols: 3; --lv-card-cover-h: 14rem; }
+  .home-section .cards-size-8 { --lv-cards-cols: 2; --lv-card-cover-h: 19rem; }
+  .home-section .cards-size-9 { --lv-cards-cols: 1; --lv-card-cover-h: 24rem; }
 }
 
-@media (min-width: 640px) and (max-width: 899px) {
-  .home-section .cards-compact {
-    --lv-cards-cols: 4;
-    --lv-card-cover-h: 10.5rem;
-  }
+@media (min-width: 1024px) {
+  .home-section .cards-size-1 { --lv-cards-cols: 8; --lv-card-cover-h: 6.2rem; }
+  .home-section .cards-size-2 { --lv-cards-cols: 7; --lv-card-cover-h: 7.15rem; }
+  .home-section .cards-size-3 { --lv-cards-cols: 6; --lv-card-cover-h: 8.1rem; }
+  .home-section .cards-size-4 { --lv-cards-cols: 5; --lv-card-cover-h: 9.7rem; }
+  .home-section .cards-size-5 { --lv-cards-cols: 4; --lv-card-cover-h: 12.25rem; }
+  .home-section .cards-size-6 { --lv-cards-cols: 4; --lv-card-cover-h: 12.25rem; }
+  .home-section .cards-size-7 { --lv-cards-cols: 3; --lv-card-cover-h: 16.5rem; }
+  .home-section .cards-size-8 { --lv-cards-cols: 2; --lv-card-cover-h: 20rem; }
+  .home-section .cards-size-9 { --lv-cards-cols: 1; --lv-card-cover-h: 24rem; }
+}
 
-  .home-section .cards-default {
-    --lv-cards-cols: 3;
-    --lv-card-cover-h: 13rem;
-  }
-
-  .home-section .cards-large {
-    --lv-cards-cols: 2;
-    --lv-card-cover-h: 17rem;
-  }
+@media (min-width: 1280px) {
+  .home-section .cards-size-1 { --lv-cards-cols: 10; --lv-card-cover-h: 5.5rem; }
+  .home-section .cards-size-2 { --lv-cards-cols: 9; --lv-card-cover-h: 6.1rem; }
+  .home-section .cards-size-3 { --lv-cards-cols: 8; --lv-card-cover-h: 6.95rem; }
+  .home-section .cards-size-4 { --lv-cards-cols: 7; --lv-card-cover-h: 8rem; }
+  .home-section .cards-size-5 { --lv-cards-cols: 5; --lv-card-cover-h: 10.9rem; }
+  .home-section .cards-size-6 { --lv-cards-cols: 4; --lv-card-cover-h: 13.8rem; }
+  .home-section .cards-size-7 { --lv-cards-cols: 3; --lv-card-cover-h: 18.5rem; }
+  .home-section .cards-size-8 { --lv-cards-cols: 2; --lv-card-cover-h: 21rem; }
+  .home-section .cards-size-9 { --lv-cards-cols: 1; --lv-card-cover-h: 24rem; }
 }
 
 .book-card {
