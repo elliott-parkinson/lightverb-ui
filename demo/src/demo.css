@@ -15,39 +15,6 @@
   }
 }
 
-@keyframes lv-grid-in-a {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes lv-grid-in-b {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.99);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes lv-grid-in-c {
-  from {
-    opacity: 0;
-    transform: translateY(9px) scale(0.992);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 h1,
 h2,
 h3,
@@ -213,6 +180,7 @@ p {
   display: grid;
   gap: 0.6rem;
   will-change: transform, opacity;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .book-cover-wrap {
@@ -242,43 +210,8 @@ p {
 }
 
 .covers-square .book-cover-wrap {
-  animation: lv-grid-in-b 240ms ease-out both;
-}
-
-.cards-compact .book-card {
-  animation: lv-grid-in-a 240ms ease-out both;
-}
-
-.cards-default .book-card {
-  animation: lv-grid-in-b 240ms ease-out both;
-}
-
-.cards-large .book-card {
-  animation: lv-grid-in-c 240ms ease-out both;
-}
-
-.book-card.motion-0:nth-child(5n + 1),
-.book-card.motion-1:nth-child(5n + 1),
-.book-card.motion-2:nth-child(5n + 1) {
-  animation-delay: 20ms;
-}
-
-.book-card.motion-0:nth-child(5n + 2),
-.book-card.motion-1:nth-child(5n + 2),
-.book-card.motion-2:nth-child(5n + 2) {
-  animation-delay: 50ms;
-}
-
-.book-card.motion-0:nth-child(5n + 3),
-.book-card.motion-1:nth-child(5n + 3),
-.book-card.motion-2:nth-child(5n + 3) {
-  animation-delay: 85ms;
-}
-
-.book-card.motion-0:nth-child(5n + 4),
-.book-card.motion-1:nth-child(5n + 4),
-.book-card.motion-2:nth-child(5n + 4) {
-  animation-delay: 110ms;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms ease-out;
 }
 
 .rating-pill {

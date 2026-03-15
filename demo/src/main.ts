@@ -25,14 +25,60 @@ import {
 const hideAvailable = signal(false);
 const squareCovers = signal(false);
 const cardSize = signal<number>(5);
-const gridMotionTick = signal(0);
 const searchQuery = signal("");
 const searchResultsResource = resource(async () =>
   rmabService.searchAudiobooks(searchQuery.value)
 );
 
-function bumpGridMotion(): void {
-  gridMotionTick.value = (gridMotionTick.value + 1) % 3;
+function animateHomeGridReflow(applyChange: () => void): void {
+  const beforeEls = Array.from(
+    document.querySelectorAll<HTMLElement>(".home-section .cards .book-card"),
+  );
+  const before = new Map<string, DOMRect>();
+  for (const el of beforeEls) {
+    const key = el.dataset.asin;
+    if (key) before.set(key, el.getBoundingClientRect());
+  }
+
+  applyChange();
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const afterEls = Array.from(
+        document.querySelectorAll<HTMLElement>(".home-section .cards .book-card"),
+      );
+
+      for (const el of afterEls) {
+        const key = el.dataset.asin;
+        if (!key) continue;
+        const first = before.get(key);
+        if (!first) continue;
+        const last = el.getBoundingClientRect();
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        const sx = first.width / Math.max(last.width, 1);
+        const sy = first.height / Math.max(last.height, 1);
+
+        if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(sx - 1) < 0.01 && Math.abs(sy - 1) < 0.01) {
+          continue;
+        }
+
+        el.animate(
+          [
+            {
+              transformOrigin: "top left",
+              transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`,
+            },
+            { transformOrigin: "top left", transform: "translate(0, 0) scale(1, 1)" },
+          ],
+          {
+            duration: 260,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          },
+        );
+      }
+    });
+  });
 }
 
 function navLinks(): LvNavLink[] {
@@ -67,9 +113,9 @@ function iconForMetric(label: string): string {
   return "warning";
 }
 
-function bookCard(book: Book, motionTick = 0) {
+function bookCard(book: Book) {
   return html`
-    <article class="book-card motion-${motionTick}">
+    <article class="book-card" data-asin="${book.asin}">
       <div class="book-cover-wrap">
         <img src="${book.cover}" alt="" />
         ${book.rating
@@ -120,23 +166,26 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
             .squareCovers=${squareCovers.value}
             .cardSize=${cardSize.value}
             @lv-toggle-hide-available=${(event: CustomEvent<{ value: boolean }>) => {
-              hideAvailable.value = event.detail.value;
-              bumpGridMotion();
+              animateHomeGridReflow(() => {
+                hideAvailable.value = event.detail.value;
+              });
             }}
             @lv-toggle-square-covers=${(event: CustomEvent<{ value: boolean }>) => {
-              squareCovers.value = event.detail.value;
-              bumpGridMotion();
+              animateHomeGridReflow(() => {
+                squareCovers.value = event.detail.value;
+              });
             }}
             @lv-change-card-size=${(event: CustomEvent<{ value: number }>) => {
-              cardSize.value = event.detail.value;
-              bumpGridMotion();
+              animateHomeGridReflow(() => {
+                cardSize.value = event.detail.value;
+              });
             }}
           ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
         <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
-          ${visibleBooks.map((book) => bookCard(book, gridMotionTick.value))}
+          ${visibleBooks.map((book) => bookCard(book))}
         </div>
       </div>
     </section>
@@ -526,53 +575,51 @@ apiManifestResource.run();
 pageManifestResource.run();
 searchResultsResource.run();
 
-enhance("app-root", () => {
+enhance("lv-app", () => {
   const routeName = currentRoute.value?.name ?? "home";
 
   return html`
-    <lv-app>
-      <lv-nav slot="header" title="ReadMeABook" .links="${navLinks()}">
-        <img
-          slot="brand-mark"
-          src="/RMAB_1024x1024_ICON.png"
-          width="32"
-          height="32"
-          alt=""
-        />
-        <span slot="actions" class="version-pill">v0.9.4</span>
-        <span slot="actions" class="profile-chip">
-          <span class="profile-avatar">M</span>
-          <span class="profile-name">majora</span>
-        </span>
-      </lv-nav>
+    <lv-nav slot="header" title="ReadMeABook" .links="${navLinks()}">
+      <img
+        slot="brand-mark"
+        src="/RMAB_1024x1024_ICON.png"
+        width="32"
+        height="32"
+        alt=""
+      />
+      <span slot="actions" class="version-pill">v0.9.4</span>
+      <span slot="actions" class="profile-chip">
+        <span class="profile-avatar">M</span>
+        <span class="profile-name">majora</span>
+      </span>
+    </lv-nav>
 
-      ${routeName === "home"
-        ? homeView()
-        : routeName === "admin"
-        ? adminView()
-        : routeName === "requests"
-        ? requestsView()
-        : routeName === "search"
-        ? searchView()
-        : notFoundView()}
+    ${routeName === "home"
+      ? homeView()
+      : routeName === "admin"
+      ? adminView()
+      : routeName === "requests"
+      ? requestsView()
+      : routeName === "search"
+      ? searchView()
+      : notFoundView()}
 
-      <footer slot="footer" class="demo-footer">
-        ReadMeABook - Audiobook Library Management System
-        ${apiManifestResource.data.value
-          ? html`
-            <span class="footer-meta">
-              • API endpoints mirrored: ${apiManifestResource.data.value.length}
-            </span>
-          `
-          : null}
-        ${pageManifestResource.data.value
-          ? html`
-            <span class="footer-meta">
-              • page routes mirrored: ${pageManifestResource.data.value.length}
-            </span>
-          `
-          : null}
-      </footer>
-    </lv-app>
+    <footer slot="footer" class="demo-footer">
+      ReadMeABook - Audiobook Library Management System
+      ${apiManifestResource.data.value
+        ? html`
+          <span class="footer-meta">
+            • API endpoints mirrored: ${apiManifestResource.data.value.length}
+          </span>
+        `
+        : null}
+      ${pageManifestResource.data.value
+        ? html`
+          <span class="footer-meta">
+            • page routes mirrored: ${pageManifestResource.data.value.length}
+          </span>
+        `
+        : null}
+    </footer>
   `;
 });
