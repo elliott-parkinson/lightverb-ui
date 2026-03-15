@@ -3287,6 +3287,9 @@ function recentRequestsTable(requests) {
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="toolbar-actions">
             <lv-input placeholder="Search requests"></lv-input>
+            <lv-button size="sm" variant="secondary" class="toolbar-export">
+              <lv-icon name="download" size="14"></lv-icon>Export
+            </lv-button>
           </div>
         </div>
         <div class="table-wrap">

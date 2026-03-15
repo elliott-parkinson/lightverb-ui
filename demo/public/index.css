@@ -355,7 +355,11 @@ p {
 }
 
 .toolbar-actions lv-input {
-  width: min(26rem, 58vw);
+  width: min(22rem, 52vw);
+}
+
+.toolbar-export {
+  flex-shrink: 0;
 }
 
 .table-wrap {
