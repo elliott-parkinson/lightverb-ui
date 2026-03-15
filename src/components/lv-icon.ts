@@ -43,6 +43,32 @@ const ICONS: Record<string, TemplateResult> = {
   filter: svg`
     <path d="M4 6h16" /><path d="M7 12h10" /><path d="M10 18h4" />
   `,
+  eye: svg`
+    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" /><circle
+      cx="12"
+      cy="12"
+      r="2.5"
+    />
+  `,
+  "eye-off": svg`
+    <path d="M3 3l18 18" /><path
+      d="M10.58 10.58a2 2 0 0 0 2.83 2.83"
+    /><path
+      d="M9.36 5.36A11.6 11.6 0 0 1 12 5c6.5 0 10 7 10 7a18.4 18.4 0 0 1-4.1 4.9"
+    /><path d="M6.24 6.24C3.8 7.88 2 12 2 12s3.5 6 10 6a11.7 11.7 0 0 0 3.1-.4" />
+  `,
+  crop: svg`
+    <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h4M3 15h4M21 9h-4M21 15h-4" />
+  `,
+  "zoom-in": svg`
+    <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
+  `,
+  "zoom-out": svg`
+    <circle cx="12" cy="12" r="9" /><path d="M8 12h8" />
+  `,
+  ellipsis: svg`
+    <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+  `,
   dots: svg`
     <circle cx="12" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle
       cx="12"

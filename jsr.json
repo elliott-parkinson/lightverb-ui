@@ -15,6 +15,7 @@
     "./badge": "./src/components/lv-badge.ts",
     "./table": "./src/components/lv-table.ts",
     "./toolbar": "./src/components/lv-toolbar.ts",
+    "./section-toolbar": "./src/components/lv-section-toolbar.ts",
     "./stat-card": "./src/components/lv-stat-card.ts",
     "./modal": "./src/components/lv-modal.ts",
     "./tabs": "./src/components/lv-tabs.ts",

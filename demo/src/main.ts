@@ -23,7 +23,8 @@ import {
 } from "./services/index.ts";
 
 const hideAvailable = signal(false);
-const cardSize = signal<"compact" | "default" | "large">("default");
+const squareCovers = signal(false);
+const cardSize = signal<number>(5);
 const searchQuery = signal("");
 const searchResultsResource = resource(async () =>
   rmabService.searchAudiobooks(searchQuery.value)
@@ -92,20 +93,10 @@ function bookCard(book: Book) {
   `;
 }
 
-function cycleCardSize(): void {
-  cardSize.value = cardSize.value === "compact"
-    ? "default"
-    : cardSize.value === "default"
-    ? "large"
-    : "compact";
-}
-
-function cardSizeLabel(): string {
-  return cardSize.value === "compact"
-    ? "Small"
-    : cardSize.value === "large"
-    ? "Large"
-    : "Medium";
+function cardSizeClass(): "compact" | "default" | "large" {
+  if (cardSize.value <= 3) return "compact";
+  if (cardSize.value >= 7) return "large";
+  return "default";
 }
 
 function homeSection(title: string, dotClass: string, books: Book[]) {
@@ -119,24 +110,24 @@ function homeSection(title: string, dotClass: string, books: Book[]) {
         <div class="sticky-head">
           <span class="section-dot ${dotClass}"></span>
           <h2 class="title-with-icon"><lv-icon name="book" size="18"></lv-icon>${title}</h2>
-          <div class="head-actions">
-            <lv-button
-              size="sm"
-              variant="secondary"
-              @click=${() => (hideAvailable.value = !hideAvailable.value)}
-            >
-              <lv-icon name="filter" size="14"></lv-icon>
-              ${hideAvailable.value ? "Showing Requested" : "Hide Available"}
-            </lv-button>
-            <lv-button size="sm" variant="secondary" @click=${cycleCardSize}>
-              <lv-icon name="settings" size="14"></lv-icon>
-              Card Size: ${cardSizeLabel()}
-            </lv-button>
-          </div>
+          <lv-section-toolbar
+            .hideAvailable=${hideAvailable.value}
+            .squareCovers=${squareCovers.value}
+            .cardSize=${cardSize.value}
+            @lv-toggle-hide-available=${(event: CustomEvent<{ value: boolean }>) => {
+              hideAvailable.value = event.detail.value;
+            }}
+            @lv-toggle-square-covers=${(event: CustomEvent<{ value: boolean }>) => {
+              squareCovers.value = event.detail.value;
+            }}
+            @lv-change-card-size=${(event: CustomEvent<{ value: number }>) => {
+              cardSize.value = event.detail.value;
+            }}
+          ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
-        <div class="cards cards-${cardSize.value}">
+        <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
           ${visibleBooks.map((book) => bookCard(book))}
         </div>
       </div>

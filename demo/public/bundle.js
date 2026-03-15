@@ -2326,8 +2326,384 @@ function defineLvToolbar() {
   defineCustomElement("lv-toolbar", LvToolbar);
 }
 
-// src/components/lv-stat-card.ts
+// src/components/lv-section-toolbar.ts
 function _ts_decorate9(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var COLUMN_MAP = {
+  base: {
+    1: 4,
+    2: 3,
+    3: 3,
+    4: 2,
+    5: 2,
+    6: 2,
+    7: 2,
+    8: 2,
+    9: 1
+  },
+  md: {
+    1: 6,
+    2: 5,
+    3: 4,
+    4: 4,
+    5: 3,
+    6: 3,
+    7: 3,
+    8: 2,
+    9: 1
+  },
+  lg: {
+    1: 8,
+    2: 7,
+    3: 6,
+    4: 5,
+    5: 4,
+    6: 4,
+    7: 3,
+    8: 2,
+    9: 1
+  },
+  xl: {
+    1: 10,
+    2: 9,
+    3: 8,
+    4: 7,
+    5: 5,
+    6: 4,
+    7: 3,
+    8: 2,
+    9: 1
+  }
+};
+var LvSectionToolbar = class extends i4 {
+  hideAvailable = false;
+  squareCovers = false;
+  cardSize = 5;
+  mobileOpen = false;
+  static styles = i`
+    :host {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .desktop {
+      display: none;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .mobile-trigger {
+      border: 0;
+      background: transparent;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.38rem;
+      cursor: pointer;
+    }
+
+    .mobile-trigger:hover {
+      background: rgba(255, 255, 255, 0.6);
+      color: #111827;
+    }
+
+    .toggle {
+      border: 0;
+      background: transparent;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.38rem;
+      cursor: pointer;
+      transition: background-color 150ms ease, color 150ms ease;
+    }
+
+    .toggle:hover {
+      background: rgba(255, 255, 255, 0.6);
+      color: #111827;
+    }
+
+    .toggle:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .toggle:disabled:hover {
+      background: transparent;
+      color: #4b5563;
+    }
+
+    .toggle[data-active="true"] {
+      background: rgba(59, 130, 246, 0.18);
+      color: #2563eb;
+      box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.3);
+    }
+
+    .zoom-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.12rem;
+    }
+
+    lv-icon {
+      pointer-events: none;
+    }
+
+    .mobile-menu {
+      position: absolute;
+      top: calc(100% + 0.45rem);
+      right: 0;
+      min-width: 13.5rem;
+      z-index: 70;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.55rem;
+      background: #fff;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+      overflow: hidden;
+      display: grid;
+      gap: 0;
+    }
+
+    .menu-item {
+      border: 0;
+      background: transparent;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      background: #f9fafb;
+    }
+
+    .menu-item .label {
+      flex: 1;
+    }
+
+    .menu-item .state {
+      color: #2563eb;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .menu-zoom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.55rem 0.75rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .menu-zoom .label {
+      color: #374151;
+      font-size: 0.875rem;
+    }
+
+    .menu-zoom .actions {
+      display: inline-flex;
+      gap: 0.15rem;
+    }
+
+    @media (min-width: 640px) {
+      .mobile-trigger,
+      .mobile-menu {
+        display: none;
+      }
+
+      .desktop {
+        display: inline-flex;
+      }
+    }
+  `;
+  emitToggleHideAvailable() {
+    this.hideAvailable = !this.hideAvailable;
+    this.dispatchEvent(new CustomEvent("lv-toggle-hide-available", {
+      detail: {
+        value: this.hideAvailable
+      },
+      bubbles: true,
+      composed: true
+    }));
+  }
+  emitToggleSquareCovers() {
+    this.squareCovers = !this.squareCovers;
+    this.dispatchEvent(new CustomEvent("lv-toggle-square-covers", {
+      detail: {
+        value: this.squareCovers
+      },
+      bubbles: true,
+      composed: true
+    }));
+  }
+  emitCardSize(size) {
+    const bounded = Math.max(1, Math.min(9, size));
+    this.cardSize = bounded;
+    this.dispatchEvent(new CustomEvent("lv-change-card-size", {
+      detail: {
+        value: bounded
+      },
+      bubbles: true,
+      composed: true
+    }));
+  }
+  currentBreakpoint() {
+    if (typeof window === "undefined") return "base";
+    const width = window.innerWidth;
+    if (width >= 1280) return "xl";
+    if (width >= 1024) return "lg";
+    if (width >= 768) return "md";
+    return "base";
+  }
+  columnCount(size) {
+    const breakpoint = this.currentBreakpoint();
+    const map = COLUMN_MAP[breakpoint];
+    const key = Math.max(1, Math.min(9, size));
+    return map[key];
+  }
+  findNextVisibleSize(direction) {
+    const currentCols = this.columnCount(this.cardSize);
+    if (direction === "in") {
+      for (let size = this.cardSize + 1; size <= 9; size++) {
+        if (this.columnCount(size) < currentCols) return size;
+      }
+      return this.cardSize;
+    }
+    for (let size = this.cardSize - 1; size >= 1; size--) {
+      if (this.columnCount(size) > currentCols) return size;
+    }
+    return this.cardSize;
+  }
+  zoomIn() {
+    const next = this.findNextVisibleSize("in");
+    if (next !== this.cardSize) this.emitCardSize(next);
+  }
+  zoomOut() {
+    const next = this.findNextVisibleSize("out");
+    if (next !== this.cardSize) this.emitCardSize(next);
+  }
+  toggleMobile() {
+    this.mobileOpen = !this.mobileOpen;
+  }
+  closeMobile() {
+    this.mobileOpen = false;
+  }
+  render() {
+    const canZoomIn = this.findNextVisibleSize("in") !== this.cardSize;
+    const canZoomOut = this.findNextVisibleSize("out") !== this.cardSize;
+    return b2`
+      <div class="desktop">
+        <button
+          class="toggle"
+          data-active="${String(this.hideAvailable)}"
+          @click=${this.emitToggleHideAvailable}
+          aria-label="Hide available"
+          title="Hide available"
+        >
+          <lv-icon name="${this.hideAvailable ? "eye-off" : "eye"}" size="18"></lv-icon>
+        </button>
+        <button
+          class="toggle"
+          data-active="${String(this.squareCovers)}"
+          @click=${this.emitToggleSquareCovers}
+          aria-label="Square covers"
+          title="Square covers"
+        >
+          <lv-icon name="crop" size="18"></lv-icon>
+        </button>
+        <div class="zoom-wrap">
+          <button class="toggle" ?disabled=${!canZoomOut} @click=${this.zoomOut} aria-label="Zoom out">
+            <lv-icon name="zoom-out" size="18"></lv-icon>
+          </button>
+          <button class="toggle" ?disabled=${!canZoomIn} @click=${this.zoomIn} aria-label="Zoom in">
+            <lv-icon name="zoom-in" size="18"></lv-icon>
+          </button>
+        </div>
+      </div>
+
+      <button class="mobile-trigger" @click=${this.toggleMobile} aria-label="View options" aria-expanded="${String(this.mobileOpen)}">
+        <lv-icon name="ellipsis" size="18"></lv-icon>
+      </button>
+
+      ${this.mobileOpen ? b2`
+          <div class="mobile-menu">
+            <button class="menu-item" @click=${() => {
+      this.emitToggleHideAvailable();
+      this.closeMobile();
+    }}>
+              <lv-icon name="${this.hideAvailable ? "eye-off" : "eye"}" size="16"></lv-icon>
+              <span class="label">Hide Available</span>
+              ${this.hideAvailable ? b2`<span class="state">On</span>` : null}
+            </button>
+            <button class="menu-item" @click=${() => {
+      this.emitToggleSquareCovers();
+      this.closeMobile();
+    }}>
+              <lv-icon name="crop" size="16"></lv-icon>
+              <span class="label">Square Covers</span>
+              ${this.squareCovers ? b2`<span class="state">On</span>` : null}
+            </button>
+            <div class="menu-zoom">
+              <span class="label">Card Size</span>
+              <div class="actions">
+                <button class="toggle" ?disabled=${!canZoomOut} @click=${this.zoomOut} aria-label="Zoom out">
+                  <lv-icon name="zoom-out" size="16"></lv-icon>
+                </button>
+                <button class="toggle" ?disabled=${!canZoomIn} @click=${this.zoomIn} aria-label="Zoom in">
+                  <lv-icon name="zoom-in" size="16"></lv-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        ` : null}
+    `;
+  }
+};
+_ts_decorate9([
+  n5({
+    type: Boolean,
+    reflect: true
+  })
+], LvSectionToolbar.prototype, "hideAvailable", void 0);
+_ts_decorate9([
+  n5({
+    type: Boolean,
+    reflect: true
+  })
+], LvSectionToolbar.prototype, "squareCovers", void 0);
+_ts_decorate9([
+  n5({
+    type: Number,
+    reflect: true
+  })
+], LvSectionToolbar.prototype, "cardSize", void 0);
+_ts_decorate9([
+  r7()
+], LvSectionToolbar.prototype, "mobileOpen", void 0);
+function defineLvSectionToolbar() {
+  defineCustomElement("lv-section-toolbar", LvSectionToolbar);
+}
+
+// src/components/lv-stat-card.ts
+function _ts_decorate10(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2440,22 +2816,22 @@ var LvStatCard = class extends i4 {
     `;
   }
 };
-_ts_decorate9([
+_ts_decorate10([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "label", void 0);
-_ts_decorate9([
+_ts_decorate10([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "value", void 0);
-_ts_decorate9([
+_ts_decorate10([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "subtitle", void 0);
-_ts_decorate9([
+_ts_decorate10([
   n5({
     reflect: true
   })
@@ -2465,7 +2841,7 @@ function defineLvStatCard() {
 }
 
 // src/components/lv-modal.ts
-function _ts_decorate10(decorators, target, key, desc) {
+function _ts_decorate11(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2568,13 +2944,13 @@ var LvModal = class extends i4 {
     `;
   }
 };
-_ts_decorate10([
+_ts_decorate11([
   n5({
     type: Boolean,
     reflect: true
   })
 ], LvModal.prototype, "open", void 0);
-_ts_decorate10([
+_ts_decorate11([
   n5({
     reflect: true
   })
@@ -2584,7 +2960,7 @@ function defineLvModal() {
 }
 
 // src/components/lv-tabs.ts
-function _ts_decorate11(decorators, target, key, desc) {
+function _ts_decorate12(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2642,12 +3018,12 @@ var LvTabs = class extends i4 {
     `;
   }
 };
-_ts_decorate11([
+_ts_decorate12([
   n5({
     attribute: false
   })
 ], LvTabs.prototype, "tabs", void 0);
-_ts_decorate11([
+_ts_decorate12([
   n5({
     reflect: true
   })
@@ -2657,7 +3033,7 @@ function defineLvTabs() {
 }
 
 // src/components/lv-pagination.ts
-function _ts_decorate12(decorators, target, key, desc) {
+function _ts_decorate13(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2726,13 +3102,13 @@ var LvPagination = class extends i4 {
     `;
   }
 };
-_ts_decorate12([
+_ts_decorate13([
   n5({
     type: Number,
     reflect: true
   })
 ], LvPagination.prototype, "page", void 0);
-_ts_decorate12([
+_ts_decorate13([
   n5({
     type: Number,
     reflect: true
@@ -2743,7 +3119,7 @@ function defineLvPagination() {
 }
 
 // src/components/lv-empty-state.ts
-function _ts_decorate13(decorators, target, key, desc) {
+function _ts_decorate14(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2784,12 +3160,12 @@ var LvEmptyState = class extends i4 {
     `;
   }
 };
-_ts_decorate13([
+_ts_decorate14([
   n5({
     reflect: true
   })
 ], LvEmptyState.prototype, "heading", void 0);
-_ts_decorate13([
+_ts_decorate14([
   n5({
     reflect: true
   })
@@ -2799,7 +3175,7 @@ function defineLvEmptyState() {
 }
 
 // src/components/lv-skeleton.ts
-function _ts_decorate14(decorators, target, key, desc) {
+function _ts_decorate15(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2843,17 +3219,17 @@ var LvSkeleton = class extends i4 {
     `;
   }
 };
-_ts_decorate14([
+_ts_decorate15([
   n5({
     reflect: true
   })
 ], LvSkeleton.prototype, "shape", void 0);
-_ts_decorate14([
+_ts_decorate15([
   n5({
     reflect: true
   })
 ], LvSkeleton.prototype, "width", void 0);
-_ts_decorate14([
+_ts_decorate15([
   n5({
     reflect: true
   })
@@ -2863,7 +3239,7 @@ function defineLvSkeleton() {
 }
 
 // src/components/lv-spinner.ts
-function _ts_decorate15(decorators, target, key, desc) {
+function _ts_decorate16(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2895,7 +3271,7 @@ var LvSpinner = class extends i4 {
     `;
   }
 };
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
@@ -2905,7 +3281,7 @@ function defineLvSpinner() {
 }
 
 // src/components/lv-icon.ts
-function _ts_decorate16(decorators, target, key, desc) {
+function _ts_decorate17(decorators, target, key, desc) {
   var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
   else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
@@ -2951,6 +3327,32 @@ var ICONS = {
   `,
   filter: w`
     <path d="M4 6h16" /><path d="M7 12h10" /><path d="M10 18h4" />
+  `,
+  eye: w`
+    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" /><circle
+      cx="12"
+      cy="12"
+      r="2.5"
+    />
+  `,
+  "eye-off": w`
+    <path d="M3 3l18 18" /><path
+      d="M10.58 10.58a2 2 0 0 0 2.83 2.83"
+    /><path
+      d="M9.36 5.36A11.6 11.6 0 0 1 12 5c6.5 0 10 7 10 7a18.4 18.4 0 0 1-4.1 4.9"
+    /><path d="M6.24 6.24C3.8 7.88 2 12 2 12s3.5 6 10 6a11.7 11.7 0 0 0 3.1-.4" />
+  `,
+  crop: w`
+    <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h4M3 15h4M21 9h-4M21 15h-4" />
+  `,
+  "zoom-in": w`
+    <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
+  `,
+  "zoom-out": w`
+    <circle cx="12" cy="12" r="9" /><path d="M8 12h8" />
+  `,
+  ellipsis: w`
+    <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
   `,
   dots: w`
     <circle cx="12" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle
@@ -3008,17 +3410,17 @@ var LvIcon = class extends i4 {
     `;
   }
 };
-_ts_decorate16([
+_ts_decorate17([
   n5({
     reflect: true
   })
 ], LvIcon.prototype, "name", void 0);
-_ts_decorate16([
+_ts_decorate17([
   n5({
     reflect: true
   })
 ], LvIcon.prototype, "size", void 0);
-_ts_decorate16([
+_ts_decorate17([
   n5({
     reflect: true
   })
@@ -3040,6 +3442,7 @@ function defineAllLvComponents() {
   defineLvBadge();
   defineLvTable();
   defineLvToolbar();
+  defineLvSectionToolbar();
   defineLvStatCard();
   defineLvModal();
   defineLvTabs();
@@ -4467,7 +4870,8 @@ var pageManifestResource = resource(async () => rmabService.getPageManifest());
 
 // demo/src/main.ts
 var hideAvailable = c4(false);
-var cardSize = c4("default");
+var squareCovers = c4(false);
+var cardSize = c4(5);
 var searchQuery = c4("");
 var searchResultsResource = resource(async () => rmabService.searchAudiobooks(searchQuery.value));
 function navLinks() {
@@ -4552,11 +4956,10 @@ function bookCard(book) {
     </article>
   `;
 }
-function cycleCardSize() {
-  cardSize.value = cardSize.value === "compact" ? "default" : cardSize.value === "default" ? "large" : "compact";
-}
-function cardSizeLabel() {
-  return cardSize.value === "compact" ? "Small" : cardSize.value === "large" ? "Large" : "Medium";
+function cardSizeClass() {
+  if (cardSize.value <= 3) return "compact";
+  if (cardSize.value >= 7) return "large";
+  return "default";
 }
 function homeSection(title, dotClass, books) {
   const visibleBooks = hideAvailable.value ? books.filter((book) => book.status !== "available") : books;
@@ -4566,24 +4969,24 @@ function homeSection(title, dotClass, books) {
         <div class="sticky-head">
           <span class="section-dot ${dotClass}"></span>
           <h2 class="title-with-icon"><lv-icon name="book" size="18"></lv-icon>${title}</h2>
-          <div class="head-actions">
-            <lv-button
-              size="sm"
-              variant="secondary"
-              @click=${() => hideAvailable.value = !hideAvailable.value}
-            >
-              <lv-icon name="filter" size="14"></lv-icon>
-              ${hideAvailable.value ? "Showing Requested" : "Hide Available"}
-            </lv-button>
-            <lv-button size="sm" variant="secondary" @click=${cycleCardSize}>
-              <lv-icon name="settings" size="14"></lv-icon>
-              Card Size: ${cardSizeLabel()}
-            </lv-button>
-          </div>
+          <lv-section-toolbar
+            .hideAvailable=${hideAvailable.value}
+            .squareCovers=${squareCovers.value}
+            .cardSize=${cardSize.value}
+            @lv-toggle-hide-available=${(event) => {
+    hideAvailable.value = event.detail.value;
+  }}
+            @lv-toggle-square-covers=${(event) => {
+    squareCovers.value = event.detail.value;
+  }}
+            @lv-change-card-size=${(event) => {
+    cardSize.value = event.detail.value;
+  }}
+          ></lv-section-toolbar>
         </div>
       </div>
       <div class="section-content">
-        <div class="cards cards-${cardSize.value}">
+        <div class="cards cards-${cardSizeClass()} ${squareCovers.value ? "covers-square" : ""}">
           ${visibleBooks.map((book) => bookCard(book))}
         </div>
       </div>

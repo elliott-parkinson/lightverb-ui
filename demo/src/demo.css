@@ -87,17 +87,6 @@ p {
   background: linear-gradient(180deg, #10b981, #14b8a6);
 }
 
-.head-actions {
-  display: none;
-  gap: 0.4rem;
-}
-
-@media (min-width: 768px) {
-  .head-actions {
-    display: inline-flex;
-  }
-}
-
 .section-content {
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid rgba(229, 231, 235, 0.7);
@@ -155,6 +144,10 @@ p {
   aspect-ratio: 2 / 3;
   object-fit: cover;
   display: block;
+}
+
+.covers-square .book-card img {
+  aspect-ratio: 1 / 1;
 }
 
 .rating-pill {
