@@ -4,7 +4,13 @@ import { defineCustomElement } from "../utils/define.ts";
 
 export class LvButton extends LitElement {
   @property({ reflect: true })
-  variant: "primary" | "secondary" | "outline" | "ghost" | "danger" = "primary";
+  variant:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "danger"
+    | "neutral" = "primary";
   @property({ reflect: true })
   size: "sm" | "md" | "lg" = "md";
   @property({ type: Boolean, reflect: true })
@@ -31,22 +37,27 @@ export class LvButton extends LitElement {
       width: auto;
       white-space: nowrap;
       outline: none;
-      line-height: 1.2;
+      line-height: 1;
+      min-height: 2.5rem;
+      padding: 0 1rem;
     }
 
     :host([size="sm"]) button {
       font-size: 0.875rem;
-      padding: 0.45rem 0.75rem;
+      min-height: 2rem;
+      padding: 0 0.75rem;
     }
 
     :host([size="md"]) button {
       font-size: 1rem;
-      padding: 0.6rem 0.95rem;
+      min-height: 2.5rem;
+      padding: 0 1rem;
     }
 
     :host([size="lg"]) button {
       font-size: 1.125rem;
-      padding: 0.75rem 1.125rem;
+      min-height: 3rem;
+      padding: 0 1.25rem;
     }
 
     :host([variant="primary"]) button {
@@ -66,6 +77,16 @@ export class LvButton extends LitElement {
 
     :host([variant="secondary"]) button:hover {
       background: #d1d5db;
+    }
+
+    :host([variant="neutral"]) button {
+      background: #ffffff;
+      color: #111827;
+      border-color: #d1d5db;
+    }
+
+    :host([variant="neutral"]) button:hover {
+      background: #f9fafb;
     }
 
     :host([variant="outline"]) button {

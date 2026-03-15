@@ -17,12 +17,7 @@ export class LvCard extends LitElement {
       background: #fff;
       border-radius: 0.5rem;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-      transition: box-shadow 180ms ease;
-    }
-
-    :host(:hover) {
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
     }
 
     .header {

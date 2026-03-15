@@ -22,12 +22,7 @@ export class LvStatCard extends LitElement {
       border: 1px solid #e5e7eb;
       border-radius: 0.5rem;
       padding: 1.5rem;
-      transition: box-shadow 160ms ease;
       background: #f9fafb;
-    }
-
-    :host(:hover) {
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
 
     :host([tone="default"]) {
@@ -86,8 +81,6 @@ export class LvStatCard extends LitElement {
 
     .icon {
       display: inline-flex;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
       color: #4b5563;
     }
 

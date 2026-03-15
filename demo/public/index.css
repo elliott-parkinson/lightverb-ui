@@ -354,6 +354,7 @@ p {
   gap: 0.75rem;
   padding: 0.85rem 1rem;
   border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
 }
 
 .table-toolbar h3 {
@@ -383,22 +384,24 @@ p {
 
 .recent-requests-toolbar {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 0.75rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .recent-requests-controls {
-  margin-left: auto !important;
+  margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 0;
-  flex: 1 1 0;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex: 1 1 22rem;
   min-width: 0;
 }
 
 .recent-requests-search {
   flex: 1 1 auto;
+  max-width: 32rem;
   min-width: 0;
 }
 
@@ -406,21 +409,30 @@ p {
   width: 100%;
 }
 
+.recent-requests-export {
+  flex: 0 0 auto;
+}
+
 .search-toolbar {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  gap: 0;
-  flex-wrap: nowrap;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .search-field {
-  flex: 1 1 auto;
+  flex: 1 1 28rem;
   min-width: 0;
 }
 
 .search-field lv-input-group {
   width: 100%;
+}
+
+.search-submit {
+  flex: 0 0 auto;
+  align-self: flex-end;
 }
 
 @media (max-width: 860px) {
@@ -435,18 +447,23 @@ p {
   }
 
   .recent-requests-controls {
-    margin-left: 0 !important;
+    margin-left: 0;
     flex: 1 1 100%;
     width: 100%;
+    justify-content: flex-start;
   }
 
   .search-toolbar {
     align-items: stretch;
-    flex-wrap: wrap;
   }
 
   .search-field {
     flex: 1 1 100%;
+  }
+
+  .search-submit,
+  .recent-requests-export {
+    align-self: auto;
   }
 }
 

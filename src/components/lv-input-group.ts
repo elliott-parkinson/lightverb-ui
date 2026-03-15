@@ -26,18 +26,18 @@ export class LvInputGroup extends LitElement {
 
     .group {
       width: 100%;
-      min-height: 2.7rem;
+      min-height: 2.5rem;
       display: flex;
-      align-items: center;
+      align-items: stretch;
       gap: 0;
       border: 1px solid #d1d5db;
       border-radius: 0.5rem;
       background: #fff;
-      overflow: hidden;
+      overflow: clip;
     }
 
     :host([compact]) .group {
-      min-height: 2.45rem;
+      min-height: 2.25rem;
       border-radius: 0.5rem;
     }
 
@@ -51,65 +51,49 @@ export class LvInputGroup extends LitElement {
     }
 
     .prefix {
-      padding: 0 0.6rem 0 0.75rem;
+      padding: 0 0.5rem 0 0.75rem;
     }
 
     .field {
       min-width: 0;
       flex: 1 1 auto;
       display: flex;
-      align-items: center;
+      align-items: stretch;
     }
 
     ::slotted(input) {
       width: 100%;
-      height: 2.7rem;
+      height: 100%;
       border: 0;
       outline: 0;
       background: transparent;
       color: #111827;
       font-size: 0.875rem;
       line-height: 1.2;
-      padding: 0 0.95rem;
+      padding: 0 0.75rem;
       margin: 0;
       box-sizing: border-box;
+      min-width: 0;
     }
 
     :host([compact]) ::slotted(input) {
-      height: 2.45rem;
+      height: 100%;
       font-size: 0.84rem;
-      padding: 0 0.8rem;
+      padding: 0 0.7rem;
     }
 
-    ::slotted(button[slot="suffix"]) {
-      height: 2.45rem;
+    ::slotted(*[slot="suffix"]) {
+      height: calc(100% - 0.375rem);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.45rem;
-      padding: 0 1.05rem;
-      border: 0;
-      border-left: 1px solid #e5e7eb;
-      border-radius: 0;
-      background: #e5e7eb;
-      color: #111827;
-      font-size: 0.875rem;
-      font-weight: 700;
-      line-height: 1;
-      cursor: pointer;
-      white-space: nowrap;
-      margin: 0;
+      margin: 0 0.1875rem 0 0;
       box-sizing: border-box;
     }
 
-    :host([compact]) ::slotted(button[slot="suffix"]) {
-      height: 2.45rem;
-      font-size: 0.82rem;
-      padding: 0 0.9rem;
-    }
-
-    ::slotted(button[slot="suffix"]:hover) {
-      background: #d1d5db;
+    :host([compact]) ::slotted(*[slot="suffix"]) {
+      height: calc(100% - 0.25rem);
+      margin-right: 0.125rem;
     }
 
     .group:focus-within {
