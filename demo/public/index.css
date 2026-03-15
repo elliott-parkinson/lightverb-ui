@@ -402,7 +402,7 @@ p {
   min-width: 0;
 }
 
-.recent-requests-search input-group {
+.recent-requests-search lv-input-group {
   width: 100%;
 }
 
@@ -419,7 +419,7 @@ p {
   min-width: 0;
 }
 
-.search-field input-group {
+.search-field lv-input-group {
   width: 100%;
 }
 

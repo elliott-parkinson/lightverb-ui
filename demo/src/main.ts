@@ -473,13 +473,13 @@ function recentRequestsTable(requests: RecentRequest[]) {
           <h3 class="title-with-icon"><lv-icon name="clock" size="16"></lv-icon>Recent Requests</h3>
           <div class="recent-requests-controls">
             <div class="recent-requests-search">
-              <input-group compact>
+              <lv-input-group compact>
                 <input type="text" placeholder="Search requests" />
                 <button slot="suffix" type="button">
                   <lv-icon name="download" size="14"></lv-icon>
                   <span>Export</span>
                 </button>
-              </input-group>
+              </lv-input-group>
             </div>
           </div>
         </div>
@@ -661,13 +661,13 @@ function searchView() {
         <div class="table-card">
           <div class="table-toolbar search-toolbar">
             <div class="search-field">
-              <input-group label="Search Audible">
+              <lv-input-group label="Search Audible">
                 <input type="text" placeholder="Book title, author, narrator" />
                 <button slot="suffix" type="button">
                   <lv-icon name="search" size="15"></lv-icon>
                   <span>Search</span>
                 </button>
-              </input-group>
+              </lv-input-group>
             </div>
           </div>
         </div>
