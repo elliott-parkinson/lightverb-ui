@@ -17,16 +17,17 @@ type Book = {
 };
 
 type DashboardData = {
-  metrics: Array<
-    {
-      label: string;
-      value: string;
-      tone: "default" | "success" | "warning" | "danger" | "info";
-    }
-  >;
-  requests: Array<
-    { title: string; user: string; status: string; progress: string }
-  >;
+  metrics: Array<{
+    label: string;
+    value: string;
+    tone: "default" | "success" | "warning" | "danger" | "info";
+  }>;
+  requests: Array<{
+    title: string;
+    user: string;
+    status: string;
+    progress: string;
+  }>;
 };
 
 const popularBooks: Book[] = [
@@ -181,6 +182,28 @@ function homeView() {
 }
 
 function adminView() {
+  if (dashboardData.pending.value) {
+    return html`
+      <main>
+        <h2>Admin Dashboard</h2>
+        <p style="margin-top: 0.25rem; color: var(--lv-color-muted)">
+          Frontend-only parity demo of ReadMeABook admin widgets.
+        </p>
+        <section class="section" style="display:flex;align-items:center;gap:0.5rem;">
+          <lv-spinner size="18px"></lv-spinner>
+          <span>Loading dashboard...</span>
+        </section>
+        <section class="admin-grid section">
+          ${Array.from({ length: 4 }).map(() =>
+            html`
+              <lv-skeleton shape="box" height="90px"></lv-skeleton>
+            `
+          )}
+        </section>
+      </main>
+    `;
+  }
+
   const metrics = dashboardData.data.value?.metrics ?? [];
   const requests = dashboardData.data.value?.requests ?? [];
 
@@ -215,26 +238,28 @@ function adminView() {
 
       <section class="section">
         <lv-table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>User</th>
-              <th>Status</th>
-              <th>Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${requests.map((request) =>
-              html`
-                <tr>
-                  <td>${request.title}</td>
-                  <td>${request.user}</td>
-                  <td><lv-badge tone="info">${request.status}</lv-badge></td>
-                  <td>${request.progress}</td>
-                </tr>
-              `
-            )}
-          </tbody>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${requests.map((request) =>
+                html`
+                  <tr>
+                    <td>${request.title}</td>
+                    <td>${request.user}</td>
+                    <td><lv-badge tone="info">${request.status}</lv-badge></td>
+                    <td>${request.progress}</td>
+                  </tr>
+                `
+              )}
+            </tbody>
+          </table>
         </lv-table>
       </section>
     </main>
@@ -248,10 +273,15 @@ function requestsView() {
       <section class="section">
         <lv-toolbar>
           <div slot="start" class="toolbar-actions">
-            <lv-badge tone="info">All</lv-badge>
-            <lv-badge tone="warning">Active</lv-badge>
-            <lv-badge tone="success">Completed</lv-badge>
-            <lv-badge tone="danger">Failed</lv-badge>
+            <lv-tabs
+              .tabs="${[
+                { id: "all", label: "All" },
+                { id: "active", label: "Active" },
+                { id: "completed", label: "Completed" },
+                { id: "failed", label: "Failed" },
+              ]}"
+              active="all"
+            ></lv-tabs>
           </div>
           <div slot="end">
             <lv-button size="sm">Load More</lv-button>
@@ -272,6 +302,36 @@ function requestsView() {
             </lv-card>
           `
         )}
+      </section>
+      <section class="section" style="display:flex;justify-content:center;">
+        <lv-pagination page="1" total="6"></lv-pagination>
+      </section>
+    </main>
+  `;
+}
+
+function searchView() {
+  return html`
+    <main>
+      <h2>Search</h2>
+      <section class="section">
+        <lv-toolbar>
+          <div slot="start" style="width:min(100%, 420px)">
+            <lv-input
+              label="Search Audible"
+              placeholder="Book title, author, narrator"
+            ></lv-input>
+          </div>
+          <div slot="end">
+            <lv-button>Search</lv-button>
+          </div>
+        </lv-toolbar>
+      </section>
+      <section class="section">
+        <lv-empty-state
+          heading="No search results yet"
+          description="Run a search to populate this section in the frontend demo."
+        ></lv-empty-state>
       </section>
     </main>
   `;
@@ -325,6 +385,8 @@ enhance("app-root", () => {
         ? adminView()
         : routeName === "requests"
         ? requestsView()
+        : routeName === "search"
+        ? searchView()
         : notFoundView()}
 
       <footer

@@ -9,6 +9,12 @@ export * from "./src/components/lv-badge.ts";
 export * from "./src/components/lv-table.ts";
 export * from "./src/components/lv-toolbar.ts";
 export * from "./src/components/lv-stat-card.ts";
+export * from "./src/components/lv-modal.ts";
+export * from "./src/components/lv-tabs.ts";
+export * from "./src/components/lv-pagination.ts";
+export * from "./src/components/lv-empty-state.ts";
+export * from "./src/components/lv-skeleton.ts";
+export * from "./src/components/lv-spinner.ts";
 
 import { defineLvApp } from "./src/components/lv-app.ts";
 import { defineLvNav } from "./src/components/lv-nav.ts";
@@ -21,6 +27,12 @@ import { defineLvBadge } from "./src/components/lv-badge.ts";
 import { defineLvTable } from "./src/components/lv-table.ts";
 import { defineLvToolbar } from "./src/components/lv-toolbar.ts";
 import { defineLvStatCard } from "./src/components/lv-stat-card.ts";
+import { defineLvModal } from "./src/components/lv-modal.ts";
+import { defineLvTabs } from "./src/components/lv-tabs.ts";
+import { defineLvPagination } from "./src/components/lv-pagination.ts";
+import { defineLvEmptyState } from "./src/components/lv-empty-state.ts";
+import { defineLvSkeleton } from "./src/components/lv-skeleton.ts";
+import { defineLvSpinner } from "./src/components/lv-spinner.ts";
 
 export function defineAllLvComponents(): void {
   defineLvApp();
@@ -34,4 +46,10 @@ export function defineAllLvComponents(): void {
   defineLvTable();
   defineLvToolbar();
   defineLvStatCard();
+  defineLvModal();
+  defineLvTabs();
+  defineLvPagination();
+  defineLvEmptyState();
+  defineLvSkeleton();
+  defineLvSpinner();
 }

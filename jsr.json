@@ -14,7 +14,13 @@
     "./badge": "./src/components/lv-badge.ts",
     "./table": "./src/components/lv-table.ts",
     "./toolbar": "./src/components/lv-toolbar.ts",
-    "./stat-card": "./src/components/lv-stat-card.ts"
+    "./stat-card": "./src/components/lv-stat-card.ts",
+    "./modal": "./src/components/lv-modal.ts",
+    "./tabs": "./src/components/lv-tabs.ts",
+    "./pagination": "./src/components/lv-pagination.ts",
+    "./empty-state": "./src/components/lv-empty-state.ts",
+    "./skeleton": "./src/components/lv-skeleton.ts",
+    "./spinner": "./src/components/lv-spinner.ts"
   },
   "publish": {
     "include": [

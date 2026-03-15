@@ -2206,6 +2206,446 @@ function defineLvStatCard() {
   defineCustomElement("lv-stat-card", LvStatCard);
 }
 
+// src/components/lv-modal.ts
+function _ts_decorate9(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvModal = class extends i4 {
+  open = false;
+  heading = "";
+  static styles = i`
+    :host {
+      display: contents;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.56);
+      display: grid;
+      place-items: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .panel {
+      width: min(100%, 42rem);
+      border-radius: var(--lv-radius-xl, 1rem);
+      border: 1px solid var(--lv-color-border, #e5e7eb);
+      background: var(--lv-color-surface, #fff);
+      box-shadow: 0 25px 65px rgba(17, 24, 39, 0.35);
+      overflow: hidden;
+    }
+
+    .head {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .heading {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .close {
+      border: 0;
+      background: transparent;
+      color: var(--lv-color-muted, #6b7280);
+      cursor: pointer;
+      border-radius: 0.45rem;
+      padding: 0.35rem;
+    }
+
+    .close:hover {
+      background: #f3f4f6;
+      color: var(--lv-color-text, #111827);
+    }
+
+    .body {
+      padding: 1rem;
+    }
+
+    .foot {
+      border-top: 1px solid var(--lv-color-border, #e5e7eb);
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+  `;
+  closeModal() {
+    this.open = false;
+    this.dispatchEvent(new CustomEvent("lv-close", {
+      bubbles: true,
+      composed: true
+    }));
+  }
+  render() {
+    if (!this.open) return null;
+    return b2`
+      <div class="overlay" @click="${this.closeModal}">
+        <div class="panel" @click="${(event) => event.stopPropagation()}">
+          <header class="head">
+            <h3 class="heading">${this.heading}</h3>
+            <button class="close" @click="${this.closeModal}" aria-label="Close modal">
+              ✕
+            </button>
+          </header>
+          <section class="body">
+            <slot></slot>
+          </section>
+          <footer class="foot">
+            <slot name="actions"></slot>
+          </footer>
+        </div>
+      </div>
+    `;
+  }
+};
+_ts_decorate9([
+  n5({
+    type: Boolean,
+    reflect: true
+  })
+], LvModal.prototype, "open", void 0);
+_ts_decorate9([
+  n5({
+    reflect: true
+  })
+], LvModal.prototype, "heading", void 0);
+function defineLvModal() {
+  defineCustomElement("lv-modal", LvModal);
+}
+
+// src/components/lv-tabs.ts
+function _ts_decorate10(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvTabs = class extends i4 {
+  tabs = [];
+  active = "";
+  static styles = i`
+    :host {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button {
+      border: 1px solid var(--lv-color-border, #e5e7eb);
+      border-radius: 999px;
+      background: var(--lv-color-surface, #fff);
+      color: var(--lv-color-muted, #6b7280);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      transition: all 120ms ease;
+    }
+
+    button:hover {
+      border-color: #cbd5e1;
+      color: var(--lv-color-text, #111827);
+    }
+
+    button[data-active="true"] {
+      background: #dbeafe;
+      border-color: #bfdbfe;
+      color: #1e40af;
+    }
+  `;
+  selectTab(id) {
+    this.active = id;
+    this.dispatchEvent(new CustomEvent("lv-change", {
+      detail: {
+        id
+      },
+      bubbles: true,
+      composed: true
+    }));
+  }
+  render() {
+    return b2`
+      ${this.tabs.map((tab) => b2`
+          <button data-active="${String(this.active === tab.id)}" @click="${() => this.selectTab(tab.id)}">${tab.label}</button>
+        `)}
+    `;
+  }
+};
+_ts_decorate10([
+  n5({
+    attribute: false
+  })
+], LvTabs.prototype, "tabs", void 0);
+_ts_decorate10([
+  n5({
+    reflect: true
+  })
+], LvTabs.prototype, "active", void 0);
+function defineLvTabs() {
+  defineCustomElement("lv-tabs", LvTabs);
+}
+
+// src/components/lv-pagination.ts
+function _ts_decorate11(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvPagination = class extends i4 {
+  page = 1;
+  total = 1;
+  static styles = i`
+    :host {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--lv-color-surface, #fff);
+      border: 1px solid var(--lv-color-border, #e5e7eb);
+      border-radius: 999px;
+      padding: 0.35rem;
+      box-shadow: var(--lv-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.07));
+    }
+
+    button {
+      border: 0;
+      background: transparent;
+      color: var(--lv-color-text, #111827);
+      border-radius: 999px;
+      padding: 0.4rem 0.65rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: rgba(148, 163, 184, 0.16);
+    }
+
+    button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .text {
+      font-size: 0.8rem;
+      color: var(--lv-color-muted, #6b7280);
+      min-width: 5rem;
+      text-align: center;
+    }
+  `;
+  updatePage(nextPage) {
+    this.page = Math.min(Math.max(nextPage, 1), Math.max(this.total, 1));
+    this.dispatchEvent(new CustomEvent("lv-change", {
+      detail: {
+        page: this.page
+      },
+      bubbles: true,
+      composed: true
+    }));
+  }
+  render() {
+    return b2`
+      <button ?disabled="${this.page <= 1}" @click="${() => this.updatePage(this.page - 1)}" aria-label="Previous page">
+        ←
+      </button>
+      <span class="text">${this.page} / ${this.total}</span>
+      <button ?disabled="${this.page >= this.total}" @click="${() => this.updatePage(this.page + 1)}" aria-label="Next page">
+        →
+      </button>
+    `;
+  }
+};
+_ts_decorate11([
+  n5({
+    type: Number,
+    reflect: true
+  })
+], LvPagination.prototype, "page", void 0);
+_ts_decorate11([
+  n5({
+    type: Number,
+    reflect: true
+  })
+], LvPagination.prototype, "total", void 0);
+function defineLvPagination() {
+  defineCustomElement("lv-pagination", LvPagination);
+}
+
+// src/components/lv-empty-state.ts
+function _ts_decorate12(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvEmptyState = class extends i4 {
+  heading = "No data";
+  description = "";
+  static styles = i`
+    :host {
+      display: block;
+      border: 1px dashed var(--lv-color-border, #d1d5db);
+      border-radius: var(--lv-radius-lg, 0.75rem);
+      padding: 1.2rem;
+      text-align: center;
+      color: var(--lv-color-muted, #6b7280);
+      background: #fff;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--lv-color-text, #111827);
+    }
+
+    p {
+      margin: 0.45rem 0 0;
+      font-size: 0.82rem;
+    }
+  `;
+  render() {
+    return b2`
+      <h3>${this.heading}</h3>
+      ${this.description ? b2`
+          <p>${this.description}</p>
+        ` : null}
+      <slot></slot>
+    `;
+  }
+};
+_ts_decorate12([
+  n5({
+    reflect: true
+  })
+], LvEmptyState.prototype, "heading", void 0);
+_ts_decorate12([
+  n5({
+    reflect: true
+  })
+], LvEmptyState.prototype, "description", void 0);
+function defineLvEmptyState() {
+  defineCustomElement("lv-empty-state", LvEmptyState);
+}
+
+// src/components/lv-skeleton.ts
+function _ts_decorate13(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvSkeleton = class extends i4 {
+  shape = "line";
+  width = "100%";
+  height = "14px";
+  static styles = i`
+    :host {
+      display: block;
+    }
+
+    .sk {
+      width: var(--w, 100%);
+      height: var(--h, 14px);
+      border-radius: 0.55rem;
+      background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);
+      background-size: 400% 100%;
+      animation: shimmer 1.25s ease infinite;
+    }
+
+    :host([shape="box"]) .sk {
+      border-radius: var(--lv-radius-md, 0.5rem);
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 100% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+  `;
+  render() {
+    const style = `--w:${this.width};--h:${this.height};`;
+    return b2`
+      <div class="sk" style="${style}"></div>
+    `;
+  }
+};
+_ts_decorate13([
+  n5({
+    reflect: true
+  })
+], LvSkeleton.prototype, "shape", void 0);
+_ts_decorate13([
+  n5({
+    reflect: true
+  })
+], LvSkeleton.prototype, "width", void 0);
+_ts_decorate13([
+  n5({
+    reflect: true
+  })
+], LvSkeleton.prototype, "height", void 0);
+function defineLvSkeleton() {
+  defineCustomElement("lv-skeleton", LvSkeleton);
+}
+
+// src/components/lv-spinner.ts
+function _ts_decorate14(decorators, target, key, desc) {
+  var c5 = arguments.length, r8 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d4;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r8 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i7 = decorators.length - 1; i7 >= 0; i7--) if (d4 = decorators[i7]) r8 = (c5 < 3 ? d4(r8) : c5 > 3 ? d4(target, key, r8) : d4(target, key)) || r8;
+  return c5 > 3 && r8 && Object.defineProperty(target, key, r8), r8;
+}
+var LvSpinner = class extends i4 {
+  size = "20px";
+  static styles = i`
+    :host {
+      display: inline-flex;
+      width: var(--s, 20px);
+      height: var(--s, 20px);
+      border: 2px solid rgba(37, 99, 235, 0.28);
+      border-right-color: var(--lv-color-primary, #2563eb);
+      border-radius: 999px;
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  `;
+  render() {
+    this.style.setProperty("--s", this.size);
+    return b2`
+
+    `;
+  }
+};
+_ts_decorate14([
+  n5({
+    reflect: true
+  })
+], LvSpinner.prototype, "size", void 0);
+function defineLvSpinner() {
+  defineCustomElement("lv-spinner", LvSpinner);
+}
+
 // index.ts
 function defineAllLvComponents() {
   defineLvApp();
@@ -2219,6 +2659,12 @@ function defineAllLvComponents() {
   defineLvTable();
   defineLvToolbar();
   defineLvStatCard();
+  defineLvModal();
+  defineLvTabs();
+  defineLvPagination();
+  defineLvEmptyState();
+  defineLvSkeleton();
+  defineLvSpinner();
 }
 
 // demo/src/main.ts
@@ -2391,6 +2837,27 @@ function homeView() {
   `;
 }
 function adminView() {
+  if (dashboardData.pending.value) {
+    return b2`
+      <main>
+        <h2>Admin Dashboard</h2>
+        <p style="margin-top: 0.25rem; color: var(--lv-color-muted)">
+          Frontend-only parity demo of ReadMeABook admin widgets.
+        </p>
+        <section class="section" style="display:flex;align-items:center;gap:0.5rem;">
+          <lv-spinner size="18px"></lv-spinner>
+          <span>Loading dashboard...</span>
+        </section>
+        <section class="admin-grid section">
+          ${Array.from({
+      length: 4
+    }).map(() => b2`
+              <lv-skeleton shape="box" height="90px"></lv-skeleton>
+            `)}
+        </section>
+      </main>
+    `;
+  }
   const metrics = dashboardData.data.value?.metrics ?? [];
   const requests = dashboardData.data.value?.requests ?? [];
   return b2`
@@ -2422,24 +2889,26 @@ function adminView() {
 
       <section class="section">
         <lv-table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>User</th>
-              <th>Status</th>
-              <th>Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${requests.map((request) => b2`
-                <tr>
-                  <td>${request.title}</td>
-                  <td>${request.user}</td>
-                  <td><lv-badge tone="info">${request.status}</lv-badge></td>
-                  <td>${request.progress}</td>
-                </tr>
-              `)}
-          </tbody>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${requests.map((request) => b2`
+                  <tr>
+                    <td>${request.title}</td>
+                    <td>${request.user}</td>
+                    <td><lv-badge tone="info">${request.status}</lv-badge></td>
+                    <td>${request.progress}</td>
+                  </tr>
+                `)}
+            </tbody>
+          </table>
         </lv-table>
       </section>
     </main>
@@ -2452,10 +2921,27 @@ function requestsView() {
       <section class="section">
         <lv-toolbar>
           <div slot="start" class="toolbar-actions">
-            <lv-badge tone="info">All</lv-badge>
-            <lv-badge tone="warning">Active</lv-badge>
-            <lv-badge tone="success">Completed</lv-badge>
-            <lv-badge tone="danger">Failed</lv-badge>
+            <lv-tabs
+              .tabs="${[
+    {
+      id: "all",
+      label: "All"
+    },
+    {
+      id: "active",
+      label: "Active"
+    },
+    {
+      id: "completed",
+      label: "Completed"
+    },
+    {
+      id: "failed",
+      label: "Failed"
+    }
+  ]}"
+              active="all"
+            ></lv-tabs>
           </div>
           <div slot="end">
             <lv-button size="sm">Load More</lv-button>
@@ -2474,6 +2960,35 @@ function requestsView() {
               </div>
             </lv-card>
           `)}
+      </section>
+      <section class="section" style="display:flex;justify-content:center;">
+        <lv-pagination page="1" total="6"></lv-pagination>
+      </section>
+    </main>
+  `;
+}
+function searchView() {
+  return b2`
+    <main>
+      <h2>Search</h2>
+      <section class="section">
+        <lv-toolbar>
+          <div slot="start" style="width:min(100%, 420px)">
+            <lv-input
+              label="Search Audible"
+              placeholder="Book title, author, narrator"
+            ></lv-input>
+          </div>
+          <div slot="end">
+            <lv-button>Search</lv-button>
+          </div>
+        </lv-toolbar>
+      </section>
+      <section class="section">
+        <lv-empty-state
+          heading="No search results yet"
+          description="Run a search to populate this section in the frontend demo."
+        ></lv-empty-state>
       </section>
     </main>
   `;
@@ -2517,7 +3032,7 @@ enhance("app-root", () => {
         <lv-button slot="actions" size="sm">Login</lv-button>
       </lv-nav>
 
-      ${routeName === "home" ? homeView() : routeName === "admin" ? adminView() : routeName === "requests" ? requestsView() : notFoundView()}
+      ${routeName === "home" ? homeView() : routeName === "admin" ? adminView() : routeName === "requests" ? requestsView() : routeName === "search" ? searchView() : notFoundView()}
 
       <footer
         slot="footer"
