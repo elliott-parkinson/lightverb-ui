@@ -42,7 +42,7 @@ export class LvInput extends LitElement {
 
     input:focus {
       border-color: var(--lv-color-primary, #2563eb);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+      box-shadow: 0 0 0 3px var(--lv-color-focus-soft, rgba(37, 99, 235, 0.18));
     }
 
     .hint {

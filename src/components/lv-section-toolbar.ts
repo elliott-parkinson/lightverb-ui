@@ -57,13 +57,13 @@ export class LvSectionToolbar extends LitElement {
     .desktop {
       display: none;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.3rem;
     }
 
     .mobile-trigger {
       border: 0;
       background: transparent;
-      color: #4b5563;
+      color: var(--lv-color-subtle-text, #4b5563);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -74,28 +74,39 @@ export class LvSectionToolbar extends LitElement {
     }
 
     .mobile-trigger:hover {
-      background: rgba(255, 255, 255, 0.6);
-      color: #111827;
+      background: var(--lv-color-hover-soft, rgba(255, 255, 255, 0.6));
+      color: var(--lv-color-text, #111827);
     }
 
     .toggle {
-      border: 0;
+      border: 1px solid transparent;
       background: transparent;
-      color: #4b5563;
+      color: var(--lv-color-subtle-text, #475569);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 0.38rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.55rem;
       cursor: pointer;
-      transition: background-color 180ms ease, color 180ms ease, transform 120ms ease;
+      transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease,
+        box-shadow 160ms ease, transform 120ms ease;
     }
 
     .toggle:hover {
-      background: rgba(255, 255, 255, 0.6);
-      color: #111827;
-      transform: translateY(-1px);
+      color: var(--lv-color-text, #334155);
+      background: var(--lv-color-hover-soft, rgba(241, 245, 249, 0.92));
+      border-color: var(--lv-color-border-strong, #d1d5db);
+    }
+
+    .toggle:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    .toggle:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--lv-color-focus-outline, #fff),
+        0 0 0 4px var(--lv-color-focus-ring, rgba(59, 130, 246, 0.55));
     }
 
     .toggle:disabled {
@@ -105,19 +116,32 @@ export class LvSectionToolbar extends LitElement {
 
     .toggle:disabled:hover {
       background: transparent;
-      color: #4b5563;
+      color: var(--lv-color-subtle-text, #4b5563);
     }
 
     .toggle[data-active="true"] {
-      background: rgba(59, 130, 246, 0.18);
-      color: #2563eb;
-      box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.3);
+      background: var(--lv-color-primary-active-bg, #224876);
+      color: #61afff;
+      border-color: var(--lv-color-primary-active-border, #35649b);
+      box-shadow: inset 0 0 0 1px rgb(97 175 255 / 0.16),
+        var(--lv-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.06));
+    }
+
+    .toggle.settings {
+      color: var(--lv-color-muted, #94a3b8);
+      width: 2.05rem;
+      height: 2.05rem;
+    }
+
+    .toggle.settings:hover {
+      color: var(--lv-color-muted, #6b7280);
+      background: transparent;
     }
 
     .zoom-wrap {
       display: inline-flex;
       align-items: center;
-      gap: 0.12rem;
+      gap: 0.08rem;
     }
 
     lv-icon {
@@ -130,10 +154,10 @@ export class LvSectionToolbar extends LitElement {
       right: 0;
       min-width: 13.5rem;
       z-index: 70;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--lv-color-border, #e5e7eb);
       border-radius: 0.55rem;
-      background: #fff;
-      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+      background: var(--lv-color-surface, #fff);
+      box-shadow: 0 12px 32px rgb(var(--lv-color-shadow-rgb, 15 23 42) / 0.16);
       overflow: hidden;
       display: grid;
       gap: 0;
@@ -144,7 +168,7 @@ export class LvSectionToolbar extends LitElement {
     .menu-item {
       border: 0;
       background: transparent;
-      color: #374151;
+      color: var(--lv-color-subtle-text, #374151);
       display: flex;
       align-items: center;
       gap: 0.65rem;
@@ -157,7 +181,7 @@ export class LvSectionToolbar extends LitElement {
     }
 
     .menu-item:hover {
-      background: #f9fafb;
+      background: var(--lv-color-surface-alt, #f9fafb);
     }
 
     .menu-item .label {
@@ -165,7 +189,7 @@ export class LvSectionToolbar extends LitElement {
     }
 
     .menu-item .state {
-      color: #2563eb;
+      color: var(--lv-color-primary, #2563eb);
       font-size: 0.75rem;
       font-weight: 600;
     }
@@ -176,7 +200,7 @@ export class LvSectionToolbar extends LitElement {
       justify-content: space-between;
       gap: 0.5rem;
       padding: 0.55rem 0.75rem;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid var(--lv-color-border, #e5e7eb);
     }
 
     .mobile-menu .menu-item:nth-child(1) {
@@ -195,7 +219,7 @@ export class LvSectionToolbar extends LitElement {
     }
 
     .menu-zoom .label {
-      color: #374151;
+      color: var(--lv-color-subtle-text, #374151);
       font-size: 0.875rem;
     }
 
@@ -305,27 +329,32 @@ export class LvSectionToolbar extends LitElement {
           data-active="${String(this.hideAvailable)}"
           @click=${() => this.emitToggleHideAvailable()}
           aria-label="Hide available"
+          aria-pressed="${String(this.hideAvailable)}"
           title="Hide available"
         >
-          <lv-icon name="${this.hideAvailable ? "eye-off" : "eye"}" size="18"></lv-icon>
+          <lv-icon name="${this.hideAvailable ? "eye-off" : "eye"}" size="22"></lv-icon>
         </button>
         <button
           class="toggle"
           data-active="${String(this.squareCovers)}"
           @click=${() => this.emitToggleSquareCovers()}
           aria-label="Square covers"
+          aria-pressed="${String(this.squareCovers)}"
           title="Square covers"
         >
-          <lv-icon name="crop" size="18"></lv-icon>
+          <lv-icon name="view-mode" size="22"></lv-icon>
         </button>
         <div class="zoom-wrap">
           <button class="toggle" ?disabled=${!canZoomOut} @click=${() => this.zoomOut()} aria-label="Zoom out">
-            <lv-icon name="zoom-out" size="18"></lv-icon>
+            <lv-icon name="zoom-out" size="22"></lv-icon>
           </button>
           <button class="toggle" ?disabled=${!canZoomIn} @click=${() => this.zoomIn()} aria-label="Zoom in">
-            <lv-icon name="zoom-in" size="18"></lv-icon>
+            <lv-icon name="zoom-in" size="22"></lv-icon>
           </button>
         </div>
+        <button class="toggle settings" aria-label="Section settings" title="Section settings">
+          <lv-icon name="settings" size="20"></lv-icon>
+        </button>
       </div>
 
       <button class="mobile-trigger" @click=${() => this.toggleMobile()} aria-label="View options" aria-expanded="${String(this.mobileOpen)}">
@@ -354,10 +383,10 @@ export class LvSectionToolbar extends LitElement {
             <div class="menu-zoom">
               <span class="label">Card Size</span>
               <div class="actions">
-                <button class="toggle" ?disabled=${!canZoomOut} @click=${this.zoomOut} aria-label="Zoom out">
+                <button class="toggle" ?disabled=${!canZoomOut} @click=${() => this.zoomOut()} aria-label="Zoom out">
                   <lv-icon name="zoom-out" size="16"></lv-icon>
                 </button>
-                <button class="toggle" ?disabled=${!canZoomIn} @click=${this.zoomIn} aria-label="Zoom in">
+                <button class="toggle" ?disabled=${!canZoomIn} @click=${() => this.zoomIn()} aria-label="Zoom in">
                   <lv-icon name="zoom-in" size="16"></lv-icon>
                 </button>
               </div>

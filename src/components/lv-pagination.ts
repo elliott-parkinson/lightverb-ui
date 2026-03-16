@@ -31,7 +31,7 @@ export class LvPagination extends LitElement {
     }
 
     button:hover {
-      background: rgba(148, 163, 184, 0.16);
+      background: var(--lv-color-hover-soft, rgba(148, 163, 184, 0.16));
     }
 
     button:disabled {

@@ -34,14 +34,14 @@ export class LvTabs extends LitElement {
     }
 
     button:hover {
-      border-color: #cbd5e1;
+      border-color: var(--lv-color-border-strong, #cbd5e1);
       color: var(--lv-color-text, #111827);
     }
 
     button[data-active="true"] {
-      background: #dbeafe;
-      border-color: #bfdbfe;
-      color: #1e40af;
+      background: var(--lv-color-status-info-bg, #dbeafe);
+      border-color: var(--lv-color-status-info-border, #bfdbfe);
+      color: var(--lv-color-status-info-text, #1e40af);
     }
   `;
 

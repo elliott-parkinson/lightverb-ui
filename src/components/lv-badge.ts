@@ -19,33 +19,33 @@ export class LvBadge extends LitElement {
     }
 
     :host([tone="default"]) {
-      color: #374151;
-      background: #f3f4f6;
-      border-color: #e5e7eb;
+      color: var(--lv-color-subtle-text, #374151);
+      background: var(--lv-color-surface-alt, #f3f4f6);
+      border-color: var(--lv-color-border, #e5e7eb);
     }
 
     :host([tone="success"]) {
-      color: #065f46;
-      background: #d1fae5;
-      border-color: #a7f3d0;
+      color: var(--lv-color-status-success-text, #065f46);
+      background: var(--lv-color-status-success-bg, #d1fae5);
+      border-color: var(--lv-color-status-success-border, #a7f3d0);
     }
 
     :host([tone="warning"]) {
-      color: #92400e;
-      background: #fef3c7;
-      border-color: #fde68a;
+      color: var(--lv-color-status-warning-text, #92400e);
+      background: var(--lv-color-status-warning-bg, #fef3c7);
+      border-color: var(--lv-color-status-warning-border, #fde68a);
     }
 
     :host([tone="danger"]) {
-      color: #991b1b;
-      background: #fee2e2;
-      border-color: #fecaca;
+      color: var(--lv-color-status-danger-text, #991b1b);
+      background: var(--lv-color-status-danger-bg, #fee2e2);
+      border-color: var(--lv-color-status-danger-border, #fecaca);
     }
 
     :host([tone="info"]) {
-      color: #1e40af;
-      background: #dbeafe;
-      border-color: #bfdbfe;
+      color: var(--lv-color-status-info-text, #1e40af);
+      background: var(--lv-color-status-info-bg, #dbeafe);
+      border-color: var(--lv-color-status-info-border, #bfdbfe);
     }
   `;
 

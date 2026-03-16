@@ -29,6 +29,8 @@ export type RecentRequest = {
   user: string;
   status: string;
   createdAt: string;
+  author?: string;
+  cover?: string;
   type?: "ebook" | "audiobook";
 };
 

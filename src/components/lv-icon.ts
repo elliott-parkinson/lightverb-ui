@@ -60,6 +60,13 @@ const ICONS: Record<string, TemplateResult> = {
   crop: svg`
     <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h4M3 15h4M21 9h-4M21 15h-4" />
   `,
+  "view-mode": svg`
+    <rect x="4" y="3.5" width="16" height="17" rx="2.5" />
+    <path d="M9 8.5h6M9 12h6M9 15.5h4" />
+    <circle cx="7" cy="8.5" r="0.7" fill="currentColor" stroke="none" />
+    <circle cx="7" cy="12" r="0.7" fill="currentColor" stroke="none" />
+    <circle cx="7" cy="15.5" r="0.7" fill="currentColor" stroke="none" />
+  `,
   "zoom-in": svg`
     <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
   `,
@@ -99,8 +106,8 @@ export class LvIcon extends LitElement {
   static override styles = css`
     :host {
       display: inline-flex;
-      width: 1em;
-      height: 1em;
+      width: var(--lv-icon-size, 1em);
+      height: var(--lv-icon-size, 1em);
       line-height: 1;
       color: currentColor;
       flex-shrink: 0;

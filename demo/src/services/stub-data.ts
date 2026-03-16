@@ -48,7 +48,71 @@ export const DASHBOARD_STUB: DashboardData = {
   ],
 };
 
-export const REQUESTS_STUB: RecentRequest[] = [...DASHBOARD_STUB.recentRequests];
+export const REQUESTS_STUB: RecentRequest[] = [
+  {
+    requestId: "rq-1001",
+    title: "Love, Death + Robots: The Official Anthology: Volume 4",
+    author: "Stan Litore",
+    user: "hydrate31",
+    status: "awaiting_search",
+    createdAt: "7m ago",
+    cover: "/placeholder_cover.svg",
+  },
+  {
+    requestId: "rq-1002",
+    title: "Love, Death + Robots: The Official Anthology: Volume 2 & 3",
+    author: "John Scalzi",
+    user: "hydrate31",
+    status: "awaiting_search",
+    createdAt: "8m ago",
+    cover: "/placeholder_cover.svg",
+  },
+  {
+    requestId: "rq-1003",
+    title: "Expansion",
+    author: "Peter F. Hamilton",
+    user: "hydrate31",
+    status: "awaiting_search",
+    createdAt: "8m ago",
+    cover: "/placeholder_cover.svg",
+  },
+  {
+    requestId: "rq-1004",
+    title: "Pandore abusee",
+    author: "Peter F. Hamilton",
+    user: "hydrate31",
+    status: "awaiting_search",
+    createdAt: "9m ago",
+    cover: "/placeholder_cover.svg",
+  },
+  {
+    requestId: "rq-1005",
+    title: "Dungeon Crawler Carl 7",
+    author: "Matt Dinniman",
+    user: "hydrate31",
+    status: "processing",
+    createdAt: "15m ago",
+    cover: "/placeholder_cover.svg",
+  },
+  {
+    requestId: "rq-1006",
+    title: "The Way of Kings",
+    author: "Brandon Sanderson",
+    user: "hydrate31",
+    status: "searching",
+    createdAt: "32m ago",
+    cover: "/placeholder_cover.svg",
+  },
+  {
+    requestId: "rq-1007",
+    title: "The Sunlit Man",
+    author: "Brandon Sanderson",
+    user: "hydrate31",
+    status: "completed",
+    createdAt: "1h ago",
+    cover: "/placeholder_cover.svg",
+  },
+];
 
 export const VERSION_STUB = { version: "0.9.4", name: "ReadMeABook" };
 

@@ -16,7 +16,7 @@ export class LvModal extends LitElement {
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(17, 24, 39, 0.56);
+      background: var(--lv-color-overlay, rgba(17, 24, 39, 0.56));
       display: grid;
       place-items: center;
       z-index: 1000;
@@ -28,7 +28,7 @@ export class LvModal extends LitElement {
       border-radius: var(--lv-radius-xl, 1rem);
       border: 1px solid var(--lv-color-border, #e5e7eb);
       background: var(--lv-color-surface, #fff);
-      box-shadow: 0 25px 65px rgba(17, 24, 39, 0.35);
+      box-shadow: 0 25px 65px rgb(var(--lv-color-shadow-rgb, 15 23 42) / 0.35);
       overflow: hidden;
     }
 
@@ -57,7 +57,7 @@ export class LvModal extends LitElement {
     }
 
     .close:hover {
-      background: #f3f4f6;
+      background: var(--lv-color-surface-alt, #f3f4f6);
       color: var(--lv-color-text, #111827);
     }
 

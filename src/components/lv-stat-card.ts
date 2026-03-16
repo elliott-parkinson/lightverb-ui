@@ -19,36 +19,36 @@ export class LvStatCard extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--lv-color-border, #e5e7eb);
       border-radius: 0.5rem;
       padding: 1.5rem;
-      background: #f9fafb;
+      background: var(--lv-color-surface-alt, #f9fafb);
     }
 
     :host([tone="default"]) {
-      background: #f9fafb;
-      border-color: #e5e7eb;
+      background: var(--lv-color-surface-alt, #f9fafb);
+      border-color: var(--lv-color-border, #e5e7eb);
     }
 
     :host([tone="success"]) {
-      background: #f0fdf4;
-      border-color: #bbf7d0;
+      background: var(--lv-color-status-success-bg, #d1fae5);
+      border-color: var(--lv-color-status-success-border, #bbf7d0);
     }
 
     :host([tone="warning"]) {
-      background: #fefce8;
-      border-color: #fde68a;
+      background: var(--lv-color-status-warning-bg, #fef3c7);
+      border-color: var(--lv-color-status-warning-border, #fde68a);
     }
 
     :host([tone="danger"]),
     :host([tone="error"]) {
-      background: #fef2f2;
-      border-color: #fecaca;
+      background: var(--lv-color-status-danger-bg, #fee2e2);
+      border-color: var(--lv-color-status-danger-border, #fecaca);
     }
 
     :host([tone="info"]) {
-      background: #eff6ff;
-      border-color: #bfdbfe;
+      background: var(--lv-color-status-info-bg, #dbeafe);
+      border-color: var(--lv-color-status-info-border, #bfdbfe);
     }
 
     .top {
@@ -62,7 +62,7 @@ export class LvStatCard extends LitElement {
       margin: 0;
       font-size: 0.875rem;
       font-weight: 500;
-      color: #6b7280;
+      color: var(--lv-color-muted, #6b7280);
     }
 
     .value {
@@ -70,35 +70,35 @@ export class LvStatCard extends LitElement {
       font-size: 1.875rem;
       line-height: 1.1;
       font-weight: 700;
-      color: #111827;
+      color: var(--lv-color-text, #111827);
     }
 
     .subtitle {
       margin: 0.25rem 0 0;
       font-size: 0.75rem;
-      color: #6b7280;
+      color: var(--lv-color-muted, #6b7280);
     }
 
     .icon {
       display: inline-flex;
-      color: #4b5563;
+      color: var(--lv-color-subtle-text, #4b5563);
     }
 
     :host([tone="success"]) .icon {
-      color: #16a34a;
+      color: var(--lv-color-status-success-text, #16a34a);
     }
 
     :host([tone="warning"]) .icon {
-      color: #ca8a04;
+      color: var(--lv-color-status-warning-text, #ca8a04);
     }
 
     :host([tone="danger"]) .icon,
     :host([tone="error"]) .icon {
-      color: #dc2626;
+      color: var(--lv-color-status-danger-text, #dc2626);
     }
 
     :host([tone="info"]) .icon {
-      color: #2563eb;
+      color: var(--lv-color-status-info-text, #2563eb);
     }
   `;
 

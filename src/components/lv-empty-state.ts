@@ -16,7 +16,7 @@ export class LvEmptyState extends LitElement {
       padding: 1.2rem;
       text-align: center;
       color: var(--lv-color-muted, #6b7280);
-      background: #fff;
+      background: var(--lv-color-surface, #fff);
     }
 
     h3 {

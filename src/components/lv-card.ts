@@ -13,11 +13,11 @@ export class LvCard extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: 1px solid #e5e7eb;
-      background: #fff;
+      border: 1px solid var(--lv-color-border, #e5e7eb);
+      background: var(--lv-color-surface, #fff);
       border-radius: 0.5rem;
       overflow: hidden;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      box-shadow: var(--lv-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.06));
     }
 
     .header {
@@ -34,13 +34,13 @@ export class LvCard extends LitElement {
       margin: 0;
       font-size: 1rem;
       font-weight: 600;
-      color: #111827;
+      color: var(--lv-color-text, #111827);
     }
 
     .subtitle {
       margin: 0;
       font-size: 0.875rem;
-      color: #4b5563;
+      color: var(--lv-color-subtle-text, #4b5563);
     }
 
     .body {

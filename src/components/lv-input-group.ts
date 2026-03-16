@@ -9,6 +9,9 @@ export class LvInputGroup extends LitElement {
   @property({ reflect: true })
   compact = false;
 
+  @property({ reflect: true })
+  size: "md" | "lg" = "md";
+
   static override styles = css`
     :host {
       display: block;
@@ -18,7 +21,7 @@ export class LvInputGroup extends LitElement {
     .label {
       display: block;
       margin: 0 0 0.35rem;
-      color: #111827;
+      color: var(--lv-color-text, #111827);
       font-size: 0.875rem;
       font-weight: 500;
       line-height: 1.2;
@@ -30,9 +33,9 @@ export class LvInputGroup extends LitElement {
       display: flex;
       align-items: stretch;
       gap: 0;
-      border: 1px solid #d1d5db;
+      border: 1px solid var(--lv-color-border-strong, #d1d5db);
       border-radius: 0.5rem;
-      background: #fff;
+      background: var(--lv-color-surface, #fff);
       overflow: clip;
       transition: border-color 140ms ease, box-shadow 140ms ease;
     }
@@ -42,12 +45,17 @@ export class LvInputGroup extends LitElement {
       border-radius: 0.5rem;
     }
 
+    :host([size="lg"]) .group {
+      min-height: 4.25rem;
+      border-radius: 0.75rem;
+    }
+
     .prefix,
     .suffix {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: #6b7280;
+      color: var(--lv-color-muted, #6b7280);
       flex: 0 0 auto;
     }
 
@@ -68,7 +76,7 @@ export class LvInputGroup extends LitElement {
       border: 0;
       outline: 0;
       background: transparent;
-      color: #111827;
+      color: var(--lv-color-text, #111827);
       font-size: 0.875rem;
       line-height: 1.2;
       padding: 0 0.75rem;
@@ -81,6 +89,11 @@ export class LvInputGroup extends LitElement {
       height: 100%;
       font-size: 0.84rem;
       padding: 0 0.7rem;
+    }
+
+    :host([size="lg"]) ::slotted(input) {
+      font-size: 1.15rem;
+      padding: 0 1rem;
     }
 
     ::slotted(*[slot="suffix"]) {
@@ -99,8 +112,8 @@ export class LvInputGroup extends LitElement {
     }
 
     .group:focus-within {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+      border-color: var(--lv-color-primary, #3b82f6);
+      box-shadow: 0 0 0 3px var(--lv-color-focus-soft, rgba(59, 130, 246, 0.16));
     }
 
     ::slotted(*[slot="suffix"]:hover) {

@@ -19,7 +19,12 @@ export class LvSkeleton extends LitElement {
       width: var(--w, 100%);
       height: var(--h, 14px);
       border-radius: 0.55rem;
-      background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);
+      background: linear-gradient(
+        90deg,
+        var(--lv-color-skeleton-a, #e5e7eb) 25%,
+        var(--lv-color-skeleton-b, #f3f4f6) 37%,
+        var(--lv-color-skeleton-a, #e5e7eb) 63%
+      );
       background-size: 400% 100%;
       animation: shimmer 1.25s ease infinite;
     }

@@ -1,22 +1,56 @@
 :root {
-  --lv-font-sans: Arial, Helvetica, sans-serif;
-  --lv-color-bg: #f9fafb;
+  color-scheme: light;
+  --lv-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --lv-color-bg: #f3f4f6;
   --lv-color-surface: #ffffff;
-  --lv-color-surface-dark: #1f2937;
+  --lv-color-surface-alt: #f9fafb;
+  --lv-color-nav-bg: #ffffff;
+  --lv-color-nav-link: #374151;
+  --lv-color-nav-link-hover: #111827;
+  --lv-color-nav-link-active: #111827;
   --lv-color-text: #111827;
   --lv-color-muted: #6b7280;
+  --lv-color-subtle-text: #4b5563;
   --lv-color-border: #e5e7eb;
+  --lv-color-border-strong: #d1d5db;
   --lv-color-primary: #2563eb;
   --lv-color-primary-hover: #1d4ed8;
+  --lv-color-on-primary: #ffffff;
+  --lv-color-primary-shadow: rgba(37, 99, 235, 0.24);
+  --lv-color-primary-track: rgba(37, 99, 235, 0.28);
+  --lv-color-danger-hover: #b91c1c;
   --lv-color-success: #059669;
   --lv-color-warning: #d97706;
   --lv-color-danger: #dc2626;
+  --lv-color-overlay: rgba(17, 24, 39, 0.56);
+  --lv-color-focus-outline: #ffffff;
+  --lv-color-focus-ring: rgba(59, 130, 246, 0.55);
+  --lv-color-focus-soft: rgba(59, 130, 246, 0.16);
+  --lv-color-hover-soft: rgba(148, 163, 184, 0.16);
+  --lv-color-primary-soft: rgba(37, 99, 235, 0.04);
+  --lv-color-primary-active-bg: rgba(59, 130, 246, 0.2);
+  --lv-color-primary-active-border: rgba(59, 130, 246, 0.3);
+  --lv-color-skeleton-a: #e5e7eb;
+  --lv-color-skeleton-b: #f3f4f6;
+  --lv-color-shadow-rgb: 15 23 42;
+  --lv-color-status-success-bg: #d1fae5;
+  --lv-color-status-success-border: #a7f3d0;
+  --lv-color-status-success-text: #065f46;
+  --lv-color-status-warning-bg: #fef3c7;
+  --lv-color-status-warning-border: #fde68a;
+  --lv-color-status-warning-text: #92400e;
+  --lv-color-status-danger-bg: #fee2e2;
+  --lv-color-status-danger-border: #fecaca;
+  --lv-color-status-danger-text: #991b1b;
+  --lv-color-status-info-bg: #dbeafe;
+  --lv-color-status-info-border: #bfdbfe;
+  --lv-color-status-info-text: #1e40af;
   --lv-radius-sm: 0.375rem;
   --lv-radius-md: 0.5rem;
   --lv-radius-lg: 0.75rem;
   --lv-radius-xl: 1rem;
-  --lv-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.07);
-  --lv-shadow-md: 0 8px 20px rgba(0, 0, 0, 0.09);
+  --lv-shadow-sm: 0 1px 2px rgb(var(--lv-color-shadow-rgb) / 0.07);
+  --lv-shadow-md: 0 8px 20px rgb(var(--lv-color-shadow-rgb) / 0.09);
   --lv-spacing-1: 0.25rem;
   --lv-spacing-2: 0.5rem;
   --lv-spacing-3: 0.75rem;
@@ -25,12 +59,100 @@
   --lv-spacing-6: 1.5rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --lv-color-bg: #000000;
+    --lv-color-surface: #111827;
+    --lv-color-surface-alt: #1f2937;
+    --lv-color-nav-bg: #1e2a3f;
+    --lv-color-nav-link: #ffffff;
+    --lv-color-nav-link-hover: #ffffff;
+    --lv-color-nav-link-active: #ffffff;
+    --lv-color-text: #f3f4f6;
+    --lv-color-muted: #94a3b8;
+    --lv-color-subtle-text: #cbd5e1;
+    --lv-color-border: #334155;
+    --lv-color-border-strong: #475569;
+    --lv-color-primary: #3b82f6;
+    --lv-color-primary-hover: #60a5fa;
+    --lv-color-on-primary: #eff6ff;
+    --lv-color-primary-shadow: rgba(59, 130, 246, 0.32);
+    --lv-color-primary-track: rgba(59, 130, 246, 0.36);
+    --lv-color-danger-hover: #dc2626;
+    --lv-color-overlay: rgba(2, 6, 23, 0.72);
+    --lv-color-focus-outline: #0f172a;
+    --lv-color-focus-ring: rgba(59, 130, 246, 0.6);
+    --lv-color-focus-soft: rgba(59, 130, 246, 0.24);
+    --lv-color-hover-soft: #22314a;
+    --lv-color-primary-soft: rgba(59, 130, 246, 0.16);
+    --lv-color-primary-active-bg: #224876;
+    --lv-color-primary-active-border: #35649b;
+    --lv-color-skeleton-a: #334155;
+    --lv-color-skeleton-b: #1e293b;
+    --lv-color-shadow-rgb: 2 6 23;
+    --lv-color-status-success-bg: #064e3b;
+    --lv-color-status-success-border: #065f46;
+    --lv-color-status-success-text: #a7f3d0;
+    --lv-color-status-warning-bg: #78350f;
+    --lv-color-status-warning-border: #92400e;
+    --lv-color-status-warning-text: #fcd34d;
+    --lv-color-status-danger-bg: #7f1d1d;
+    --lv-color-status-danger-border: #991b1b;
+    --lv-color-status-danger-text: #fca5a5;
+    --lv-color-status-info-bg: #1e3a8a;
+    --lv-color-status-info-border: #1e40af;
+    --lv-color-status-info-text: #bfdbfe;
+  }
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
 [data-theme="dark"] {
-  --lv-color-bg: #111827;
-  --lv-color-surface: #1f2937;
-  --lv-color-text: #f9fafb;
-  --lv-color-muted: #9ca3af;
-  --lv-color-border: #374151;
+  color-scheme: dark;
+  --lv-color-bg: #000000;
+  --lv-color-surface: #111827;
+  --lv-color-surface-alt: #1f2937;
+  --lv-color-nav-bg: #1e2a3f;
+  --lv-color-nav-link: #ffffff;
+  --lv-color-nav-link-hover: #ffffff;
+  --lv-color-nav-link-active: #ffffff;
+  --lv-color-text: #f3f4f6;
+  --lv-color-muted: #94a3b8;
+  --lv-color-subtle-text: #cbd5e1;
+  --lv-color-border: #334155;
+  --lv-color-border-strong: #475569;
+  --lv-color-primary: #3b82f6;
+  --lv-color-primary-hover: #60a5fa;
+  --lv-color-on-primary: #eff6ff;
+  --lv-color-primary-shadow: rgba(59, 130, 246, 0.32);
+  --lv-color-primary-track: rgba(59, 130, 246, 0.36);
+  --lv-color-danger-hover: #dc2626;
+  --lv-color-overlay: rgba(2, 6, 23, 0.72);
+  --lv-color-focus-outline: #0f172a;
+  --lv-color-focus-ring: rgba(59, 130, 246, 0.6);
+  --lv-color-focus-soft: rgba(59, 130, 246, 0.24);
+  --lv-color-hover-soft: #22314a;
+  --lv-color-primary-soft: rgba(59, 130, 246, 0.16);
+  --lv-color-primary-active-bg: #224876;
+  --lv-color-primary-active-border: #35649b;
+  --lv-color-skeleton-a: #334155;
+  --lv-color-skeleton-b: #1e293b;
+  --lv-color-shadow-rgb: 2 6 23;
+  --lv-color-status-success-bg: #064e3b;
+  --lv-color-status-success-border: #065f46;
+  --lv-color-status-success-text: #a7f3d0;
+  --lv-color-status-warning-bg: #78350f;
+  --lv-color-status-warning-border: #92400e;
+  --lv-color-status-warning-text: #fcd34d;
+  --lv-color-status-danger-bg: #7f1d1d;
+  --lv-color-status-danger-border: #991b1b;
+  --lv-color-status-danger-text: #fca5a5;
+  --lv-color-status-info-bg: #1e3a8a;
+  --lv-color-status-info-border: #1e40af;
+  --lv-color-status-info-text: #bfdbfe;
 }
 
 * {

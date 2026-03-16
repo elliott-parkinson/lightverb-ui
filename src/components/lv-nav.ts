@@ -24,9 +24,9 @@ export class LvNav extends LitElement {
       position: sticky;
       top: 0;
       z-index: 40;
-      background: var(--lv-color-surface, #fff);
+      background: var(--lv-color-nav-bg, var(--lv-color-surface, #fff));
       border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--lv-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.05));
     }
 
     @keyframes nav-mobile-in {
@@ -43,9 +43,9 @@ export class LvNav extends LitElement {
     .container {
       width: min(100%, 80rem);
       margin-inline: auto;
-      padding: 0.75rem 1rem;
+      padding: 0.8rem 1rem;
       display: grid;
-      gap: 0.7rem;
+      gap: 0.6rem;
     }
 
     .top {
@@ -58,11 +58,12 @@ export class LvNav extends LitElement {
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
       min-width: 0;
-      color: #111827;
+      color: var(--lv-color-text, #111827);
       font-size: 1.25rem;
       font-weight: 700;
+      letter-spacing: normal;
       text-decoration: none;
     }
 
@@ -76,30 +77,35 @@ export class LvNav extends LitElement {
     nav {
       display: none;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1.6rem;
     }
 
     a {
       text-decoration: none;
-      color: #4b5563;
-      font-size: 0.95rem;
+      color: var(--lv-color-nav-link, var(--lv-color-subtle-text, #374151));
+      opacity: 1;
+      font-size: 1rem;
       font-weight: 500;
-      transition: color 160ms ease;
+      transition: color 160ms ease, opacity 160ms ease;
+    }
+
+    a:visited {
+      color: var(--lv-color-nav-link, var(--lv-color-subtle-text, #374151));
     }
 
     a:hover {
-      color: #2563eb;
+      color: var(--lv-color-nav-link-hover, var(--lv-color-text, #111827));
     }
 
     a[data-active="true"] {
-      color: #2563eb;
-      font-weight: 600;
+      color: var(--lv-color-nav-link-active, var(--lv-color-text, #1f2937));
+      font-weight: 500;
     }
 
     .actions {
       display: none;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.85rem;
       flex-shrink: 0;
     }
 
@@ -112,15 +118,15 @@ export class LvNav extends LitElement {
       border: 0;
       border-radius: 0.375rem;
       background: transparent;
-      color: #4b5563;
+      color: var(--lv-color-subtle-text, #4b5563);
       cursor: pointer;
       padding: 0;
       transition: background-color 160ms ease, color 160ms ease, transform 120ms ease;
     }
 
     .toggle:hover {
-      background: #f3f4f6;
-      color: #111827;
+      background: var(--lv-color-surface-alt, #f3f4f6);
+      color: var(--lv-color-text, #111827);
       transform: translateY(-1px);
     }
 
@@ -137,7 +143,7 @@ export class LvNav extends LitElement {
     .mobile {
       display: grid;
       gap: 0.35rem;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid var(--lv-color-border, #e5e7eb);
       padding-top: 0.7rem;
       animation: nav-mobile-in 150ms ease-out both;
     }
@@ -145,23 +151,27 @@ export class LvNav extends LitElement {
     .mobile a {
       padding: 0.55rem 0.65rem;
       border-radius: 0.45rem;
+      font-size: 1rem;
     }
 
     .mobile a:hover,
     .mobile a[data-active="true"] {
-      background: #f3f4f6;
-      color: #111827;
+      background: var(--lv-color-surface-alt, #f3f4f6);
+      color: var(--lv-color-text, #111827);
     }
 
     @media (min-width: 768px) {
       .container {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
         align-items: center;
-        justify-content: space-between;
+        padding-top: 0.95rem;
+        padding-bottom: 0.95rem;
+        column-gap: 1rem;
       }
 
       .top {
-        gap: 1rem;
+        display: contents;
       }
 
       .toggle,
@@ -172,6 +182,18 @@ export class LvNav extends LitElement {
       nav,
       .actions {
         display: inline-flex;
+      }
+
+      .brand {
+        justify-self: start;
+      }
+
+      nav {
+        justify-self: center;
+      }
+
+      .actions {
+        justify-self: end;
       }
     }
   `;
