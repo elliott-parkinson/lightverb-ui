@@ -1,5 +1,6 @@
 export * from "./src/components/lv-app.ts";
 export * from "./src/components/lv-admin-page.ts";
+export * from "./src/components/lv-avatar.ts";
 export * from "./src/components/lv-nav.ts";
 export * from "./src/components/lv-button.ts";
 export * from "./src/components/lv-input.ts";
@@ -23,6 +24,7 @@ export * from "./src/components/lv-icon.ts";
 
 import { defineLvApp } from "./src/components/lv-app.ts";
 import { defineLvAdminPage } from "./src/components/lv-admin-page.ts";
+import { defineLvAvatar } from "./src/components/lv-avatar.ts";
 import { defineLvNav } from "./src/components/lv-nav.ts";
 import { defineLvButton } from "./src/components/lv-button.ts";
 import { defineLvInput } from "./src/components/lv-input.ts";
@@ -47,6 +49,7 @@ import { defineLvIcon } from "./src/components/lv-icon.ts";
 export function defineAllLvComponents(): void {
   defineLvApp();
   defineLvAdminPage();
+  defineLvAvatar();
   defineLvNav();
   defineLvButton();
   defineLvInput();

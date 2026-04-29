@@ -41,6 +41,9 @@
   --lv-color-glass-surface: rgba(255, 255, 255, 0.92);
   --lv-color-glass-surface-strong: rgba(255, 255, 255, 0.9);
   --lv-color-glass-border: rgba(229, 231, 235, 0.5);
+  --lv-color-avatar-start: #e6c9b2;
+  --lv-color-avatar-end: #7f614f;
+  --lv-color-avatar-text: #ffffff;
   --lv-color-tab-count-bg: #e5e7eb;
   --lv-color-live: #10b981;
   --lv-color-ebook-bg: rgba(241, 111, 25, 0.12);
@@ -116,10 +119,13 @@
     --lv-color-image-border: rgba(148, 163, 184, 0.16);
     --lv-color-image-shadow: rgba(2, 6, 23, 0.44);
     --lv-color-image-shadow-hover: rgba(2, 6, 23, 0.58);
-    --lv-color-glass-surface: rgba(17, 24, 39, 0.92);
-    --lv-color-glass-surface-strong: rgba(31, 41, 55, 0.9);
-    --lv-color-glass-border: rgba(55, 65, 81, 0.5);
-    --lv-color-tab-count-bg: #334155;
+  --lv-color-glass-surface: rgba(17, 24, 39, 0.92);
+  --lv-color-glass-surface-strong: rgba(31, 41, 55, 0.9);
+  --lv-color-glass-border: rgba(55, 65, 81, 0.5);
+  --lv-color-avatar-start: #b08968;
+  --lv-color-avatar-end: #5b4636;
+  --lv-color-avatar-text: #ffffff;
+  --lv-color-tab-count-bg: #334155;
     --lv-color-live: #34d399;
     --lv-color-ebook-bg: rgba(251, 146, 60, 0.16);
     --lv-color-ebook-text: #fdba74;
@@ -189,6 +195,9 @@
   --lv-color-glass-surface: rgba(17, 24, 39, 0.92);
   --lv-color-glass-surface-strong: rgba(31, 41, 55, 0.9);
   --lv-color-glass-border: rgba(55, 65, 81, 0.5);
+  --lv-color-avatar-start: #b08968;
+  --lv-color-avatar-end: #5b4636;
+  --lv-color-avatar-text: #ffffff;
   --lv-color-tab-count-bg: #334155;
   --lv-color-live: #34d399;
   --lv-color-ebook-bg: rgba(251, 146, 60, 0.16);
