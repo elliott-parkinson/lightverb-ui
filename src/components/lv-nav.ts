@@ -41,18 +41,27 @@ export class LvNav extends LitElement {
     }
 
     .container {
+      box-sizing: border-box;
       width: min(100%, 80rem);
       margin-inline: auto;
       padding: 0.8rem 1rem;
       display: grid;
       gap: 0.6rem;
+      overflow: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
     }
 
     .top {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
+      gap: 0.5rem;
+      min-width: 0;
     }
 
     .brand {
@@ -60,6 +69,7 @@ export class LvNav extends LitElement {
       align-items: center;
       gap: 0.55rem;
       min-width: 0;
+      overflow: hidden;
       color: var(--lv-color-text, #111827);
       font-size: 1.25rem;
       font-weight: 700;
@@ -109,14 +119,24 @@ export class LvNav extends LitElement {
       flex-shrink: 0;
     }
 
+    .mobile-actions-bar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.35rem;
+      flex-shrink: 0;
+      min-width: 0;
+    }
+
     .toggle {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      flex: 0 0 2.25rem;
       border: 0;
-      border-radius: 0.375rem;
+      border-radius: 0.45rem;
       background: transparent;
       color: var(--lv-color-subtle-text, #4b5563);
       cursor: pointer;
@@ -142,14 +162,17 @@ export class LvNav extends LitElement {
 
     .mobile {
       display: grid;
-      gap: 0.35rem;
+      gap: 0.2rem;
       border-top: 1px solid var(--lv-color-border, #e5e7eb);
       padding-top: 0.7rem;
       animation: nav-mobile-in 150ms ease-out both;
+      width: 100%;
+      min-width: 0;
     }
 
     .mobile a {
-      padding: 0.55rem 0.65rem;
+      display: block;
+      padding: 0.58rem 0.75rem;
       border-radius: 0.45rem;
       font-size: 1rem;
     }
@@ -182,6 +205,10 @@ export class LvNav extends LitElement {
       nav,
       .actions {
         display: inline-flex;
+      }
+
+      .mobile-actions-bar {
+        display: none;
       }
 
       .brand {
@@ -239,6 +266,8 @@ export class LvNav extends LitElement {
 
           <div class="actions"><slot name="actions"></slot></div>
 
+          <div class="mobile-actions-bar"><slot name="mobile-actions"></slot></div>
+
           <button class="toggle" @click="${this
             .toggleMobile}" aria-label="Toggle navigation">
             ${this.renderMenuIcon()}
@@ -249,7 +278,7 @@ export class LvNav extends LitElement {
           ? html`
             <div class="mobile">${this.links.map((link) =>
               this.renderLink(link)
-            )}<slot name="mobile-actions"></slot></div>
+            )}<slot name="mobile-menu-actions"></slot></div>
           `
           : null}
       </div>

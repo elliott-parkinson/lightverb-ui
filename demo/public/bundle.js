@@ -1342,8 +1342,114 @@ function r7(r10) {
   });
 }
 
-// src/components/lv-nav.ts
+// src/components/lv-admin-page.ts
 function _ts_decorate(decorators, target, key, desc) {
+  var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
+  return c7 > 3 && r10 && Object.defineProperty(target, key, r10), r10;
+}
+var LvAdminPage = class extends i6 {
+  heading = "";
+  description = "";
+  static styles = i4`
+    :host {
+      display: block;
+      min-height: 100%;
+      background: var(--lv-color-bg, #f9fafb);
+    }
+
+    .page {
+      box-sizing: border-box;
+      width: min(100%, 80rem);
+      margin-inline: auto;
+      padding: 1.5rem 1rem 2rem;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: -1.5rem -1rem 1.5rem;
+      padding: 1rem;
+      background: var(--lv-color-bg, #f9fafb);
+      border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--lv-color-text, #111827);
+      font-size: clamp(1.5rem, 1.35rem + 0.55vw, 1.875rem);
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    p {
+      margin: 0.25rem 0 0;
+      color: var(--lv-color-muted, #6b7280);
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+
+    .actions {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding-top: 1.25rem;
+      }
+
+      .header {
+        position: static;
+        display: grid;
+        justify-content: stretch;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+    }
+  `;
+  render() {
+    return b2`
+      <main class="page">
+        <div class="header">
+          <div>
+            <h1>${this.heading}</h1>
+            <p>${this.description}</p>
+          </div>
+          <div class="actions"><slot name="actions"></slot></div>
+        </div>
+        <slot></slot>
+      </main>
+    `;
+  }
+};
+_ts_decorate([
+  n5({
+    reflect: true
+  })
+], LvAdminPage.prototype, "heading", void 0);
+_ts_decorate([
+  n5({
+    reflect: true
+  })
+], LvAdminPage.prototype, "description", void 0);
+function defineLvAdminPage() {
+  defineCustomElement("lv-admin-page", LvAdminPage);
+}
+
+// src/components/lv-nav.ts
+function _ts_decorate2(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -1376,18 +1482,27 @@ var LvNav = class extends i6 {
     }
 
     .container {
+      box-sizing: border-box;
       width: min(100%, 80rem);
       margin-inline: auto;
       padding: 0.8rem 1rem;
       display: grid;
       gap: 0.6rem;
+      overflow: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
     }
 
     .top {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
+      gap: 0.5rem;
+      min-width: 0;
     }
 
     .brand {
@@ -1395,6 +1510,7 @@ var LvNav = class extends i6 {
       align-items: center;
       gap: 0.55rem;
       min-width: 0;
+      overflow: hidden;
       color: var(--lv-color-text, #111827);
       font-size: 1.25rem;
       font-weight: 700;
@@ -1444,14 +1560,24 @@ var LvNav = class extends i6 {
       flex-shrink: 0;
     }
 
+    .mobile-actions-bar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.35rem;
+      flex-shrink: 0;
+      min-width: 0;
+    }
+
     .toggle {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      flex: 0 0 2.25rem;
       border: 0;
-      border-radius: 0.375rem;
+      border-radius: 0.45rem;
       background: transparent;
       color: var(--lv-color-subtle-text, #4b5563);
       cursor: pointer;
@@ -1477,14 +1603,17 @@ var LvNav = class extends i6 {
 
     .mobile {
       display: grid;
-      gap: 0.35rem;
+      gap: 0.2rem;
       border-top: 1px solid var(--lv-color-border, #e5e7eb);
       padding-top: 0.7rem;
       animation: nav-mobile-in 150ms ease-out both;
+      width: 100%;
+      min-width: 0;
     }
 
     .mobile a {
-      padding: 0.55rem 0.65rem;
+      display: block;
+      padding: 0.58rem 0.75rem;
       border-radius: 0.45rem;
       font-size: 1rem;
     }
@@ -1517,6 +1646,10 @@ var LvNav = class extends i6 {
       nav,
       .actions {
         display: inline-flex;
+      }
+
+      .mobile-actions-bar {
+        display: none;
       }
 
       .brand {
@@ -1567,29 +1700,31 @@ var LvNav = class extends i6 {
 
           <div class="actions"><slot name="actions"></slot></div>
 
+          <div class="mobile-actions-bar"><slot name="mobile-actions"></slot></div>
+
           <button class="toggle" @click="${this.toggleMobile}" aria-label="Toggle navigation">
             ${this.renderMenuIcon()}
           </button>
         </div>
 
         ${this.mobileOpen ? b2`
-            <div class="mobile">${this.links.map((link) => this.renderLink(link))}<slot name="mobile-actions"></slot></div>
+            <div class="mobile">${this.links.map((link) => this.renderLink(link))}<slot name="mobile-menu-actions"></slot></div>
           ` : null}
       </div>
     `;
   }
 };
-_ts_decorate([
+_ts_decorate2([
   n5({
     attribute: false
   })
 ], LvNav.prototype, "links", void 0);
-_ts_decorate([
+_ts_decorate2([
   n5({
     reflect: true
   })
 ], LvNav.prototype, "title", void 0);
-_ts_decorate([
+_ts_decorate2([
   r7()
 ], LvNav.prototype, "mobileOpen", void 0);
 function defineLvNav() {
@@ -1597,7 +1732,7 @@ function defineLvNav() {
 }
 
 // src/components/lv-button.ts
-function _ts_decorate2(decorators, target, key, desc) {
+function _ts_decorate3(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -1761,23 +1896,23 @@ var LvButton = class extends i6 {
     `;
   }
 };
-_ts_decorate2([
+_ts_decorate3([
   n5({
     reflect: true
   })
 ], LvButton.prototype, "variant", void 0);
-_ts_decorate2([
+_ts_decorate3([
   n5({
     reflect: true
   })
 ], LvButton.prototype, "size", void 0);
-_ts_decorate2([
+_ts_decorate3([
   n5({
     type: Boolean,
     reflect: true
   })
 ], LvButton.prototype, "loading", void 0);
-_ts_decorate2([
+_ts_decorate3([
   n5({
     type: Boolean,
     reflect: true
@@ -1788,7 +1923,7 @@ function defineLvButton() {
 }
 
 // src/components/lv-input.ts
-function _ts_decorate3(decorators, target, key, desc) {
+function _ts_decorate4(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -1867,27 +2002,27 @@ var LvInput = class extends i6 {
     `;
   }
 };
-_ts_decorate3([
+_ts_decorate4([
   n5({
     reflect: true
   })
 ], LvInput.prototype, "label", void 0);
-_ts_decorate3([
+_ts_decorate4([
   n5({
     reflect: true
   })
 ], LvInput.prototype, "placeholder", void 0);
-_ts_decorate3([
+_ts_decorate4([
   n5({
     reflect: true
   })
 ], LvInput.prototype, "value", void 0);
-_ts_decorate3([
+_ts_decorate4([
   n5({
     reflect: true
   })
 ], LvInput.prototype, "type", void 0);
-_ts_decorate3([
+_ts_decorate4([
   n5({
     reflect: true
   })
@@ -1897,7 +2032,7 @@ function defineLvInput() {
 }
 
 // src/components/lv-input-group.ts
-function _ts_decorate4(decorators, target, key, desc) {
+function _ts_decorate5(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2026,17 +2161,17 @@ var LvInputGroup = class extends i6 {
     `;
   }
 };
-_ts_decorate4([
+_ts_decorate5([
   n5({
     reflect: true
   })
 ], LvInputGroup.prototype, "label", void 0);
-_ts_decorate4([
+_ts_decorate5([
   n5({
     reflect: true
   })
 ], LvInputGroup.prototype, "compact", void 0);
-_ts_decorate4([
+_ts_decorate5([
   n5({
     reflect: true
   })
@@ -2046,7 +2181,7 @@ function defineLvInputGroup() {
 }
 
 // src/components/lv-surface.ts
-function _ts_decorate5(decorators, target, key, desc) {
+function _ts_decorate6(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2089,12 +2224,12 @@ var LvSurface = class extends i6 {
     `;
   }
 };
-_ts_decorate5([
+_ts_decorate6([
   n5({
     reflect: true
   })
 ], LvSurface.prototype, "elevation", void 0);
-_ts_decorate5([
+_ts_decorate6([
   n5({
     reflect: true
   })
@@ -2104,7 +2239,7 @@ function defineLvSurface() {
 }
 
 // src/components/lv-grid.ts
-function _ts_decorate6(decorators, target, key, desc) {
+function _ts_decorate7(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2143,13 +2278,13 @@ var LvGrid = class extends i6 {
     `;
   }
 };
-_ts_decorate6([
+_ts_decorate7([
   n5({
     type: Number,
     reflect: true
   })
 ], LvGrid.prototype, "cols", void 0);
-_ts_decorate6([
+_ts_decorate7([
   n5({
     type: Number,
     reflect: true
@@ -2160,7 +2295,7 @@ function defineLvGrid() {
 }
 
 // src/components/lv-card.ts
-function _ts_decorate7(decorators, target, key, desc) {
+function _ts_decorate8(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2226,17 +2361,17 @@ var LvCard = class extends i6 {
     `;
   }
 };
-_ts_decorate7([
+_ts_decorate8([
   n5({
     reflect: true
   })
 ], LvCard.prototype, "title", void 0);
-_ts_decorate7([
+_ts_decorate8([
   n5({
     reflect: true
   })
 ], LvCard.prototype, "subtitle", void 0);
-_ts_decorate7([
+_ts_decorate8([
   n5({
     type: Boolean,
     reflect: true
@@ -2247,7 +2382,7 @@ function defineLvCard() {
 }
 
 // src/components/lv-badge.ts
-function _ts_decorate8(decorators, target, key, desc) {
+function _ts_decorate9(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2303,7 +2438,7 @@ var LvBadge = class extends i6 {
     `;
   }
 };
-_ts_decorate8([
+_ts_decorate9([
   n5({
     reflect: true
   })
@@ -2317,10 +2452,10 @@ var LvTable = class extends i6 {
   static styles = i4`
     :host {
       display: block;
-      border: 1px solid var(--lv-color-border, #e5e7eb);
-      border-radius: var(--lv-radius-lg, 0.75rem);
-      overflow: auto;
+      border-radius: 0.5rem;
+      overflow: hidden;
       background: var(--lv-color-surface, #fff);
+      box-shadow: var(--lv-shadow-md, 0 8px 20px rgb(15 23 42 / 0.09));
     }
 
     .wrap {
@@ -2347,25 +2482,48 @@ var LvTable = class extends i6 {
         font-size: 0.875rem;
       }
 
+      lv-table thead {
+        background: var(--lv-color-surface-alt, #f9fafb);
+      }
+
       lv-table thead th {
         text-align: left;
         color: var(--lv-color-muted, #6b7280);
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        padding: 0.75rem;
+        padding: 0.75rem 1.5rem;
         border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
+        white-space: nowrap;
       }
 
       lv-table tbody td {
-        padding: 0.75rem;
+        padding: 1rem 1.5rem;
         border-bottom: 1px solid var(--lv-color-border, #e5e7eb);
         color: var(--lv-color-text, #111827);
+        vertical-align: middle;
       }
 
       lv-table tbody tr:hover {
-        background: var(--lv-color-primary-soft, rgba(37, 99, 235, 0.04));
+        background: var(--lv-color-surface-alt, #f9fafb);
+      }
+
+      lv-table tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      lv-table .text-right {
+        text-align: right;
+      }
+
+      lv-table .muted {
+        color: var(--lv-color-muted, #6b7280);
+      }
+
+      lv-table .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.75rem;
       }
       </style>
       <div class="wrap">
@@ -2376,6 +2534,129 @@ var LvTable = class extends i6 {
 };
 function defineLvTable() {
   defineCustomElement("lv-table", LvTable);
+}
+
+// src/components/lv-list.ts
+var LvList = class extends i6 {
+  static styles = i4`
+    :host {
+      display: grid;
+      gap: 0.75rem;
+    }
+  `;
+  render() {
+    return b2`<slot></slot>`;
+  }
+};
+var LvListItem = class extends i6 {
+  static styles = i4`
+    :host {
+      display: block;
+      border: 1px solid var(--lv-color-border, #e5e7eb);
+      border-radius: 0.75rem;
+      background: var(--lv-color-surface, #fff);
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .media {
+      min-width: 0;
+    }
+
+    .body {
+      min-width: 0;
+      display: grid;
+      gap: 0.55rem;
+      padding: 1rem;
+    }
+
+    .head {
+      display: grid;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .title {
+      min-width: 0;
+      color: var(--lv-color-text, #111827);
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .meta {
+      color: var(--lv-color-muted, #6b7280);
+      font-size: 0.875rem;
+      line-height: 1.35;
+      min-width: 0;
+    }
+
+    .details {
+      color: var(--lv-color-subtle-text, #374151);
+      min-width: 0;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    ::slotted([slot="media"]) {
+      display: inline-flex;
+    }
+
+    @media (max-width: 640px) {
+      .item {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .title-row {
+        align-items: flex-start;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+    }
+  `;
+  render() {
+    return b2`
+      <article class="item">
+        <div class="media"><slot name="media"></slot></div>
+        <div class="body">
+          <div class="head">
+            <div class="title-row">
+              <div class="title"><slot name="title"></slot></div>
+              <div class="actions"><slot name="actions"></slot></div>
+            </div>
+            <div class="meta"><slot name="meta"></slot></div>
+          </div>
+          <div class="details"><slot></slot></div>
+        </div>
+      </article>
+    `;
+  }
+};
+function defineLvList() {
+  defineCustomElement("lv-list", LvList);
+  defineCustomElement("lv-list-item", LvListItem);
 }
 
 // src/components/lv-toolbar.ts
@@ -2412,7 +2693,7 @@ function defineLvToolbar() {
 }
 
 // src/components/lv-section-toolbar.ts
-function _ts_decorate9(decorators, target, key, desc) {
+function _ts_decorate10(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2832,25 +3113,25 @@ var LvSectionToolbar = class extends i6 {
     `;
   }
 };
-_ts_decorate9([
+_ts_decorate10([
   n5({
     type: Boolean,
     reflect: true
   })
 ], LvSectionToolbar.prototype, "hideAvailable", void 0);
-_ts_decorate9([
+_ts_decorate10([
   n5({
     type: Boolean,
     reflect: true
   })
 ], LvSectionToolbar.prototype, "squareCovers", void 0);
-_ts_decorate9([
+_ts_decorate10([
   n5({
     type: Number,
     reflect: true
   })
 ], LvSectionToolbar.prototype, "cardSize", void 0);
-_ts_decorate9([
+_ts_decorate10([
   r7()
 ], LvSectionToolbar.prototype, "mobileOpen", void 0);
 function defineLvSectionToolbar() {
@@ -2858,7 +3139,7 @@ function defineLvSectionToolbar() {
 }
 
 // src/components/lv-stat-card.ts
-function _ts_decorate10(decorators, target, key, desc) {
+function _ts_decorate11(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -2971,22 +3252,22 @@ var LvStatCard = class extends i6 {
     `;
   }
 };
-_ts_decorate10([
+_ts_decorate11([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "label", void 0);
-_ts_decorate10([
+_ts_decorate11([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "value", void 0);
-_ts_decorate10([
+_ts_decorate11([
   n5({
     reflect: true
   })
 ], LvStatCard.prototype, "subtitle", void 0);
-_ts_decorate10([
+_ts_decorate11([
   n5({
     reflect: true
   })
@@ -2996,7 +3277,7 @@ function defineLvStatCard() {
 }
 
 // src/components/lv-modal.ts
-function _ts_decorate11(decorators, target, key, desc) {
+function _ts_decorate12(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3099,13 +3380,13 @@ var LvModal = class extends i6 {
     `;
   }
 };
-_ts_decorate11([
+_ts_decorate12([
   n5({
     type: Boolean,
     reflect: true
   })
 ], LvModal.prototype, "open", void 0);
-_ts_decorate11([
+_ts_decorate12([
   n5({
     reflect: true
   })
@@ -3115,7 +3396,7 @@ function defineLvModal() {
 }
 
 // src/components/lv-tabs.ts
-function _ts_decorate12(decorators, target, key, desc) {
+function _ts_decorate13(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3173,12 +3454,12 @@ var LvTabs = class extends i6 {
     `;
   }
 };
-_ts_decorate12([
+_ts_decorate13([
   n5({
     attribute: false
   })
 ], LvTabs.prototype, "tabs", void 0);
-_ts_decorate12([
+_ts_decorate13([
   n5({
     reflect: true
   })
@@ -3188,7 +3469,7 @@ function defineLvTabs() {
 }
 
 // src/components/lv-pagination.ts
-function _ts_decorate13(decorators, target, key, desc) {
+function _ts_decorate14(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3257,13 +3538,13 @@ var LvPagination = class extends i6 {
     `;
   }
 };
-_ts_decorate13([
+_ts_decorate14([
   n5({
     type: Number,
     reflect: true
   })
 ], LvPagination.prototype, "page", void 0);
-_ts_decorate13([
+_ts_decorate14([
   n5({
     type: Number,
     reflect: true
@@ -3274,7 +3555,7 @@ function defineLvPagination() {
 }
 
 // src/components/lv-empty-state.ts
-function _ts_decorate14(decorators, target, key, desc) {
+function _ts_decorate15(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3315,12 +3596,12 @@ var LvEmptyState = class extends i6 {
     `;
   }
 };
-_ts_decorate14([
+_ts_decorate15([
   n5({
     reflect: true
   })
 ], LvEmptyState.prototype, "heading", void 0);
-_ts_decorate14([
+_ts_decorate15([
   n5({
     reflect: true
   })
@@ -3330,7 +3611,7 @@ function defineLvEmptyState() {
 }
 
 // src/components/lv-skeleton.ts
-function _ts_decorate15(decorators, target, key, desc) {
+function _ts_decorate16(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3379,17 +3660,17 @@ var LvSkeleton = class extends i6 {
     `;
   }
 };
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
 ], LvSkeleton.prototype, "shape", void 0);
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
 ], LvSkeleton.prototype, "width", void 0);
-_ts_decorate15([
+_ts_decorate16([
   n5({
     reflect: true
   })
@@ -3399,7 +3680,7 @@ function defineLvSkeleton() {
 }
 
 // src/components/lv-spinner.ts
-function _ts_decorate16(decorators, target, key, desc) {
+function _ts_decorate17(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3431,7 +3712,7 @@ var LvSpinner = class extends i6 {
     `;
   }
 };
-_ts_decorate16([
+_ts_decorate17([
   n5({
     reflect: true
   })
@@ -3441,7 +3722,7 @@ function defineLvSpinner() {
 }
 
 // src/components/lv-icon.ts
-function _ts_decorate17(decorators, target, key, desc) {
+function _ts_decorate18(decorators, target, key, desc) {
   var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d6;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r10 = Reflect.decorate(decorators, target, key, desc);
   else for (var i9 = decorators.length - 1; i9 >= 0; i9--) if (d6 = decorators[i9]) r10 = (c7 < 3 ? d6(r10) : c7 > 3 ? d6(target, key, r10) : d6(target, key)) || r10;
@@ -3541,6 +3822,9 @@ var ICONS = {
   `,
   sun: w2`
     <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+  `,
+  key: w2`
+    <circle cx="7.5" cy="14.5" r="4.5" /><path d="M11 11 21 1" /><path d="m16 6 2 2" /><path d="m19 3 2 2" />
   `
 };
 var LvIcon = class extends i6 {
@@ -3583,17 +3867,17 @@ var LvIcon = class extends i6 {
     `;
   }
 };
-_ts_decorate17([
+_ts_decorate18([
   n5({
     reflect: true
   })
 ], LvIcon.prototype, "name", void 0);
-_ts_decorate17([
+_ts_decorate18([
   n5({
     reflect: true
   })
 ], LvIcon.prototype, "size", void 0);
-_ts_decorate17([
+_ts_decorate18([
   n5({
     reflect: true
   })
@@ -3605,6 +3889,7 @@ function defineLvIcon() {
 // index.ts
 function defineAllLvComponents() {
   defineLvApp();
+  defineLvAdminPage();
   defineLvNav();
   defineLvButton();
   defineLvInput();
@@ -3614,6 +3899,7 @@ function defineAllLvComponents() {
   defineLvCard();
   defineLvBadge();
   defineLvTable();
+  defineLvList();
   defineLvToolbar();
   defineLvSectionToolbar();
   defineLvStatCard();
@@ -6254,11 +6540,28 @@ function renderAppShell() {
       >
         <lv-icon name="${theme.value === "dark" ? "sun" : "moon"}" size="18"></lv-icon>
       </button>
+      <a slot="mobile-actions" class="mobile-search-link" href="/search" aria-label="Search" title="Search">
+        <lv-icon name="search" size="22"></lv-icon>
+      </a>
+      <button
+        slot="mobile-actions"
+        class="theme-toggle"
+        type="button"
+        aria-label="${theme.value === "dark" ? "Use light theme" : "Use dark theme"}"
+        title="${theme.value === "dark" ? "Use light theme" : "Use dark theme"}"
+        @click="${toggleTheme}"
+      >
+        <lv-icon name="${theme.value === "dark" ? "sun" : "moon"}" size="18"></lv-icon>
+      </button>
       <span slot="actions" class="version-pill">v1.1.6</span>
       <span slot="actions" class="profile-chip">
         <span class="profile-avatar">H</span>
         <span class="profile-name">hydrate31</span>
       </span>
+      <span slot="mobile-actions" class="profile-chip profile-chip-mobile">
+        <span class="profile-avatar">H</span>
+      </span>
+      <span slot="mobile-menu-actions" class="mobile-version-pill">v1.1.6</span>
     </lv-nav>
 
     ${renderCurrentRoute()}
