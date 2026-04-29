@@ -15,6 +15,9 @@ export const squareCovers = signal(false);
 export const cardSize = signal<number>(5);
 export const searchQuery = signal("");
 export const requestsFilter = signal<RequestsFilter>("all");
+export const theme = signal<"light" | "dark">(
+  document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+);
 
 export const searchResultsResource = resource(async () =>
   rmabService.searchAudiobooks(searchQuery.value)

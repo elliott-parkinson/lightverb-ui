@@ -7,9 +7,15 @@ import {
   pageManifestResource,
   requestsResource,
 } from "../services/index.ts";
-import { searchResultsResource } from "./state.ts";
+import { searchResultsResource, theme } from "./state.ts";
 
 export function bootstrapApp(): void {
+  const savedTheme = localStorage.getItem("lv-demo-theme");
+  if (savedTheme === "dark" || savedTheme === "light") {
+    document.documentElement.dataset.theme = savedTheme;
+    theme.value = savedTheme;
+  }
+
   defineAllLvComponents();
 
   setRoutes([

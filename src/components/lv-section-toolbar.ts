@@ -121,9 +121,9 @@ export class LvSectionToolbar extends LitElement {
 
     .toggle[data-active="true"] {
       background: var(--lv-color-primary-active-bg, #224876);
-      color: #61afff;
+      color: var(--lv-color-primary-active-text, #2563eb);
       border-color: var(--lv-color-primary-active-border, #35649b);
-      box-shadow: inset 0 0 0 1px rgb(97 175 255 / 0.16),
+      box-shadow: inset 0 0 0 1px var(--lv-color-primary-soft, rgba(59, 130, 246, 0.16)),
         var(--lv-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.06));
     }
 

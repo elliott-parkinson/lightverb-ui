@@ -12,6 +12,6 @@
     "fmt": "deno fmt",
     "demo:css": "deno run --allow-read --allow-write scripts/build_demo_css.ts",
     "demo:build": "deno task demo:css && deno bundle demo/src/main.ts -o demo/public/bundle.js --platform browser",
-    "demo:serve": "deno serve --allow-read --allow-net demo/server.ts"
+    "demo:serve": "deno run --allow-read --allow-net demo/server.ts"
   }
 }

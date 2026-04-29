@@ -7,6 +7,7 @@ import { renderHomeView } from "./views/home.ts";
 import { renderNotFoundView } from "./views/not-found.ts";
 import { renderRequestsView } from "./views/requests.ts";
 import { renderSearchView } from "./views/search.ts";
+import { theme } from "./state.ts";
 
 function renderCurrentRoute() {
   const routeName = currentRoute.value?.name ?? "home";
@@ -18,9 +19,26 @@ function renderCurrentRoute() {
 }
 
 export function renderAppShell() {
+  const toggleTheme = () => {
+    const nextTheme = theme.value === "dark" ? "light" : "dark";
+    theme.value = nextTheme;
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem("lv-demo-theme", nextTheme);
+  };
+
   return html`
     <lv-nav slot="header" title="ReadMeABook" .links="${navLinks()}">
       <img slot="brand-mark" src="/RMAB_1024x1024_ICON.png" width="32" height="32" alt="" />
+      <button
+        slot="actions"
+        class="theme-toggle"
+        type="button"
+        aria-label="${theme.value === "dark" ? "Use light theme" : "Use dark theme"}"
+        title="${theme.value === "dark" ? "Use light theme" : "Use dark theme"}"
+        @click="${toggleTheme}"
+      >
+        <lv-icon name="${theme.value === "dark" ? "sun" : "moon"}" size="18"></lv-icon>
+      </button>
       <span slot="actions" class="version-pill">v1.1.6</span>
       <span slot="actions" class="profile-chip">
         <span class="profile-avatar">H</span>

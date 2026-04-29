@@ -2566,9 +2566,9 @@ var LvSectionToolbar = class extends i6 {
 
     .toggle[data-active="true"] {
       background: var(--lv-color-primary-active-bg, #224876);
-      color: #61afff;
+      color: var(--lv-color-primary-active-text, #2563eb);
       border-color: var(--lv-color-primary-active-border, #35649b);
-      box-shadow: inset 0 0 0 1px rgb(97 175 255 / 0.16),
+      box-shadow: inset 0 0 0 1px var(--lv-color-primary-soft, rgba(59, 130, 246, 0.16)),
         var(--lv-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.06));
     }
 
@@ -3535,6 +3535,12 @@ var ICONS = {
     <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22Z" /><path
       d="M4 5.5V22"
     /><path d="M9 7h7" />
+  `,
+  moon: w2`
+    <path d="M21 14.8A8.5 8.5 0 0 1 9.2 3 7 7 0 1 0 21 14.8Z" />
+  `,
+  sun: w2`
+    <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
   `
 };
 var LvIcon = class extends i6 {
@@ -5706,10 +5712,16 @@ var squareCovers = c(false);
 var cardSize = c(5);
 var searchQuery = c("");
 var requestsFilter = c("all");
+var theme = c(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
 var searchResultsResource = resource(async () => rmabService.searchAudiobooks(searchQuery.value));
 
 // demo/src/app/bootstrap.ts
 function bootstrapApp() {
+  const savedTheme = localStorage.getItem("lv-demo-theme");
+  if (savedTheme === "dark" || savedTheme === "light") {
+    document.documentElement.dataset.theme = savedTheme;
+    theme.value = savedTheme;
+  }
   defineAllLvComponents();
   setRoutes([
     defineRoute("home", "/"),
@@ -6223,9 +6235,25 @@ function renderCurrentRoute() {
   return renderNotFoundView();
 }
 function renderAppShell() {
+  const toggleTheme = () => {
+    const nextTheme = theme.value === "dark" ? "light" : "dark";
+    theme.value = nextTheme;
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem("lv-demo-theme", nextTheme);
+  };
   return b2`
     <lv-nav slot="header" title="ReadMeABook" .links="${navLinks()}">
       <img slot="brand-mark" src="/RMAB_1024x1024_ICON.png" width="32" height="32" alt="" />
+      <button
+        slot="actions"
+        class="theme-toggle"
+        type="button"
+        aria-label="${theme.value === "dark" ? "Use light theme" : "Use dark theme"}"
+        title="${theme.value === "dark" ? "Use light theme" : "Use dark theme"}"
+        @click="${toggleTheme}"
+      >
+        <lv-icon name="${theme.value === "dark" ? "sun" : "moon"}" size="18"></lv-icon>
+      </button>
       <span slot="actions" class="version-pill">v1.1.6</span>
       <span slot="actions" class="profile-chip">
         <span class="profile-avatar">H</span>
