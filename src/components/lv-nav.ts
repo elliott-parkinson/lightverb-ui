@@ -12,6 +12,9 @@ export class LvNav extends LitElement {
   @property({ attribute: false })
   links: LvNavLink[] = [];
 
+  @property({ attribute: false })
+  onNavigate: ((href: string) => void | Promise<void>) | null = null;
+
   @property({ reflect: true })
   override title = "";
 
@@ -231,9 +234,18 @@ export class LvNav extends LitElement {
 
   private renderLink(link: LvNavLink) {
     return html`
-      <a href="${link.href}" data-active="${String(
-        Boolean(link.active),
-      )}">${link.label}</a>
+      <a
+        href="${link.href}"
+        data-active="${String(Boolean(link.active))}"
+        @click=${(event: MouseEvent) => {
+          if (
+            event.metaKey || event.ctrlKey || event.shiftKey ||
+            event.altKey || event.button !== 0
+          ) return;
+          event.preventDefault();
+          this.onNavigate?.(link.href);
+        }}
+      >${link.label}</a>
     `;
   }
 
@@ -257,7 +269,18 @@ export class LvNav extends LitElement {
     return html`
       <div class="container">
         <div class="top">
-          <a class="brand" href="/">
+          <a
+            class="brand"
+            href="/"
+            @click=${(event: MouseEvent) => {
+              if (
+                event.metaKey || event.ctrlKey || event.shiftKey ||
+                event.altKey || event.button !== 0
+              ) return;
+              event.preventDefault();
+              this.onNavigate?.("/");
+            }}
+          >
             <slot name="brand-mark"></slot>
             <span>${this.title}</span>
           </a>
